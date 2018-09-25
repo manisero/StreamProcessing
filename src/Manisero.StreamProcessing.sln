@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manisero.StreamProcessing", "Manisero.StreamProcessing\Manisero.StreamProcessing.csproj", "{3FF69D71-7D11-491B-8103-5CD4650F8BC6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Database", "1. Database", "{01BEAB89-FB40-43AB-901C-12E9394AB240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manisero.StreamProcessing.DbMigrator", "Manisero.StreamProcessing.DbMigrator\Manisero.StreamProcessing.DbMigrator.csproj", "{32731C57-AB4D-417F-BA3F-CD3109B8CF63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{3FF69D71-7D11-491B-8103-5CD4650F8BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FF69D71-7D11-491B-8103-5CD4650F8BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FF69D71-7D11-491B-8103-5CD4650F8BC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63} = {01BEAB89-FB40-43AB-901C-12E9394AB240}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66214217-DFB0-4077-B87B-89FC88C0F00B}

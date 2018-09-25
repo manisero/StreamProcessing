@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Manisero.StreamProcessing.DbMigrator;
+using Microsoft.Extensions.Configuration;
 
 namespace Manisero.StreamProcessing
 {
@@ -6,7 +7,17 @@ namespace Manisero.StreamProcessing
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = GetConfig();
+            var connectionString = config.GetConnectionString("Default");
+
+            Migrator.Migrate(connectionString, true, true);
+        }
+
+        private static IConfigurationRoot GetConfig()
+        {
+            return new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
         }
     }
 }
