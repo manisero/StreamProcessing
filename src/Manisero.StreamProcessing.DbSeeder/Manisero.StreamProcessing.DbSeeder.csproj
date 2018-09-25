@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Npgsql" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Manisero.StreamProcessing.Domain\Manisero.StreamProcessing.Domain.csproj" />
+    <ProjectReference Include="..\Manisero.StreamProcessing.Utils\Manisero.StreamProcessing.Utils.csproj" />
   </ItemGroup>
 
 </Project>
