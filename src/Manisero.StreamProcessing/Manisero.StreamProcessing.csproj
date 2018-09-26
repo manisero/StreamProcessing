@@ -19,6 +19,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Manisero.StreamProcessing.DbMigrator\Manisero.StreamProcessing.DbMigrator.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.DbSeeder\Manisero.StreamProcessing.DbSeeder.csproj" />
+    <ProjectReference Include="..\Manisero.StreamProcessing.Process\Manisero.StreamProcessing.Process.csproj" />
+    <ProjectReference Include="..\Manisero.StreamProcessing.Utils\Manisero.StreamProcessing.Utils.csproj" />
   </ItemGroup>
 
 </Project>

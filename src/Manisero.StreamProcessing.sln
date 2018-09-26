@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configs", "0. Configs", 
 		_configs\appsettings.json = _configs\appsettings.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manisero.StreamProcessing.Process", "Manisero.StreamProcessing.Process\Manisero.StreamProcessing.Process.csproj", "{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{1C612682-E235-40E1-9D3E-A3E3032B6D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C612682-E235-40E1-9D3E-A3E3032B6D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C612682-E235-40E1-9D3E-A3E3032B6D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{87322861-AA3A-471C-8D2F-867B62C5F94D} = {CC171B47-0536-425F-9D7B-19070C63D50B}
 		{7326D095-0528-44CD-AB2A-279DC2ACFBA0} = {CC171B47-0536-425F-9D7B-19070C63D50B}
 		{1EE0263B-A0B2-461E-8931-43B2E0EF3963} = {CC171B47-0536-425F-9D7B-19070C63D50B}
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5} = {CC171B47-0536-425F-9D7B-19070C63D50B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66214217-DFB0-4077-B87B-89FC88C0F00B}

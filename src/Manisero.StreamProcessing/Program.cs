@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing
@@ -10,7 +10,9 @@ namespace Manisero.StreamProcessing
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetDefaultConnectionString();
 
-            Console.WriteLine("TODO");
+            var clientRepository = new ClientRepository(connectionString);
+            var clientReader = clientRepository.GetBatchedReader(5);
+            var clientsBatch = clientReader.ReadNext();
         }
     }
 }
