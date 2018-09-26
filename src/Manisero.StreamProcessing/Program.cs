@@ -1,6 +1,5 @@
-﻿using Manisero.StreamProcessing.DbMigrator;
-using Manisero.StreamProcessing.DbSeeder;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing
 {
@@ -8,18 +7,10 @@ namespace Manisero.StreamProcessing
     {
         static void Main(string[] args)
         {
-            var config = GetConfig();
-            var connectionString = config.GetConnectionString("Default");
+            var config = ConfigUtils.GetConfig();
+            var connectionString = config.GetDefaultConnectionString();
 
-            Migrator.Migrate(connectionString, true, true);
-            Seeder.Seed(connectionString, 1000, 2);
-        }
-
-        private static IConfigurationRoot GetConfig()
-        {
-            return new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            Console.WriteLine("TODO");
         }
     }
 }
