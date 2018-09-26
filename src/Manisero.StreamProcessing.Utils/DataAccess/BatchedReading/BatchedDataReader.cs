@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 
 namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
 {
     public class BatchedDataReader<TRow>
     {
+        private readonly Func<DbConnection> _connectionFactory;
         private readonly string _tableName;
         private readonly IDictionary<string, Func<TRow, int>> _keyGetters;
-        private readonly string _connectionString;
         private readonly int _batchSize;
+        private readonly IDictionary<string, int> _filter;
 
         private IDictionary<string, int> _previousBatchLastRowKey;
         private bool _noMoreData;
 
         public BatchedDataReader(
+            Func<DbConnection> connectionFactory,
             string tableName,
             ICollection<string> keyColumns,
-            string connectionString,
-            int batchSize)
+            int batchSize,
+            IDictionary<string, int> filter = null)
         {
+            _connectionFactory = connectionFactory;
             _tableName = tableName;
             _keyGetters = keyColumns.ToDictionary(x => x, x => typeof(TRow).GetProperty(x).CreateGetter<TRow, int>());
-            _connectionString = connectionString;
             _batchSize = batchSize;
+            _filter = filter;
 
             _previousBatchLastRowKey = keyColumns.ToDictionary(x => x, x => -1);
         }
@@ -55,7 +59,10 @@ namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
 
         private ICollection<TRow> ReadBatch()
         {
-            return new TRow[0];
+            using (var connection = _connectionFactory())
+            {
+                return BatchReader.Read<TRow>(connection, _tableName, _previousBatchLastRowKey, _batchSize, _filter);
+            }
         }
     }
 }

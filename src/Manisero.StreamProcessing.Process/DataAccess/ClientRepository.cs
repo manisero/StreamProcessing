@@ -1,5 +1,7 @@
-﻿using Manisero.StreamProcessing.Domain;
+﻿using System.Collections.Generic;
+using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Utils.DataAccess.BatchedReading;
+using Npgsql;
 
 namespace Manisero.StreamProcessing.Process.DataAccess
 {
@@ -18,10 +20,11 @@ namespace Manisero.StreamProcessing.Process.DataAccess
             int batchSize = 100000)
         {
             return new BatchedDataReader<Client>(
+                () => new NpgsqlConnection(_connectionString),
                 $"\"{nameof(Client)}\"",
                 new[] { nameof(Client.DatasetId), nameof(Client.ClientId) },
-                _connectionString,
-                batchSize);
+                batchSize,
+                new Dictionary<string, int> { [nameof(Client.DatasetId)] = datasetId });
         }
     }
 }
