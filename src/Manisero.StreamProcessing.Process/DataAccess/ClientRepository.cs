@@ -6,7 +6,17 @@ using Npgsql;
 
 namespace Manisero.StreamProcessing.Process.DataAccess
 {
-    public class ClientRepository
+    public interface IClientRepository
+    {
+        int CountInDataset(
+            short datasetId);
+
+        BatchedDataReader<Client> GetBatchedReader(
+            short datasetId,
+            int batchSize = Client.DefaultReadingBatchSize);
+    }
+
+    public class ClientRepository : IClientRepository
     {
         private readonly string _connectionString;
 
@@ -32,7 +42,7 @@ where ""DatasetId"" = @DatasetId";
 
         public BatchedDataReader<Client> GetBatchedReader(
             short datasetId,
-            int batchSize = 100000)
+            int batchSize = Client.DefaultReadingBatchSize)
         {
             return new BatchedDataReader<Client>(
                 () => new NpgsqlConnection(_connectionString),
