@@ -14,6 +14,11 @@ namespace Manisero.StreamProcessing
             var clientReader = clientRepository.GetBatchedReader(5);
             var clientsBatch1 = clientReader.ReadNext();
             var clientsBatch2 = clientReader.ReadNext();
+
+            var loanRepository = new LoanRepository(connectionString);
+            var loanReader = loanRepository.GetBatchedReader(5);
+            var loansBatch1 = loanReader.ReadNext();
+            var loansBatch2 = loanReader.ReadNext();
         }
     }
 }
