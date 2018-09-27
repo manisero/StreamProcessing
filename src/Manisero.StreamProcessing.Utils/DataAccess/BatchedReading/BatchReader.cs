@@ -60,7 +60,7 @@ limit @BatchSize";
                 {
                     var paramName = $"Filter_{i}";
                     parametersToFill.Add(paramName, filterEntry.Value);
-                    return $"\"{filterEntry.Key}\" = @{paramName} AND ";
+                    return $"\"{filterEntry.Key}\" = @{paramName} and ";
                 })
                 .ConcatString();
         }
@@ -84,10 +84,10 @@ limit @BatchSize";
                         .Take(i)
                         .Select(x => $"\"{x.Key}\" = @{x.Value}")
                         .Append($"\"{keyEntry.Key}\" > @{paramName}")
-                        .JoinWithSeparator(" AND ");
+                        .JoinWithSeparator(" and ");
                 })
                 .Select(x => $"({x})")
-                .JoinWithSeparator(" OR ");
+                .JoinWithSeparator(" or ");
         }
 
         private static string FormatOrderClause(
