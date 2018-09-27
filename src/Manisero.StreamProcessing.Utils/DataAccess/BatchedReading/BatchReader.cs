@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using Dapper;
 
 namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
 {
@@ -12,26 +14,33 @@ namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
             int batchSize,
             IDictionary<string, int> filter = null)
         {
-            var whereClause = FormatWhereClause();
-            var orderClause = FormatOrderClause();
+            var parameters = new DynamicParameters();
 
-            var query =
-$@"SELECT TOP({batchSize}) *
-FROM {tableName}
-WHERE {whereClause}
-ORDER BY {orderClause}";
+            parameters.Add("BatchSize", batchSize);
 
-            return new TRow[0];
+            var whereClause = FormatWhereClause(previousBatchLastRowKey, filter, parameters);
+            var orderClause = FormatOrderClause(previousBatchLastRowKey.Keys);
+
+            var query = $@"
+select *
+from ""{tableName}""
+where {whereClause}
+order by {orderClause}
+limit @BatchSize";
+
+            return connection.Query<TRow>(query, parameters).AsList();
         }
 
-        private static string FormatWhereClause()
+        private static string FormatWhereClause(
+            IDictionary<string, int> previousBatchLastRowKey,
+            IDictionary<string, int> filter,
+            DynamicParameters parametersToFill)
         {
-            return null;
+            return "1 = 1";
         }
 
-        private static string FormatOrderClause()
-        {
-            return null;
-        }
+        private static string FormatOrderClause(
+            IEnumerable<string> keyColumns)
+            => string.Join(", ", keyColumns.Select(x => $"\"{x}\""));
     }
 }

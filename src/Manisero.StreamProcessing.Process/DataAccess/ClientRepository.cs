@@ -21,7 +21,7 @@ namespace Manisero.StreamProcessing.Process.DataAccess
         {
             return new BatchedDataReader<Client>(
                 () => new NpgsqlConnection(_connectionString),
-                $"\"{nameof(Client)}\"",
+                nameof(Client),
                 new[] { nameof(Client.DatasetId), nameof(Client.ClientId) },
                 batchSize,
                 new Dictionary<string, int> { [nameof(Client.DatasetId)] = datasetId });

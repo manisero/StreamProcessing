@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Manisero.StreamProcessing.Domain\Manisero.StreamProcessing.Domain.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.Utils\Manisero.StreamProcessing.Utils.csproj" />
   </ItemGroup>
