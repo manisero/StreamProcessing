@@ -12,6 +12,7 @@ namespace Manisero.StreamProcessing
             var connectionString = config.GetDefaultConnectionString();
 
             var clientRepository = new ClientRepository(connectionString);
+            var clientCount = clientRepository.CountInDataset(5);
             var clientReader = clientRepository.GetBatchedReader(5);
             var clientsBatch1 = clientReader.ReadNext();
             var clientsBatch2 = clientReader.ReadNext();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dapper;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Utils.DataAccess.BatchedReading;
 using Npgsql;
@@ -13,6 +14,20 @@ namespace Manisero.StreamProcessing.Process.DataAccess
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public int CountInDataset(
+            short datasetId)
+        {
+            const string sql = @"
+select count(*)
+from ""Client""
+where ""DatasetId"" = @DatasetId";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection.QuerySingle<int>(sql, new { DatasetId = datasetId });
+            }
         }
 
         public BatchedDataReader<Client> GetBatchedReader(
