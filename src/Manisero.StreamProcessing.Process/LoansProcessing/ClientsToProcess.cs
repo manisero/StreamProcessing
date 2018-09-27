@@ -5,9 +5,16 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
 {
     public class ClientsToProcess
     {
-        public ICollection<Client> Clients { get; set; }
-        
-        /// <summary>ClientId -> Loans</summary>
-        public IDictionary<int, ICollection<Loan>> Loans { get; set; }
+        /// <summary>ClientId -> ClientToProcess</summary>
+        public IDictionary<int, ClientToProcess> Clients { get; set; }
+    }
+
+    public class ClientToProcess
+    {
+        public Client Client { get; set; }
+
+        public ICollection<Loan> Loans { get; set; }
+
+        public decimal TotalLoan { get; set; }
     }
 }

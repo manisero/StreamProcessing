@@ -42,22 +42,46 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
                 PipelineTaskStep
                     .Builder<ClientsToProcess>("Process")
                     .WithInput(
-                        clientsReader.Enumerate().Select(x => new ClientsToProcess { Clients = x }),
+                        clientsReader
+                            .Enumerate()
+                            .Select(x => new ClientsToProcess
+                            {
+                                Clients = x.ToDictionary(
+                                    c => c.ClientId,
+                                    c => new ClientToProcess { Client = c })
+                            }),
                         batchesCount)
                     .WithBlock(
                         "LoadLoans",
-                        x => x.Loans = _loanRepository.GetRange(
-                            process.DatasetId,
-                            x.Clients.First().ClientId,
-                            x.Clients.Last().ClientId))
+                        x =>
+                        {
+                            var loans = _loanRepository.GetRange(
+                                process.DatasetId,
+                                x.Clients.First().Key,
+                                x.Clients.Last().Key);
+
+                            foreach (var clientIdToLoans in loans)
+                            {
+                                x.Clients[clientIdToLoans.Key].Loans = clientIdToLoans.Value;
+                            }
+                        })
+                    .WithBlock(
+                        "SumLoans",
+                        x =>
+                        {
+                            foreach (var client in x.Clients.Values)
+                            {
+                                client.TotalLoan = client.Loans.Sum(c => c.Value);
+                            }
+                        })
                     .WithBlock(
                         "SaveClientResults",
                         x => _loansProcessRepository.SaveClientResults(
-                            x.Clients.Select(c => new LoansProcessClientResult
+                            x.Clients.Values.Select(c => new LoansProcessClientResult
                             {
                                 LoansProcessId = process.LoansProcessId,
-                                ClientId = c.ClientId,
-                                TotalLoan = 1m
+                                ClientId = c.Client.ClientId,
+                                TotalLoan = c.TotalLoan
                             })))
                     .Build());
         }
