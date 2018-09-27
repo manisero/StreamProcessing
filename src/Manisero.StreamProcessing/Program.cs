@@ -1,4 +1,5 @@
-﻿using Manisero.StreamProcessing.Process;
+﻿using Manisero.StreamProcessing.Domain;
+using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Process.LoansProcessing;
 using Manisero.StreamProcessing.Utils;
@@ -14,6 +15,7 @@ namespace Manisero.StreamProcessing
 
             var clientRepository = new ClientRepository(connectionString);
             var loanRepository = new LoanRepository(connectionString);
+            var loansProcessRepository = new LoansProcessRepository(connectionString);
 
             var taskExecutorFactory = new TaskExecutorFactory();
             var taskExecutor = taskExecutorFactory.Create();
@@ -22,7 +24,8 @@ namespace Manisero.StreamProcessing
                 clientRepository,
                 loanRepository);
 
-            var loansProcessingTask = loansProcessingTaskFactory.Create(5);
+            var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
+            var loansProcessingTask = loansProcessingTaskFactory.Create(process);
             var taskResult = taskExecutor.Execute(loansProcessingTask);
         }
     }

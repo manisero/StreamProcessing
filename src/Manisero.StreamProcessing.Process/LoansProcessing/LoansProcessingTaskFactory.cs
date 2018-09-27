@@ -10,7 +10,7 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
     public interface ILoansProcessingTaskFactory
     {
         TaskDefinition Create(
-            short datasetId);
+            LoansProcess process);
     }
 
     public class LoansProcessingTaskFactory : ILoansProcessingTaskFactory
@@ -27,13 +27,13 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
         }
 
         public TaskDefinition Create(
-            short datasetId)
+            LoansProcess process)
         {
-            var clientsCount = _clientRepository.CountInDataset(datasetId);
+            var clientsCount = _clientRepository.CountInDataset(process.DatasetId);
 
             var batchSize = Client.DefaultReadingBatchSize;
             var batchesCount = clientsCount.CeilingOfDivisionBy(batchSize);
-            var clientsReader = _clientRepository.GetBatchedReader(datasetId, batchSize);
+            var clientsReader = _clientRepository.GetBatchedReader(process.DatasetId, batchSize);
 
             return new TaskDefinition(
                 PipelineTaskStep
@@ -44,7 +44,7 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
                     .WithBlock(
                         "LoadLoans",
                         x => x.Loans = _loanRepository.GetRange(
-                            datasetId,
+                            process.DatasetId,
                             x.Clients.First().ClientId,
                             x.Clients.Last().ClientId))
                     .Build());
