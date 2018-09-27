@@ -39,7 +39,7 @@ namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
             while (batch != null)
             {
                 yield return batch;
-                batch = ReadBatch();
+                batch = ReadNext();
             }
         }
 

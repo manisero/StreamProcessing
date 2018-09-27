@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Process.LoansProcessing;
 using Manisero.StreamProcessing.Utils;
@@ -25,11 +26,15 @@ namespace Manisero.StreamProcessing
 
             var loansRange = loanRepository.GetRange(5, clientsBatch2.First().ClientId, clientsBatch2.Last().ClientId);
 
+            var taskExecutorFactory = new TaskExecutorFactory();
+            var taskExecutor = taskExecutorFactory.Create();
+
             var loansProcessingTaskFactory = new LoansProcessingTaskFactory(
                 clientRepository,
                 loanRepository);
 
             var loansProcessingTask = loansProcessingTaskFactory.Create(5);
+            var taskResult = taskExecutor.Execute(loansProcessingTask);
         }
     }
 }
