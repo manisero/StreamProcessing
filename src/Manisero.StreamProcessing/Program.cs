@@ -12,7 +12,8 @@ namespace Manisero.StreamProcessing
 
             var clientRepository = new ClientRepository(connectionString);
             var clientReader = clientRepository.GetBatchedReader(5);
-            var clientsBatch = clientReader.ReadNext();
+            var clientsBatch1 = clientReader.ReadNext();
+            var clientsBatch2 = clientReader.ReadNext();
         }
     }
 }
