@@ -22,7 +22,8 @@ namespace Manisero.StreamProcessing
 
             var loansProcessingTaskFactory = new LoansProcessingTaskFactory(
                 clientRepository,
-                loanRepository);
+                loanRepository,
+                loansProcessRepository);
 
             var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);

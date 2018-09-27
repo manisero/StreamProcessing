@@ -17,13 +17,16 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
     {
         private readonly IClientRepository _clientRepository;
         private readonly ILoanRepository _loanRepository;
+        private readonly ILoansProcessRepository _loansProcessRepository;
 
         public LoansProcessingTaskFactory(
             IClientRepository clientRepository,
-            ILoanRepository loanRepository)
+            ILoanRepository loanRepository,
+            ILoansProcessRepository loansProcessRepository)
         {
             _clientRepository = clientRepository;
             _loanRepository = loanRepository;
+            _loansProcessRepository = loansProcessRepository;
         }
 
         public TaskDefinition Create(
@@ -47,6 +50,15 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
                             process.DatasetId,
                             x.Clients.First().ClientId,
                             x.Clients.Last().ClientId))
+                    .WithBlock(
+                        "SaveClientResults",
+                        x => _loansProcessRepository.SaveClientResults(
+                            x.Clients.Select(c => new LoansProcessClientResult
+                            {
+                                LoansProcessId = process.LoansProcessId,
+                                ClientId = c.ClientId,
+                                TotalLoan = 1m
+                            })))
                     .Build());
         }
     }

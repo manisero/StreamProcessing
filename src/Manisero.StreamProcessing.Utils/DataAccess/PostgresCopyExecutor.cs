@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Npgsql;
 
-namespace Manisero.StreamProcessing.Utils
+namespace Manisero.StreamProcessing.Utils.DataAccess
 {
     public static class PostgresCopyExecutor
     {
