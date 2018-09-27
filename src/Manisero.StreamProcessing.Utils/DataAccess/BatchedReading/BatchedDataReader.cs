@@ -32,6 +32,17 @@ namespace Manisero.StreamProcessing.Utils.DataAccess.BatchedReading
             _previousBatchLastRowKey = keyColumns.ToDictionary(x => x, x => -1);
         }
 
+        public IEnumerable<ICollection<TRow>> Enumerate()
+        {
+            var batch = ReadNext();
+
+            while (batch != null)
+            {
+                yield return batch;
+                batch = ReadBatch();
+            }
+        }
+
         public ICollection<TRow> ReadNext()
         {
             if (_noMoreData)
