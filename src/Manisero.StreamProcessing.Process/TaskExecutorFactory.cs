@@ -12,18 +12,16 @@ namespace Manisero.StreamProcessing.Process
 {
     public interface ITaskExecutorFactory
     {
-        ITaskExecutor Create(
-            params IExecutionEvents[] events);
+        ITaskExecutor Create();
     }
 
     public class TaskExecutorFactory : ITaskExecutorFactory
     {
-        public ITaskExecutor Create(
-            params IExecutionEvents[] events)
+        public ITaskExecutor Create()
         {
             var taskEvents = new TaskExecutionEvents(
                 taskStarted: x => TaskExecutionLog.Reset(x.Timestamp),
-                taskEnded: x => TaskExecutionLog.TaskDuration.EndTs = x.Timestamp,
+                taskEnded: x => TaskExecutionLog.TaskDuration.SetEnd(x.Timestamp, x.Duration),
                 stepStarted: x => TaskExecutionLog.StartStep(x.Step.Name, x.Timestamp),
                 stepEnded: x => TaskExecutionLog.StepLogs[x.Step.Name].Duration.SetEnd(x.Timestamp, x.Duration));
 
@@ -40,7 +38,7 @@ namespace Manisero.StreamProcessing.Process
 
             return new TaskExecutorBuilder()
                 //.RegisterDataflowExecution()
-                .RegisterEvents(events)
+                .RegisterEvents(taskEvents, pipelineEvents)
                 .Build();
         }
     }
