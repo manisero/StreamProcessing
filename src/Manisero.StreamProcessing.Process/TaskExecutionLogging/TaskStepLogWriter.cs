@@ -14,37 +14,46 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionLogging
 
     public class TaskStepLogWriter
     {
+        const string UnitPart = " [ms]";
+        const string MaterializationBlockName = "Materialization";
+
         public void Write(
             TaskExecutionLog.StepLog stepLog,
             ICollection<string> blockNames,
             string targetFilePath)
         {
-            var headerCells = GetHeaderCells(blockNames);
-            var itemsCells = stepLog.ItemLogs.Select(x => GetItemCells(x.Key, x.Value, blockNames, stepLog.Duration.StartTs));
+            var itemsLogHeaderCells = GetItemsLogHeaderCells(blockNames);
+            var itemsLogItemsCells = stepLog.ItemLogs.Select(x => GetItemsLogItemCells(x.Key, x.Value, blockNames, stepLog.Duration.StartTs));
 
-            var lines = headerCells.ToEnumerable().Concat(itemsCells).Select(x => x.JoinWithSeparator(", "));
+            var totalDurationsReport = GetTotalDurationsReport(stepLog, blockNames);
+
+            var lines = EnumerableUtils.Concat(
+                    itemsLogHeaderCells.ToEnumerable(),
+                    itemsLogItemsCells,
+                    string.Empty.ToEnumerable().ToEnumerable(),
+                    totalDurationsReport)
+                .Select(x => x.JoinWithSeparator(", "));
 
             File.WriteAllLines(targetFilePath, lines);
         }
 
-        public IEnumerable<string> GetHeaderCells(
+        private IEnumerable<string> GetItemsLogHeaderCells(
             ICollection<string> blockNames)
         {
-            const string unitPart = " [ms]";
-            const string waitingHeader = "Waiting" + unitPart;
+            const string waitingHeader = "Waiting" + UnitPart;
 
             yield return "Item number";
             yield return waitingHeader;
-            yield return "Materialization" + unitPart;
+            yield return MaterializationBlockName + UnitPart;
 
             foreach (var blockName in blockNames)
             {
                 yield return waitingHeader;
-                yield return blockName + unitPart;
+                yield return blockName + UnitPart;
             }
         }
 
-        public IEnumerable<string> GetItemCells(
+        private IEnumerable<string> GetItemsLogItemCells(
             int itemNumber,
             TaskExecutionLog.ItemLog itemLog,
             ICollection<string> blockNames,
@@ -65,6 +74,19 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionLogging
                 yield return blockDuration.Duration.FormatLog(); // Block
 
                 previousBlockEndTs = blockDuration.StartTs + blockDuration.Duration;
+            }
+        }
+
+        private IEnumerable<IEnumerable<string>> GetTotalDurationsReport(
+            TaskExecutionLog.StepLog stepLog,
+            ICollection<string> blockNames)
+        {
+            yield return new[] { "Step", "Total duration" + UnitPart };
+            yield return new[] { MaterializationBlockName, stepLog.BlockTotals.MaterializationDuration.FormatLog() };
+
+            foreach (var blockName in blockNames)
+            {
+                yield return new[] { blockName, stepLog.BlockTotals.BlockDurations[blockName].FormatLog() };
             }
         }
     }

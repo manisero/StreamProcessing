@@ -19,5 +19,17 @@ namespace Manisero.StreamProcessing.Utils
                 .GroupBy(groupKeySelector)
                 .ToDictionary(group => group.Key, valueSelector);
         }
+
+        public static IEnumerable<TItem> Concat<TItem>(
+            params IEnumerable<TItem>[] enumerables)
+        {
+            foreach (var enumerable in enumerables)
+            {
+                foreach (var item in enumerable)
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
