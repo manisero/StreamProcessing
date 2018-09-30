@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Manisero.Navvy;
 using Manisero.Navvy.PipelineProcessing;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
@@ -31,7 +32,10 @@ namespace Manisero.StreamProcessing
 
             var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
-            var taskResult = taskExecutor.Execute(loansProcessingTask);
+            var progress = new Progress<TaskProgress>(
+                x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
+
+            var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
 
             Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
 
