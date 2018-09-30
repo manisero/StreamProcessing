@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Manisero.StreamProcessing.Process
+namespace Manisero.StreamProcessing.Process.TaskExecutionLogging
 {
     public class TaskExecutionLog
     {
@@ -32,10 +32,10 @@ namespace Manisero.StreamProcessing.Process
             public ConcurrentDictionary<string, DurationLog> BlockDurations { get; } = new ConcurrentDictionary<string, DurationLog>();
 
             public void SetStart(
-                DateTime startTs,
+                DateTime materializationTs,
                 TimeSpan materializationDuration)
             {
-                Duration.StartTs = startTs;
+                Duration.StartTs = materializationTs - materializationDuration;
                 MaterializationDuration = materializationDuration;
             }
 
@@ -65,10 +65,10 @@ namespace Manisero.StreamProcessing.Process
 
             public void StartItem(
                 int number,
-                DateTime startTs,
+                DateTime materializationTs,
                 TimeSpan materializationDuration)
             {
-                ItemLogs.GetOrAdd(number, x => new ItemLog()).SetStart(startTs, materializationDuration);
+                ItemLogs.GetOrAdd(number, x => new ItemLog()).SetStart(materializationTs, materializationDuration);
             }
         }
 

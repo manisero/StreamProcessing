@@ -1,8 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using Manisero.Navvy.PipelineProcessing;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Process.LoansProcessing;
+using Manisero.StreamProcessing.Process.TaskExecutionLogging;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing
@@ -30,6 +34,16 @@ namespace Manisero.StreamProcessing
             var taskResult = taskExecutor.Execute(loansProcessingTask);
 
             Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
+
+            var logFilePath = Path.GetTempFileName();
+
+            new TaskStepLogWriter()
+                .Write(
+                    TaskExecutionLog.Current.StepLogs[loansProcessingTask.Steps.First().Name],
+                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray(),
+                    logFilePath);
+
+            Console.WriteLine($"Log written to: {logFilePath}");
         }
     }
 }

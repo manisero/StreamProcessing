@@ -12,5 +12,11 @@ namespace Manisero.StreamProcessing.Utils
             this IEnumerable<TValue> values,
             string separator)
             => string.Join(separator, values);
+
+        public static IEnumerable<TValue> ToEnumerable<TValue>(
+            this TValue value)
+        {
+            yield return value;
+        }
     }
 }
