@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace Manisero.StreamProcessing.Process
 {
-    public static class TaskExecutionLog
+    public class TaskExecutionLog
     {
         public class DurationLog
         {
             public DateTime StartTs { get; set; }
 
-            public DateTime EndTs { get; set; }
+            public DateTime EndTs { get; private set; }
 
-            public TimeSpan Duration { get; set; }
+            public TimeSpan Duration { get; private set; }
 
             public void SetEnd(
                 DateTime endTs,
@@ -25,11 +25,11 @@ namespace Manisero.StreamProcessing.Process
 
         public class ItemLog
         {
-            public DurationLog Duration { get; set; } = new DurationLog();
+            public DurationLog Duration { get; } = new DurationLog();
 
-            public TimeSpan MaterializationDuration { get; set; }
+            public TimeSpan MaterializationDuration { get; private set; }
 
-            public ConcurrentDictionary<string, DurationLog> BlockDurations { get; set; } = new ConcurrentDictionary<string, DurationLog>();
+            public ConcurrentDictionary<string, DurationLog> BlockDurations { get; } = new ConcurrentDictionary<string, DurationLog>();
 
             public void SetStart(
                 DateTime startTs,
@@ -56,10 +56,10 @@ namespace Manisero.StreamProcessing.Process
 
         public class StepLog
         {
-            public DurationLog Duration { get; set; } = new DurationLog();
+            public DurationLog Duration { get; } = new DurationLog();
 
             /// <summary>ItemNumber -> Log</summary>
-            public ConcurrentDictionary<int, ItemLog> ItemLogs { get; set; } = new ConcurrentDictionary<int, ItemLog>();
+            public ConcurrentDictionary<int, ItemLog> ItemLogs { get; } = new ConcurrentDictionary<int, ItemLog>();
 
             public BlockTotalsLog BlockTotals { get; set; }
 
@@ -72,19 +72,23 @@ namespace Manisero.StreamProcessing.Process
             }
         }
 
-        public static DurationLog TaskDuration { get; set; }
-
-        /// <summary>StepName -> Log</summary>
-        public static ConcurrentDictionary<string, StepLog> StepLogs { get; set; }
+        public static TaskExecutionLog Current { get; private set; }
 
         public static void Reset(
             DateTime taskStartTs)
         {
-            TaskDuration = new DurationLog { StartTs = taskStartTs };
-            StepLogs = new ConcurrentDictionary<string, StepLog>();
+            var newCurrent = new TaskExecutionLog();
+            newCurrent.TaskDuration.StartTs = taskStartTs;
+
+            Current = newCurrent;
         }
 
-        public static void StartStep(
+        public DurationLog TaskDuration { get; } = new DurationLog();
+
+        /// <summary>StepName -> Log</summary>
+        public ConcurrentDictionary<string, StepLog> StepLogs { get; } = new ConcurrentDictionary<string, StepLog>();
+
+        public void StartStep(
             string name,
             DateTime startTs)
         {

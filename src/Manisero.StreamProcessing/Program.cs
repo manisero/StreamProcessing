@@ -29,7 +29,7 @@ namespace Manisero.StreamProcessing
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
             var taskResult = taskExecutor.Execute(loansProcessingTask);
 
-            Console.WriteLine($"Task took {TaskExecutionLog.TaskDuration.Duration.TotalMilliseconds} ms.");
+            Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
         }
     }
 }
