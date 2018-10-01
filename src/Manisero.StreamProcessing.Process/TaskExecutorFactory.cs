@@ -2,7 +2,7 @@
 using Manisero.Navvy;
 using Manisero.Navvy.Core.Events;
 using Manisero.Navvy.PipelineProcessing.Events;
-using Manisero.StreamProcessing.Process.TaskExecutionLogging;
+using Manisero.StreamProcessing.Process.TaskExecutionReporting;
 
 namespace Manisero.StreamProcessing.Process
 {

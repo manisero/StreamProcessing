@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="TaskExecutionLogging\ChartsTemplates\charts.html" />
+    <EmbeddedResource Include="TaskExecutionReporting\ChartsTemplates\charts.html" />
   </ItemGroup>
 
   <ItemGroup>

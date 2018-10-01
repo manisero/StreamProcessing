@@ -7,7 +7,7 @@ using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Process.LoansProcessing;
-using Manisero.StreamProcessing.Process.TaskExecutionLogging;
+using Manisero.StreamProcessing.Process.TaskExecutionReporting;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing
@@ -39,15 +39,17 @@ namespace Manisero.StreamProcessing
 
             Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
 
-            var logFilePath = Path.GetTempFileName();
+            var reportFilePath = Path.GetTempFileName();
 
-            new TaskStepLogWriter()
-                .Write(
+            var reportData = new PipelineExecutionReportDataExtractor()
+                .Extract(
                     TaskExecutionLog.Current.StepLogs[loansProcessingTask.Steps.First().Name],
-                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray(),
-                    logFilePath);
+                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray());
 
-            Console.WriteLine($"Log written to: {logFilePath}");
+            new PipelineExecutionReportWriter()
+                .Write(reportData, reportFilePath);
+
+            Console.WriteLine($"Report written to: {reportFilePath}");
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Manisero.StreamProcessing.Process.TaskExecutionLogging
+namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 {
     public class TaskExecutionLog
     {
