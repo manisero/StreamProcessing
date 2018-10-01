@@ -1,0 +1,73 @@
+﻿<html>
+<head>
+    <title>Pipeline execution log</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id="blockTimesContainer" style="margin: auto"></div>
+    <div id="stepTimesContainer" style="margin: auto"></div>
+
+    <script language="JavaScript">
+      function drawCharts() {
+        var blockTimesData = [
+          ['Item', 'Step1', 'Step2'],
+          ['1',     900,    390],
+          ['2',     1000,   400],
+          ['3',     1170,   440]
+        ];
+        
+        var stepTimesData = [
+          ['Step',            'Time'],
+          ['Materialization', 900],
+          ['2',               1000],
+          ['3',               1170]
+        ];
+
+        var blockTimesOptions = {
+          title: 'Block times',
+          isStacked: true,
+          legend: { position: 'top' },
+          series: { // Colors from: https://gist.github.com/there4/2579834
+            0: { color: 'transparent' },
+            1: { color: '#3366CC' },
+            2: { color: 'transparent' },
+            3: { color: '#DC3912' },
+            4: { color: 'transparent' },
+            5: { color: '#FF9900' },
+            6: { color: 'transparent' },
+            7: { color: '#109618' },
+            8: { color: 'transparent' },
+            9: { color: '#990099' },
+            10: { color: 'transparent' },
+            11: { color: '#3B3EAC' },
+            12: { color: 'transparent' },
+            13: { color: '#0099C6' },
+            14: { color: 'transparent' },
+            15: { color: '#DD4477' },
+            16: { color: 'transparent' },
+            17: { color: '#66AA00' },
+            18: { color: 'transparent' },
+            19: { color: '#B82E2E' },
+            20: { color: 'transparent' }
+          }
+        };
+        
+        var stepTimesOptions = {
+            title: 'Step total durations',
+            legend: { position: 'right' },
+            vAxis: { minValue: 0 }
+        };
+        
+        var blockTimesChart = new google.visualization.BarChart(document.getElementById('blockTimesContainer'));
+        blockTimesChart.draw(google.visualization.arrayToDataTable(blockTimesData), blockTimesOptions);
+        
+        var stepTimesChart = new google.visualization.ColumnChart(document.getElementById('stepTimesContainer'));
+        stepTimesChart.draw(google.visualization.arrayToDataTable(stepTimesData), stepTimesOptions);
+      }
+
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(drawCharts);
+    </script>
+</body>
+</html>

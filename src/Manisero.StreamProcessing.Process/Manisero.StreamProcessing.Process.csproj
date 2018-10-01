@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TaskExecutionLogging\ChartsTemplates\charts.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="Manisero.Navvy" Version="0.11.0" />
     <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.11.0" />
