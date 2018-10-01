@@ -22,7 +22,7 @@ namespace Manisero.StreamProcessing.Process
                 stepEnded: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].Duration.SetEnd(x.Timestamp, x.Duration));
 
             var pipelineEvents = new PipelineExecutionEvents(
-                itemStarted: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].StartItem(x.ItemNumber, x.Timestamp, x.MaterializationDuration),
+                itemMaterialized: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].StartItem(x.ItemNumber, x.ItemStartTimestamp, x.MaterializationDuration),
                 itemEnded: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].ItemLogs[x.ItemNumber].Duration.SetEnd(x.Timestamp, x.Duration),
                 blockStarted: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].ItemLogs[x.ItemNumber].StartBlock(x.Block.Name, x.Timestamp),
                 blockEnded: x => TaskExecutionLog.Current.StepLogs[x.Step.Name].ItemLogs[x.ItemNumber].BlockDurations[x.Block.Name].SetEnd(x.Timestamp, x.Duration),
