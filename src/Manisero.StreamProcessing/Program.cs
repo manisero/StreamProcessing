@@ -39,7 +39,7 @@ namespace Manisero.StreamProcessing
 
             Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
 
-            var reportFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var reportFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             var reportData = new PipelineExecutionReportDataExtractor()
                 .Extract(
@@ -47,9 +47,9 @@ namespace Manisero.StreamProcessing
                     ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray());
 
             new PipelineExecutionReportWriter()
-                .Write(reportData, reportFilePath);
+                .Write(reportData, reportFolderPath);
 
-            Console.WriteLine($"Report written to: {reportFilePath}");
+            Console.WriteLine($"Report written to: {reportFolderPath}");
         }
     }
 }

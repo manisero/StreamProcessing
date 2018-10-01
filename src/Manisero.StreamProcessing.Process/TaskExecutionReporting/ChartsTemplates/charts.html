@@ -10,19 +10,8 @@
 
     <script language="JavaScript">
       function drawCharts() {
-        var blockTimesData = [
-          ['Item', 'Step1', 'Step2'],
-          ['1',     900,    390],
-          ['2',     1000,   400],
-          ['3',     1170,   440]
-        ];
-        
-        var stepTimesData = [
-          ['Step',            'Time'],
-          ['Materialization', 900],
-          ['2',               1000],
-          ['3',               1170]
-        ];
+          var blockTimesData = @ItemTimesJson;
+          var stepTimesData = @BlockTimesJson;
 
         var blockTimesOptions = {
           title: 'Block times',
