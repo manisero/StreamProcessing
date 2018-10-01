@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using Manisero.StreamProcessing.Utils;
 
@@ -14,7 +16,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                     data.ItemTimesData,
                     new[] { string.Empty }.ToEnumerable(),
                     data.BlockTimesData)
-                .Select(x => x.Select(cell => cell.ToString()).JoinWithSeparator(", "));
+                .Select(x => x.Select(cell => Convert.ToString(cell, CultureInfo.InvariantCulture)).JoinWithSeparator(", "));
 
             File.WriteAllLines(targetFilePath, lines);
         }
