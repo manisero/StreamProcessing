@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Manisero.Navvy;
 using Manisero.Navvy.Core.Events;
+using Manisero.Navvy.Dataflow;
 using Manisero.Navvy.PipelineProcessing.Events;
 using Manisero.StreamProcessing.Process.TaskExecutionReporting;
 
@@ -33,7 +34,7 @@ namespace Manisero.StreamProcessing.Process
                 });
 
             return new TaskExecutorBuilder()
-                //.RegisterDataflowExecution()
+                .RegisterDataflowExecution()
                 .RegisterEvents(taskEvents, pipelineEvents)
                 .Build();
         }

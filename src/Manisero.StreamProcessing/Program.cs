@@ -39,7 +39,7 @@ namespace Manisero.StreamProcessing
 
             Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
 
-            var reportFilePath = Path.GetTempFileName();
+            var reportFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             var reportData = new PipelineExecutionReportDataExtractor()
                 .Extract(
