@@ -5,10 +5,9 @@
 </head>
 
 <body>
-    <div id="itemTimesContainer" style="margin: auto"></div>
-    <div id="itemTimes2Container" style="margin: auto"></div>
-    <div id="memoryContainer" style="margin: auto"></div>
-    <div id="blockTimesContainer" style="margin: auto"></div>
+    <div id="itemTimesContainer" style="width: 95%; margin: auto"></div>
+    <div id="memoryContainer" style="width: 95%; margin: auto"></div>
+    <div id="blockTimesContainer" style="width: 95%; margin: auto"></div>
 
 <script language="JavaScript">
     function drawCharts() {
@@ -18,61 +17,19 @@
         var itemTimesData = @ItemTimesJson;
 
         var itemTimesOptions = {
-            title: 'Item times',
-            isStacked: true,
-            legend: { position: 'top' },
-            height: 500,
-            bar: { groupWidth: '90%' },
-            hAxis: { viewWindowMode: 'maximized' },
-            series: { // Colors from: https://gist.github.com/there4/2579834
-                0: { color: 'transparent' },
-                1: { color: '#3366CC' },
-                2: { color: 'transparent' },
-                3: { color: '#DC3912' },
-                4: { color: 'transparent' },
-                5: { color: '#FF9900' },
-                6: { color: 'transparent' },
-                7: { color: '#109618' },
-                8: { color: 'transparent' },
-                9: { color: '#990099' },
-                10: { color: 'transparent' },
-                11: { color: '#3B3EAC' },
-                12: { color: 'transparent' },
-                13: { color: '#0099C6' },
-                14: { color: 'transparent' },
-                15: { color: '#DD4477' },
-                16: { color: 'transparent' },
-                17: { color: '#66AA00' },
-                18: { color: 'transparent' },
-                19: { color: '#B82E2E' },
-                20: { color: 'transparent' }
-            }
+            height: (itemTimesData.length - 1) * 12
         };
 
-        var itemTimesChart = new google.visualization.BarChart(document.getElementById('itemTimesContainer'));
+        var itemTimesChart = new google.visualization.Timeline(document.getElementById('itemTimesContainer'));
         itemTimesChart.draw(google.visualization.arrayToDataTable(itemTimesData), itemTimesOptions);
-
-        // ItemTimes2
-
-        var itemTimes2Data = [
-            ['Item', 'Step', 'StartTs', 'EndTs'],
-            ['1', 'Step1', 0, 300],
-            ['1', 'Step2', 320, 550],
-            ['2', 'Step1', 310, 630],
-            ['2', 'Step2', 650, 780]
-        ];
-
-        var itemTimes2Options = {};
-
-        var itemTimes2Chart = new google.visualization.Timeline(document.getElementById('itemTimes2Container'));
-        itemTimes2Chart.draw(google.visualization.arrayToDataTable(itemTimes2Data), itemTimes2Options);
 
         // Memory
 
         var memoryData = @MemoryJson;
 
         var memoryOptions = {
-            title: 'Memory'
+            title: 'Memory',
+            legend: { position: 'top' }
         };
 
         var memoryChart = new google.visualization.LineChart(document.getElementById('memoryContainer'));
@@ -84,7 +41,7 @@
 
         var blockTimesOptions = {
             title: 'Block total durations',
-            legend: { position: 'right' },
+            legend: { position: 'top' },
             vAxis: { minValue: 0 }
         };
 
@@ -92,7 +49,7 @@
         blockTimesChart.draw(google.visualization.arrayToDataTable(blockTimesData), blockTimesOptions);
     }
 
-    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.load('current', { packages: ['corechart', 'timeline'] });
     google.charts.setOnLoadCallback(drawCharts);
 </script>
 </body>

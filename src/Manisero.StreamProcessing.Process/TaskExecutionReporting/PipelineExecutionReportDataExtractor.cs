@@ -13,7 +13,8 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 
     public class PipelineExecutionReportDataExtractor
     {
-        const string UnitPart = " [ms]";
+        const string MsUnitPart = " [ms]";
+        const string MbUnitPart = " [mb]";
         const string MaterializationBlockName = "Materialization";
 
         public PipelineExecutionReportData Extract(
@@ -37,57 +38,43 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             TaskExecutionLog.StepLog stepLog,
             ICollection<string> blockNames)
         {
-            var itemsLogHeaderCells = GetItemTimesHeaderCells(blockNames).ToArray();
+            var headerRow = new[] { "Item", "Step", "StartTs", "EndTs" };
 
-            var itemsLogItemsCells = stepLog
+            var dataRows = stepLog
                 .ItemLogs
-                .Select(x => GetItemTimesItemCells(
-                                x.Key,
-                                x.Value,
-                                blockNames,
-                                stepLog.Duration.StartTs)
-                            .ToArray());
+                .Select(x => GetItemTimesItemRows(x.Key, x.Value, blockNames, stepLog.Duration.StartTs))
+                .SelectMany(rows => rows);
 
-            return itemsLogHeaderCells.ToEnumerable().Concat(itemsLogItemsCells);
+            return headerRow.ToEnumerable().Concat(dataRows);
         }
 
-        private IEnumerable<string> GetItemTimesHeaderCells(
-            ICollection<string> blockNames)
-        {
-            const string waitingHeader = "Waiting" + UnitPart;
-
-            yield return "Item number";
-            yield return waitingHeader;
-            yield return MaterializationBlockName + UnitPart;
-
-            foreach (var blockName in blockNames)
-            {
-                yield return waitingHeader;
-                yield return blockName + UnitPart;
-            }
-        }
-
-        private IEnumerable<object> GetItemTimesItemCells(
+        private IEnumerable<ICollection<object>> GetItemTimesItemRows(
             int itemNumber,
             TaskExecutionLog.ItemLog itemLog,
             ICollection<string> blockNames,
             DateTime stepStartTs)
         {
-            yield return itemNumber.ToString();
+            var itemNumberString = $"Item {itemNumber}";
 
-            yield return (itemLog.Duration.StartTs - stepStartTs).GetLogValue(); // Waiting before materialization
-            yield return itemLog.MaterializationDuration.GetLogValue(); // Materialization
-
-            var previousBlockEndTs = itemLog.Duration.StartTs + itemLog.MaterializationDuration;
+            yield return new[]
+            {
+                itemNumberString,
+                MaterializationBlockName,
+                (itemLog.Duration.StartTs - stepStartTs).GetLogValue(),
+                (itemLog.Duration.StartTs + itemLog.MaterializationDuration - stepStartTs).GetLogValue()
+            };
 
             foreach (var blockName in blockNames)
             {
                 var blockDuration = itemLog.BlockDurations[blockName];
 
-                yield return (blockDuration.StartTs - previousBlockEndTs).GetLogValue(); // Waiting between blocks
-                yield return (blockDuration.EndTs - blockDuration.StartTs).GetLogValue(); // Block
-
-                previousBlockEndTs = blockDuration.EndTs;
+                yield return new[]
+                {
+                    itemNumberString,
+                    blockName,
+                    (blockDuration.StartTs - stepStartTs).GetLogValue(),
+                    (blockDuration.EndTs - stepStartTs).GetLogValue()
+                };
             }
         }
 
@@ -95,7 +82,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             TaskExecutionLog.StepLog stepLog,
             ICollection<DiagnosticLog> diagnostics)
         {
-            yield return new[] { "Time" + UnitPart, "Process working set [MB]", "GC allocated set [MB]" };
+            yield return new[] { "Time" + MsUnitPart, "Process working set" + MbUnitPart, "GC allocated set" + MbUnitPart };
 
             var stepStartTs = stepLog.Duration.StartTs;
             var stepEndTs = stepLog.Duration.EndTs;
@@ -116,7 +103,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             TaskExecutionLog.StepLog stepLog,
             ICollection<string> blockNames)
         {
-            yield return new[] { "Step", "Total duration" + UnitPart };
+            yield return new[] { "Step", "Total duration" + MsUnitPart };
             yield return new[] { MaterializationBlockName, stepLog.BlockTotals.MaterializationDuration.GetLogValue() };
 
             foreach (var blockName in blockNames)
