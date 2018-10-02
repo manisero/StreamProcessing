@@ -1,24 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Manisero.Navvy.Core;
 using Manisero.Navvy.Core.Events;
 using Manisero.Navvy.PipelineProcessing.Events;
 
 namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 {
-    public class TaskExecutionLogger
+    public struct DiagnosticLog
     {
+        public DateTime Timestamp;
+        public long WorkingSet;
+        public long AllocatedSet;
+    }
+
+    public class TaskExecutionLogger : IDisposable
+    {
+        private static readonly System.Diagnostics.Process Process = System.Diagnostics.Process.GetCurrentProcess();
+
         public TaskExecutionLog Log { get; } = new TaskExecutionLog();
 
         public IExecutionEvents[] ExecutionEvents { get; }
+        public ICollection<DiagnosticLog> Diagnostics { get; } = new List<DiagnosticLog>();
+
+        private readonly Timer _timer;
 
         public TaskExecutionLogger()
         {
             ExecutionEvents = new IExecutionEvents[]
             {
                 new TaskExecutionEvents(
-                    taskStarted: x => Log.TaskDuration.StartTs = x.Timestamp,
-                    taskEnded: x => Log.TaskDuration.SetEnd(x.Timestamp, x.Duration),
+                    taskStarted: x =>
+                    {
+                        _timer.Enabled = true;
+                        Log.TaskDuration.StartTs = x.Timestamp;
+                    },
+                    taskEnded: x =>
+                    {
+                        Log.TaskDuration.SetEnd(x.Timestamp, x.Duration);
+                        _timer.Dispose();
+                    },
                     stepStarted: x => Log.StartStep(x.Step.Name, x.Timestamp),
                     stepEnded: x => Log.StepLogs[x.Step.Name].Duration.SetEnd(x.Timestamp, x.Duration)),
                 new PipelineExecutionEvents(
@@ -32,6 +54,22 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                         BlockDurations = x.TotalBlockDurations.ToDictionary(entry => entry.Key, entry => entry.Value)
                     })
             };
+
+            _timer = new Timer(10d) { AutoReset = true };
+            _timer.Elapsed += (_, e) =>
+            {
+                Diagnostics.Add(new DiagnosticLog
+                {
+                    Timestamp = DateTime.UtcNow,
+                    WorkingSet = Process.WorkingSet64,
+                    AllocatedSet = GC.GetTotalMemory(false)
+                });
+            };
+        }
+
+        public void Dispose()
+        {
+            _timer.Dispose();
         }
     }
 }
