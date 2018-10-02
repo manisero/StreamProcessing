@@ -79,9 +79,9 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                 var blockDuration = itemLog.BlockDurations[blockName];
 
                 yield return (blockDuration.StartTs - previousBlockEndTs).GetLogValue(); // Waiting between blocks
-                yield return blockDuration.Duration.GetLogValue(); // Block
+                yield return (blockDuration.EndTs - blockDuration.StartTs).GetLogValue(); // Block
 
-                previousBlockEndTs = blockDuration.StartTs + blockDuration.Duration;
+                previousBlockEndTs = blockDuration.EndTs;
             }
         }
 
