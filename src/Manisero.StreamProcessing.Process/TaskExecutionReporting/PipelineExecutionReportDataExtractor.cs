@@ -8,6 +8,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
     internal static class TaskLogReportingUtils
     {
         public static object GetLogValue(this TimeSpan timeSpan) => timeSpan.TotalMilliseconds;
+        public static double ToMb(this long bytes) => bytes / 1024d / 1024d;
     }
 
     public class PipelineExecutionReportDataExtractor
@@ -17,19 +18,24 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 
         public PipelineExecutionReportData Extract(
             TaskExecutionLog.StepLog stepLog,
-            ICollection<string> blockNames)
+            ICollection<string> blockNames,
+            ICollection<DiagnosticLog> diagnostics)
         {
             var itemTimesData = GetItemTimesData(stepLog, blockNames);
+            var memoryData = GetMemoryData(stepLog, diagnostics);
             var blockTimesData = GetBlockTimesData(stepLog, blockNames);
 
             return new PipelineExecutionReportData
             {
                 ItemTimesData = itemTimesData.ToArray(),
+                MemoryData = memoryData.ToArray(),
                 BlockTimesData = blockTimesData.ToArray()
             };
         }
 
-        private IEnumerable<ICollection<object>> GetItemTimesData(TaskExecutionLog.StepLog stepLog, ICollection<string> blockNames)
+        private IEnumerable<ICollection<object>> GetItemTimesData(
+            TaskExecutionLog.StepLog stepLog,
+            ICollection<string> blockNames)
         {
             var itemsLogHeaderCells = GetItemTimesHeaderCells(blockNames).ToArray();
 
@@ -82,6 +88,25 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                 yield return (blockDuration.EndTs - blockDuration.StartTs).GetLogValue(); // Block
 
                 previousBlockEndTs = blockDuration.EndTs;
+            }
+        }
+
+        private IEnumerable<ICollection<object>> GetMemoryData(
+            TaskExecutionLog.StepLog stepLog,
+            ICollection<DiagnosticLog> diagnostics)
+        {
+            yield return new[] { "Time" + UnitPart, "Process working set [MB]", "GC allocated set [MB]" };
+
+            var stepStartTs = stepLog.Duration.StartTs;
+
+            foreach (var diagnostic in diagnostics.Where(x => x.Timestamp >= stepStartTs))
+            {
+                yield return new[]
+                {
+                    (diagnostic.Timestamp - stepStartTs).GetLogValue(),
+                    diagnostic.ProcessWorkingSet.ToMb(),
+                    diagnostic.GcAllocatedSet.ToMb()
+                };
             }
         }
 

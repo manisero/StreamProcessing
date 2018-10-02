@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Manisero.Navvy;
@@ -35,11 +36,13 @@ namespace Manisero.StreamProcessing
             var progress = new Progress<TaskProgress>(x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
 
             TaskExecutionLog log;
+            ICollection<DiagnosticLog> diagnostics;
 
             using (var logger = new TaskExecutionLogger())
             {
                 var taskResult = taskExecutor.Execute(loansProcessingTask, progress, events: logger.ExecutionEvents);
                 log = logger.Log;
+                diagnostics = logger.Diagnostics;
             }
 
             Console.WriteLine($"Task took {log.TaskDuration.Duration.TotalMilliseconds} ms.");
@@ -49,7 +52,8 @@ namespace Manisero.StreamProcessing
             var reportData = new PipelineExecutionReportDataExtractor()
                 .Extract(
                     log.StepLogs[loansProcessingTask.Steps.First().Name],
-                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray());
+                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray(),
+                    diagnostics);
 
             new PipelineExecutionReportWriter()
                 .Write(reportData, reportFolderPath);

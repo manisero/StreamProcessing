@@ -6,60 +6,78 @@
 
 <body>
     <div id="itemTimesContainer" style="margin: auto"></div>
+    <div id="memoryContainer" style="margin: auto"></div>
     <div id="blockTimesContainer" style="margin: auto"></div>
 
-    <script language="JavaScript">
-      function drawCharts() {
+<script language="JavaScript">
+    function drawCharts() {
+
+        // ItemTimes
+
         var itemTimesData = @ItemTimesJson;
-        var blockTimesData = @BlockTimesJson;
 
         var itemTimesOptions = {
-          title: 'Item times',
-          isStacked: true,
-          legend: { position: 'top' },
-          height: 500,
-          bar: { groupWidth: '90%' },
-          hAxis: { viewWindowMode: 'maximized' },
-          series: { // Colors from: https://gist.github.com/there4/2579834
-            0: { color: 'transparent' },
-            1: { color: '#3366CC' },
-            2: { color: 'transparent' },
-            3: { color: '#DC3912' },
-            4: { color: 'transparent' },
-            5: { color: '#FF9900' },
-            6: { color: 'transparent' },
-            7: { color: '#109618' },
-            8: { color: 'transparent' },
-            9: { color: '#990099' },
-            10: { color: 'transparent' },
-            11: { color: '#3B3EAC' },
-            12: { color: 'transparent' },
-            13: { color: '#0099C6' },
-            14: { color: 'transparent' },
-            15: { color: '#DD4477' },
-            16: { color: 'transparent' },
-            17: { color: '#66AA00' },
-            18: { color: 'transparent' },
-            19: { color: '#B82E2E' },
-            20: { color: 'transparent' }
-          }
+            title: 'Item times',
+            isStacked: true,
+            legend: { position: 'top' },
+            height: 500,
+            bar: { groupWidth: '90%' },
+            hAxis: { viewWindowMode: 'maximized' },
+            series: { // Colors from: https://gist.github.com/there4/2579834
+                0: { color: 'transparent' },
+                1: { color: '#3366CC' },
+                2: { color: 'transparent' },
+                3: { color: '#DC3912' },
+                4: { color: 'transparent' },
+                5: { color: '#FF9900' },
+                6: { color: 'transparent' },
+                7: { color: '#109618' },
+                8: { color: 'transparent' },
+                9: { color: '#990099' },
+                10: { color: 'transparent' },
+                11: { color: '#3B3EAC' },
+                12: { color: 'transparent' },
+                13: { color: '#0099C6' },
+                14: { color: 'transparent' },
+                15: { color: '#DD4477' },
+                16: { color: 'transparent' },
+                17: { color: '#66AA00' },
+                18: { color: 'transparent' },
+                19: { color: '#B82E2E' },
+                20: { color: 'transparent' }
+            }
         };
-        
+
+        var itemTimesChart = new google.visualization.BarChart(document.getElementById('itemTimesContainer'));
+        itemTimesChart.draw(google.visualization.arrayToDataTable(itemTimesData), itemTimesOptions);
+
+        // Memory
+
+        var memoryData = @MemoryJson;
+
+        var memoryOptions = {
+            title: 'Memory'
+        };
+
+        var memoryChart = new google.visualization.LineChart(document.getElementById('memoryContainer'));
+        memoryChart.draw(google.visualization.arrayToDataTable(memoryData), memoryOptions);
+
+        // BlockTimes
+
+        var blockTimesData = @BlockTimesJson;
+
         var blockTimesOptions = {
             title: 'Block total durations',
             legend: { position: 'right' },
             vAxis: { minValue: 0 }
         };
-        
-        var itemTimesChart = new google.visualization.BarChart(document.getElementById('itemTimesContainer'));
-        itemTimesChart.draw(google.visualization.arrayToDataTable(itemTimesData), itemTimesOptions);
-        
+
         var blockTimesChart = new google.visualization.ColumnChart(document.getElementById('blockTimesContainer'));
         blockTimesChart.draw(google.visualization.arrayToDataTable(blockTimesData), blockTimesOptions);
-      }
+    }
 
-      google.charts.load('current', { packages: ['corechart'] });
-      google.charts.setOnLoadCallback(drawCharts);
-    </script>
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawCharts);
+</script>
 </body>
 </html>

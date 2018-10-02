@@ -40,9 +40,11 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             string targetFolderPath)
         {
             const string itemTimesJsonToken = "@ItemTimesJson";
+            const string memoryJsonToken = "@MemoryJson";
             const string blockTimesJsonToken = "@BlockTimesJson";
 
             var itemTimesJson = data.ItemTimesData.ToJson();
+            var memoryJson = data.MemoryData.ToJson();
             var blockTimesJson = data.BlockTimesData.ToJson();
 
             var chartsTemplatesNamespaceMarker = typeof(ChartsTemplatesNamespaceMarker);
@@ -60,6 +62,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                     var template = reader.ReadToEnd();
                     var report = template
                         .Replace(itemTimesJsonToken, itemTimesJson)
+                        .Replace(memoryJsonToken, memoryJson)
                         .Replace(blockTimesJsonToken, blockTimesJson);
 
                     var reportFilePath = Path.Combine(targetFolderPath, resourceName.Substring(chartsTemplateResourceNamePrefix.Length));

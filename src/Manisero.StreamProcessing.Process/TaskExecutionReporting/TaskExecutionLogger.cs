@@ -8,13 +8,6 @@ using Manisero.Navvy.PipelineProcessing.Events;
 
 namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 {
-    public struct DiagnosticLog
-    {
-        public DateTime Timestamp;
-        public long WorkingSet;
-        public long AllocatedSet;
-    }
-
     public class TaskExecutionLogger : IDisposable
     {
         private static readonly System.Diagnostics.Process Process = System.Diagnostics.Process.GetCurrentProcess();
@@ -55,14 +48,14 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                     })
             };
 
-            _timer = new Timer(10d) { AutoReset = true };
+            _timer = new Timer(50d) { AutoReset = true };
             _timer.Elapsed += (_, e) =>
             {
                 Diagnostics.Add(new DiagnosticLog
                 {
                     Timestamp = DateTime.UtcNow,
-                    WorkingSet = Process.WorkingSet64,
-                    AllocatedSet = GC.GetTotalMemory(false)
+                    ProcessWorkingSet = Process.WorkingSet64,
+                    GcAllocatedSet = GC.GetTotalMemory(false)
                 });
             };
         }
