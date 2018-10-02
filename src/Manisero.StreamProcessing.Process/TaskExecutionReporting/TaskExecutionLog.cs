@@ -72,17 +72,6 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             }
         }
 
-        public static TaskExecutionLog Current { get; private set; }
-
-        public static void Reset(
-            DateTime taskStartTs)
-        {
-            var newCurrent = new TaskExecutionLog();
-            newCurrent.TaskDuration.StartTs = taskStartTs;
-
-            Current = newCurrent;
-        }
-
         public DurationLog TaskDuration { get; } = new DurationLog();
 
         /// <summary>StepName -> Log</summary>

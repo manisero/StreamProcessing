@@ -32,18 +32,20 @@ namespace Manisero.StreamProcessing
 
             var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
-            var progress = new Progress<TaskProgress>(
-                x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
+            var progress = new Progress<TaskProgress>(x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
+            var logger = new TaskExecutionLogger();
 
-            var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
+            var taskResult = taskExecutor.Execute(loansProcessingTask, progress, events: logger.ExecutionEvents);
 
-            Console.WriteLine($"Task took {TaskExecutionLog.Current.TaskDuration.Duration.TotalMilliseconds} ms.");
+            var log = logger.Log;
+
+            Console.WriteLine($"Task took {log.TaskDuration.Duration.TotalMilliseconds} ms.");
 
             var reportFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             var reportData = new PipelineExecutionReportDataExtractor()
                 .Extract(
-                    TaskExecutionLog.Current.StepLogs[loansProcessingTask.Steps.First().Name],
+                    log.StepLogs[loansProcessingTask.Steps.First().Name],
                     ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray());
 
             new PipelineExecutionReportWriter()
