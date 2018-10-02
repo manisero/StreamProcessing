@@ -6,6 +6,7 @@
 
 <body>
     <div id="itemTimesContainer" style="margin: auto"></div>
+    <div id="itemTimes2Container" style="margin: auto"></div>
     <div id="memoryContainer" style="margin: auto"></div>
     <div id="blockTimesContainer" style="margin: auto"></div>
 
@@ -50,6 +51,21 @@
 
         var itemTimesChart = new google.visualization.BarChart(document.getElementById('itemTimesContainer'));
         itemTimesChart.draw(google.visualization.arrayToDataTable(itemTimesData), itemTimesOptions);
+
+        // ItemTimes2
+
+        var itemTimes2Data = [
+            ['Item', 'Step', 'StartTs', 'EndTs'],
+            ['1', 'Step1', 0, 300],
+            ['1', 'Step2', 320, 550],
+            ['2', 'Step1', 310, 630],
+            ['2', 'Step2', 650, 780]
+        ];
+
+        var itemTimes2Options = {};
+
+        var itemTimes2Chart = new google.visualization.Timeline(document.getElementById('itemTimes2Container'));
+        itemTimes2Chart.draw(google.visualization.arrayToDataTable(itemTimes2Data), itemTimes2Options);
 
         // Memory
 
