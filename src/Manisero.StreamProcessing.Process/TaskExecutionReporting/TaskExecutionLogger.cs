@@ -10,8 +10,6 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 {
     public class TaskExecutionLogger : IDisposable
     {
-        private static readonly System.Diagnostics.Process Process = System.Diagnostics.Process.GetCurrentProcess();
-
         public TaskExecutionLog Log { get; } = new TaskExecutionLog();
 
         public IExecutionEvents[] ExecutionEvents { get; }
@@ -54,7 +52,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
                 Diagnostics.Add(new DiagnosticLog
                 {
                     Timestamp = DateTime.UtcNow,
-                    ProcessWorkingSet = Process.WorkingSet64,
+                    ProcessWorkingSet = System.Diagnostics.Process.GetCurrentProcess().WorkingSet64,
                     GcAllocatedSet = GC.GetTotalMemory(false)
                 });
             };

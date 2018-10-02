@@ -98,8 +98,10 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
             yield return new[] { "Time" + UnitPart, "Process working set [MB]", "GC allocated set [MB]" };
 
             var stepStartTs = stepLog.Duration.StartTs;
+            var stepEndTs = stepLog.Duration.EndTs;
+            var relevantDiagnostics = diagnostics.Where(x => x.Timestamp >= stepStartTs && x.Timestamp <= stepEndTs);
 
-            foreach (var diagnostic in diagnostics.Where(x => x.Timestamp >= stepStartTs))
+            foreach (var diagnostic in relevantDiagnostics)
             {
                 yield return new[]
                 {
