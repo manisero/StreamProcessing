@@ -7,8 +7,6 @@ namespace Manisero.Navvy.Reporting
 {
     public static class TaskExecutionLogger
     {
-        private const string TaskExecutionLogExtraKey = "ExecutionLog";
-
         public static IExecutionEvents[] CreateEvents()
         {
             return new IExecutionEvents[]
@@ -27,17 +25,13 @@ namespace Manisero.Navvy.Reporting
             };
         }
 
-        public static TaskExecutionLog GetExecutionLog(
-            this TaskDefinition task)
-            => (TaskExecutionLog)task.Extras[TaskExecutionLogExtraKey];
-
         public static void HandleTaskStarted(
             TaskStartedEvent e)
         {
             var log = new TaskExecutionLog();
             log.TaskDuration.SetStart(e.Timestamp);
 
-            e.Task.Extras[TaskExecutionLogExtraKey] = log;
+            e.Task.SetExecutionLog(log);
         }
 
         public static void HandleTaskEnded(
