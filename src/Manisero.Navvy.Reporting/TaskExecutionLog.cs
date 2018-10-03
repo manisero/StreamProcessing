@@ -10,6 +10,8 @@ namespace Manisero.Navvy.Reporting
 
         /// <summary>StepName -> Log</summary>
         public ConcurrentDictionary<string, TaskStepLog> StepLogs { get; } = new ConcurrentDictionary<string, TaskStepLog>();
+
+        public ConcurrentBag<DiagnosticLog> Diagnostics { get; } = new ConcurrentBag<DiagnosticLog>();
     }
 
     public class TaskStepLog
@@ -58,6 +60,25 @@ namespace Manisero.Navvy.Reporting
         {
             EndTs = endTs;
             Duration = duration;
+        }
+    }
+
+    public struct DiagnosticLog
+    {
+        public DateTime Timestamp;
+
+        public long ProcessWorkingSet;
+
+        public long GcAllocatedSet;
+
+        public DiagnosticLog(
+            DateTime timestamp, 
+            long processWorkingSet, 
+            long gcAllocatedSet)
+        {
+            Timestamp = timestamp;
+            ProcessWorkingSet = processWorkingSet;
+            GcAllocatedSet = gcAllocatedSet;
         }
     }
 }

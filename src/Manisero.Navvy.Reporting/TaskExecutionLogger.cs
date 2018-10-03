@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Manisero.Navvy.Core;
 using Manisero.Navvy.Core.Events;
 using Manisero.Navvy.PipelineProcessing.Events;
@@ -25,93 +26,103 @@ namespace Manisero.Navvy.Reporting
             };
         }
 
-        public static void HandleTaskStarted(
+        private static void HandleTaskStarted(
             TaskStartedEvent e)
         {
             var log = new TaskExecutionLog();
             log.TaskDuration.SetStart(e.Timestamp);
+            AddDiagnostic(log);
 
             e.Task.SetExecutionLog(log);
         }
 
-        public static void HandleTaskEnded(
+        private static void HandleTaskEnded(
             TaskEndedEvent e)
         {
-            e.Task.GetExecutionLog().TaskDuration.SetEnd(e.Timestamp, e.Duration);
+            var log = e.Task.GetExecutionLog();
+            log.TaskDuration.SetEnd(e.Timestamp, e.Duration);
+            AddDiagnostic(log);
         }
 
-        public static void HandleStepStarted(
+        private static void HandleStepStarted(
             StepStartedEvent e)
         {
             var stepLog = new TaskStepLog();
             stepLog.Duration.SetStart(e.Timestamp);
 
-            e.Task.GetExecutionLog().StepLogs[e.Step.Name] = stepLog;
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name] = stepLog;
+            AddDiagnostic(log);
         }
 
-        public static void HandleStepEnded(
+        private static void HandleStepEnded(
             StepEndedEvent e)
         {
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .Duration
-                .SetEnd(e.Timestamp, e.Duration);
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].Duration.SetEnd(e.Timestamp, e.Duration);
+            AddDiagnostic(log);
         }
 
-        public static void HandleItemMaterialized(
+        private static void HandleItemMaterialized(
             ItemMaterializedEvent e)
         {
             var itemLog = new PipelineItemLog();
             itemLog.Duration.SetStart(e.ItemStartTimestamp);
             itemLog.MaterializationDuration = e.MaterializationDuration;
 
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .ItemLogs[e.ItemNumber] = itemLog;
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].ItemLogs[e.ItemNumber] = itemLog;
+            AddDiagnostic(log);
         }
 
-        public static void HandleItemEnded(
+        private static void HandleItemEnded(
             ItemEndedEvent e)
         {
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .ItemLogs[e.ItemNumber]
-                .Duration
-                .SetEnd(e.Timestamp, e.Duration);
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].ItemLogs[e.ItemNumber].Duration.SetEnd(e.Timestamp, e.Duration);
+            AddDiagnostic(log);
         }
 
-        public static void HandleBlockStarted(
+        private static void HandleBlockStarted(
             BlockStartedEvent e)
         {
             var blockLog = new DurationLog();
             blockLog.SetStart(e.Timestamp);
 
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .ItemLogs[e.ItemNumber]
-                .BlockDurations[e.Block.Name] = blockLog;
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].ItemLogs[e.ItemNumber].BlockDurations[e.Block.Name] = blockLog;
+            AddDiagnostic(log);
         }
 
-        public static void HandleBlockEnded(
+        private static void HandleBlockEnded(
             BlockEndedEvent e)
         {
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .ItemLogs[e.ItemNumber]
-                .BlockDurations[e.Block.Name]
-                .SetEnd(e.Timestamp, e.Duration);
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].ItemLogs[e.ItemNumber].BlockDurations[e.Block.Name].SetEnd(e.Timestamp, e.Duration);
+            AddDiagnostic(log);
         }
 
-        public static void HandlePipelineEnded(
+        private static void HandlePipelineEnded(
             PipelineEndedEvent e)
         {
-            e.Task.GetExecutionLog()
-                .StepLogs[e.Step.Name]
-                .BlockTotals = new PipelineBlockTotalsLog
+            var log = e.Task.GetExecutionLog();
+            log.StepLogs[e.Step.Name].BlockTotals = new PipelineBlockTotalsLog
             {
                 MaterializationDuration = e.TotalInputMaterializationDuration,
                 BlockDurations = e.TotalBlockDurations.ToDictionary(entry => entry.Key, entry => entry.Value)
             };
+
+            AddDiagnostic(log);
+        }
+
+        private static void AddDiagnostic(
+            TaskExecutionLog log)
+        {
+            log.Diagnostics.Add(
+                new DiagnosticLog(
+                    DateTime.UtcNow,
+                    System.Diagnostics.Process.GetCurrentProcess().WorkingSet64,
+                    GC.GetTotalMemory(false)));
         }
     }
 }
