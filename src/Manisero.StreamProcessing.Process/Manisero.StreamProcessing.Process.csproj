@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Manisero.Navvy.Reporting\Manisero.Navvy.Reporting.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.Domain\Manisero.StreamProcessing.Domain.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.Utils\Manisero.StreamProcessing.Utils.csproj" />
   </ItemGroup>

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Manisero.Navvy;
-using Manisero.Navvy.PipelineProcessing;
+using Manisero.Navvy.Reporting;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
@@ -34,26 +32,15 @@ namespace Manisero.StreamProcessing
             var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
             var progress = new Progress<TaskProgress>(x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
+            
+            var taskResult = taskExecutor.Execute(loansProcessingTask, progress, events: TaskExecutionLogger.CreateEvents());
 
-            TaskExecutionLog log;
-            ICollection<DiagnosticLog> diagnostics;
-
-            using (var logger = new TaskExecutionLogger())
-            {
-                var taskResult = taskExecutor.Execute(loansProcessingTask, progress, events: logger.ExecutionEvents);
-                log = logger.Log;
-                diagnostics = logger.Diagnostics;
-            }
-
-            Console.WriteLine($"Task took {log.TaskDuration.Duration.TotalMilliseconds} ms.");
+            Console.WriteLine($"Task took {loansProcessingTask.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
+            
+            var reportData = new PipelineExecutionReportDataExtractor()
+                .Extract(loansProcessingTask, loansProcessingTask.Steps[0].Name);
 
             var reportFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-
-            var reportData = new PipelineExecutionReportDataExtractor()
-                .Extract(
-                    log.StepLogs[loansProcessingTask.Steps.First().Name],
-                    ((PipelineTaskStep<ClientsToProcess>)loansProcessingTask.Steps.First()).Blocks.Select(x => x.Name).ToArray(),
-                    diagnostics);
 
             new PipelineExecutionReportWriter()
                 .Write(reportData, reportFolderPath);

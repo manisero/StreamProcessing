@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Manisero.Navvy;
+using Manisero.Navvy.PipelineProcessing;
+using Manisero.Navvy.Reporting;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
@@ -18,12 +21,16 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
         const string MaterializationBlockName = "Materialization";
 
         public PipelineExecutionReportData Extract(
-            TaskExecutionLog.StepLog stepLog,
-            ICollection<string> blockNames,
-            ICollection<DiagnosticLog> diagnostics)
+            TaskDefinition task,
+            string pipelineStepName)
         {
+            var log = task.GetExecutionLog();
+            var stepLog = log.StepLogs[pipelineStepName];
+            var step = task.Steps.Single(x => x.Name == pipelineStepName);
+            var blockNames = ((IPipelineTaskStep)step).Blocks.Select(x => x.Name).ToArray();
+
             var itemTimesData = GetItemTimesData(stepLog, blockNames);
-            var memoryData = GetMemoryData(stepLog, diagnostics);
+            var memoryData = GetMemoryData(stepLog, log.Diagnostics);
             var blockTimesData = GetBlockTimesData(stepLog, blockNames);
 
             return new PipelineExecutionReportData
@@ -35,7 +42,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
         }
 
         private IEnumerable<ICollection<object>> GetItemTimesData(
-            TaskExecutionLog.StepLog stepLog,
+            TaskStepLog stepLog,
             ICollection<string> blockNames)
         {
             var headerRow = new[] { "Item", "Step", "StartTs", "EndTs" };
@@ -50,7 +57,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
 
         private IEnumerable<ICollection<object>> GetItemTimesItemRows(
             int itemNumber,
-            TaskExecutionLog.ItemLog itemLog,
+            PipelineItemLog itemLog,
             ICollection<string> blockNames,
             DateTime stepStartTs)
         {
@@ -79,14 +86,16 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
         }
 
         private IEnumerable<ICollection<object>> GetMemoryData(
-            TaskExecutionLog.StepLog stepLog,
-            ICollection<DiagnosticLog> diagnostics)
+            TaskStepLog stepLog,
+            IEnumerable<DiagnosticLog> diagnostics)
         {
             yield return new[] { "Time" + MsUnitPart, "Process working set" + MbUnitPart, "GC allocated set" + MbUnitPart };
 
             var stepStartTs = stepLog.Duration.StartTs;
             var stepEndTs = stepLog.Duration.EndTs;
-            var relevantDiagnostics = diagnostics.Where(x => x.Timestamp >= stepStartTs && x.Timestamp <= stepEndTs);
+            var relevantDiagnostics = diagnostics
+                .Where(x => x.Timestamp >= stepStartTs && x.Timestamp <= stepEndTs)
+                .OrderBy(x => x.Timestamp);
 
             foreach (var diagnostic in relevantDiagnostics)
             {
@@ -100,7 +109,7 @@ namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
         }
 
         private IEnumerable<ICollection<object>> GetBlockTimesData(
-            TaskExecutionLog.StepLog stepLog,
+            TaskStepLog stepLog,
             ICollection<string> blockNames)
         {
             yield return new[] { "Step", "Total duration" + MsUnitPart };
