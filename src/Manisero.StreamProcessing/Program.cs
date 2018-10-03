@@ -33,7 +33,7 @@ namespace Manisero.StreamProcessing
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
             var progress = new Progress<TaskProgress>(x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
             
-            var taskResult = taskExecutor.Execute(loansProcessingTask, progress, events: TaskExecutionLogger.CreateEvents());
+            var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
 
             Console.WriteLine($"Task took {loansProcessingTask.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
             

@@ -1,5 +1,6 @@
 ﻿using Manisero.Navvy;
 using Manisero.Navvy.Dataflow;
+using Manisero.Navvy.Reporting;
 
 namespace Manisero.StreamProcessing.Process
 {
@@ -14,6 +15,7 @@ namespace Manisero.StreamProcessing.Process
         {
             return new TaskExecutorBuilder()
                 .RegisterDataflowExecution()
+                .RegisterTaskExecutionLogger()
                 .Build();
         }
     }
