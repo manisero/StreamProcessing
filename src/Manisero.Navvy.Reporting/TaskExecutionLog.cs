@@ -6,8 +6,6 @@ namespace Manisero.Navvy.Reporting
 {
     public class TaskExecutionLog
     {
-        public TaskDefinition Task { get; set; }
-
         public DurationLog TaskDuration { get; } = new DurationLog();
 
         /// <summary>StepName -> Log</summary>
