@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Manisero.Navvy.Reporting.Utils
 {
-    public static class EnumerableUtils
+    internal static class EnumerableUtils
     {
         public static ICollection<TItem> ToICollection<TItem>(
             this IEnumerable<TItem> items)

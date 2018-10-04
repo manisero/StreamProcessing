@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ChartsTemplates\charts.html" />
+    <None Remove="PipelineReporting\Templates\charts.html" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ChartsTemplates\charts.html" />
+    <EmbeddedResource Include="PipelineReporting\Templates\charts.html" />
   </ItemGroup>
 
   <ItemGroup>

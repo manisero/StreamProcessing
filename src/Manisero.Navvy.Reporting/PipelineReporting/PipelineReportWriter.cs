@@ -2,25 +2,30 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Manisero.Navvy.Reporting.ChartsTemplates;
+using Manisero.Navvy.Reporting.PipelineReporting.Templates;
 using Manisero.Navvy.Reporting.Utils;
 
-namespace Manisero.Navvy.Reporting
+namespace Manisero.Navvy.Reporting.PipelineReporting
 {
-    public class PipelineExecutionReportWriter
+    internal interface IPipelineReportWriter
+    {
+        void Write(
+            PipelineReportData data,
+            string targetFolderPath);
+    }
+
+    internal class PipelineReportWriter : IPipelineReportWriter
     {
         public void Write(
-            PipelineExecutionReportData data,
+            PipelineReportData data,
             string targetFolderPath)
         {
-            Directory.CreateDirectory(targetFolderPath);
-
             WriteCsvReport(data, targetFolderPath);
             WriteHtmlReport(data, targetFolderPath);
         }
 
         private static void WriteCsvReport(
-            PipelineExecutionReportData data,
+            PipelineReportData data,
             string targetFolderPath)
         {
             const string reportFileName = "report.csv";
@@ -36,7 +41,7 @@ namespace Manisero.Navvy.Reporting
         }
 
         private static void WriteHtmlReport(
-            PipelineExecutionReportData data,
+            PipelineReportData data,
             string targetFolderPath)
         {
             const string itemTimesJsonToken = "@ItemTimesJson";
@@ -47,7 +52,7 @@ namespace Manisero.Navvy.Reporting
             var memoryJson = data.MemoryData.ToJson();
             var blockTimesJson = data.BlockTimesData.ToJson();
 
-            var chartsTemplatesNamespaceMarker = typeof(ChartsTemplatesNamespaceMarker);
+            var chartsTemplatesNamespaceMarker = typeof(TemplatesNamespaceMarker);
             var chartsTemplateResourceNamePrefix = chartsTemplatesNamespaceMarker.Namespace + ".";
             var chartsTemplatesAssembly = chartsTemplatesNamespaceMarker.Assembly;
             var chartsTemplateResourceNames = chartsTemplatesAssembly

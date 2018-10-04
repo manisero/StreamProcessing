@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Manisero.Navvy.Reporting
+namespace Manisero.Navvy.Reporting.PipelineReporting
 {
-    public class PipelineExecutionReportData
+    internal class PipelineReportData
     {
         public ICollection<ICollection<object>> ItemTimesData { get; set; }
         public ICollection<ICollection<object>> MemoryData { get; set; }

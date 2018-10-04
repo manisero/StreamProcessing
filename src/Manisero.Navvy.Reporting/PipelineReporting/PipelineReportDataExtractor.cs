@@ -5,34 +5,33 @@ using Manisero.Navvy.Logging;
 using Manisero.Navvy.PipelineProcessing;
 using Manisero.Navvy.Reporting.Utils;
 
-namespace Manisero.Navvy.Reporting
+namespace Manisero.Navvy.Reporting.PipelineReporting
 {
-    internal static class TaskLogReportingUtils
+    internal interface IPipelineReportDataExtractor
     {
-        public static object GetLogValue(this TimeSpan timeSpan) => timeSpan.TotalMilliseconds;
-        public static double ToMb(this long bytes) => bytes / 1024d / 1024d;
+        PipelineReportData Extract(
+            IPipelineTaskStep pipeline,
+            TaskExecutionLog log);
     }
 
-    public class PipelineExecutionReportDataExtractor
+    internal class PipelineReportDataExtractor : IPipelineReportDataExtractor
     {
         const string MsUnitPart = " [ms]";
         const string MbUnitPart = " [mb]";
         const string MaterializationBlockName = "Materialization";
 
-        public PipelineExecutionReportData Extract(
-            TaskDefinition task,
-            string pipelineStepName)
+        public PipelineReportData Extract(
+            IPipelineTaskStep pipeline,
+            TaskExecutionLog log)
         {
-            var log = task.GetExecutionLog();
-            var stepLog = log.StepLogs[pipelineStepName];
-            var step = task.Steps.Single(x => x.Name == pipelineStepName);
-            var blockNames = ((IPipelineTaskStep)step).Blocks.Select(x => x.Name).ToArray();
+            var stepLog = log.StepLogs[pipeline.Name];
+            var blockNames = pipeline.Blocks.Select(x => x.Name).ToArray();
 
             var itemTimesData = GetItemTimesData(stepLog, blockNames);
             var memoryData = GetMemoryData(stepLog, log.Diagnostics);
             var blockTimesData = GetBlockTimesData(stepLog, blockNames);
 
-            return new PipelineExecutionReportData
+            return new PipelineReportData
             {
                 ItemTimesData = itemTimesData.ToArray(),
                 MemoryData = memoryData.ToArray(),
