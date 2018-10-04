@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Manisero.Navvy.Reporting.Utils
+namespace Manisero.Navvy.Reporting.PipelineReporting
 {
-    internal static class ReportingUtils
+    internal static class PipelineReportingUtils
     {
         public static object GetLogValue(this TimeSpan timeSpan) => timeSpan.TotalMilliseconds;
 
