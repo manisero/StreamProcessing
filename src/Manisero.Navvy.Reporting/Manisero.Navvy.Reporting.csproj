@@ -5,8 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ChartsTemplates\charts.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ChartsTemplates\charts.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Manisero.Navvy" Version="0.13.0" />
     <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.13.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>

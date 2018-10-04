@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Manisero.Navvy;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.PipelineProcessing;
-using Manisero.StreamProcessing.Utils;
+using Manisero.Navvy.Reporting.Utils;
 
-namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
+namespace Manisero.Navvy.Reporting
 {
     internal static class TaskLogReportingUtils
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
+namespace Manisero.Navvy.Reporting
 {
     public class PipelineExecutionReportData
     {

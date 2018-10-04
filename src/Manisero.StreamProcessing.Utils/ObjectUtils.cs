@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Manisero.StreamProcessing.Utils
 {
@@ -13,15 +12,5 @@ namespace Manisero.StreamProcessing.Utils
             this IEnumerable<TValue> values,
             string separator)
             => string.Join(separator, values);
-
-        public static IEnumerable<TValue> ToEnumerable<TValue>(
-            this TValue value)
-        {
-            yield return value;
-        }
-
-        public static string ToJson(
-            this object value)
-            => JsonConvert.SerializeObject(value);
     }
 }

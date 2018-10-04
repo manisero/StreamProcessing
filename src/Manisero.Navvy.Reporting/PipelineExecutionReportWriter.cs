@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Manisero.StreamProcessing.Process.TaskExecutionReporting.ChartsTemplates;
-using Manisero.StreamProcessing.Utils;
+using Manisero.Navvy.Reporting.ChartsTemplates;
+using Manisero.Navvy.Reporting.Utils;
 
-namespace Manisero.StreamProcessing.Process.TaskExecutionReporting
+namespace Manisero.Navvy.Reporting
 {
     public class PipelineExecutionReportWriter
     {
