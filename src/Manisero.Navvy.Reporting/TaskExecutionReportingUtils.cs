@@ -11,20 +11,20 @@ namespace Manisero.Navvy.Reporting
         internal static void SetExecutionReports(
             this TaskDefinition task,
             IReadOnlyCollection<TaskExecutionReport> reports)
-            => task.Extras[TaskExecutionReportsExtraKey] = reports;
+            => task.Extras.Set(TaskExecutionReportsExtraKey, reports);
 
         public static IReadOnlyCollection<TaskExecutionReport> GetExecutionReports(
             this TaskDefinition task)
-            => (IReadOnlyCollection<TaskExecutionReport>)task.Extras[TaskExecutionReportsExtraKey];
+            => task.Extras.Get<IReadOnlyCollection<TaskExecutionReport>>(TaskExecutionReportsExtraKey);
 
         internal static void SetExecutionReportsPath(
             this TaskDefinition task,
             string path)
-            => task.Extras[TaskExecutionReportsFolderPathExtraKey] = path;
+            => task.Extras.Set(TaskExecutionReportsFolderPathExtraKey, path);
 
         public static string GetExecutionReportsPath(
             this TaskDefinition task)
-            => (string)task.Extras[TaskExecutionReportsFolderPathExtraKey];
+            => task.Extras.Get<string>(TaskExecutionReportsFolderPathExtraKey);
 
         public static ITaskExecutorBuilder UseTaskExecutionReporting(
             this ITaskExecutorBuilder builder,

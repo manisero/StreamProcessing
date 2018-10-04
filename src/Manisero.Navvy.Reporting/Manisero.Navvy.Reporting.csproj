@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Manisero.Navvy" Version="0.13.0" />
-    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.13.0" />
+    <PackageReference Include="Manisero.Navvy" Version="0.14.0" />
+    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.14.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
