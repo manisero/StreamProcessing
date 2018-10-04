@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Manisero.Navvy;
-using Manisero.Navvy.Reporting;
+using Manisero.Navvy.Logging;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;

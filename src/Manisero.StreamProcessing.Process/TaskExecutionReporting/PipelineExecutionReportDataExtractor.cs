@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Manisero.Navvy;
+using Manisero.Navvy.Logging;
 using Manisero.Navvy.PipelineProcessing;
-using Manisero.Navvy.Reporting;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing.Process.TaskExecutionReporting

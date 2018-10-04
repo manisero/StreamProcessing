@@ -1,6 +1,6 @@
 ﻿using Manisero.Navvy;
 using Manisero.Navvy.Dataflow;
-using Manisero.Navvy.Reporting;
+using Manisero.Navvy.Logging;
 
 namespace Manisero.StreamProcessing.Process
 {

@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
-    <PackageReference Include="Manisero.Navvy" Version="0.12.0" />
-    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.12.0" />
+    <PackageReference Include="Manisero.Navvy" Version="0.13.0" />
+    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.13.0" />
   </ItemGroup>
 
   <ItemGroup>
