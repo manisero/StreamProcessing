@@ -18,11 +18,12 @@ namespace Manisero.StreamProcessing
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetDefaultConnectionString();
 
+            var reportsFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);
+
             var clientRepository = new ClientRepository(connectionString);
             var loanRepository = new LoanRepository(connectionString);
             var loansProcessRepository = new LoansProcessRepository(connectionString);
-
-            var taskExecutor = new TaskExecutorFactory().Create();
 
             var loansProcessingTaskFactory = new LoansProcessingTaskFactory(
                 clientRepository,
@@ -36,11 +37,7 @@ namespace Manisero.StreamProcessing
             var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
 
             Console.WriteLine($"Task took {loansProcessingTask.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
-            
-            var reportFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            new TaskExecutionReportWriter().Write(loansProcessingTask, reportFolderPath);
-
-            Console.WriteLine($"Report written to: {reportFolderPath}");
+            Console.WriteLine($"Report written to: {loansProcessingTask.GetReportPath()}");
         }
     }
 }
