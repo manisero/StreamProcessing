@@ -12,33 +12,29 @@
 <script language="JavaScript">
     function drawCharts() {
 
+        var reportData = @ReportDataJson;
+
         // ItemTimes
-
-        var itemTimesData = @ItemTimesJson;
-
+        
         var itemTimesOptions = {
-            height: (itemTimesData.length - 1) * 12
+            height: (reportData.ItemTimesData.length - 1) * 12
         };
 
         var itemTimesChart = new google.visualization.Timeline(document.getElementById('itemTimesContainer'));
-        itemTimesChart.draw(google.visualization.arrayToDataTable(itemTimesData), itemTimesOptions);
+        itemTimesChart.draw(google.visualization.arrayToDataTable(reportData.ItemTimesData), itemTimesOptions);
 
         // Memory
-
-        var memoryData = @MemoryJson;
-
+        
         var memoryOptions = {
             title: 'Memory',
             legend: { position: 'top' }
         };
 
         var memoryChart = new google.visualization.LineChart(document.getElementById('memoryContainer'));
-        memoryChart.draw(google.visualization.arrayToDataTable(memoryData), memoryOptions);
+        memoryChart.draw(google.visualization.arrayToDataTable(reportData.MemoryData), memoryOptions);
 
         // BlockTimes
-
-        var blockTimesData = @BlockTimesJson;
-
+        
         var blockTimesOptions = {
             title: 'Block total durations',
             legend: { position: 'top' },
@@ -46,7 +42,7 @@
         };
 
         var blockTimesChart = new google.visualization.ColumnChart(document.getElementById('blockTimesContainer'));
-        blockTimesChart.draw(google.visualization.arrayToDataTable(blockTimesData), blockTimesOptions);
+        blockTimesChart.draw(google.visualization.arrayToDataTable(reportData.BlockTimesData), blockTimesOptions);
     }
 
     google.charts.load('current', { packages: ['corechart', 'timeline'] });
