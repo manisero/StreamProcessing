@@ -18,9 +18,9 @@ namespace Manisero.StreamProcessing.Process
             string reportsFolderPath)
         {
             return new TaskExecutorBuilder()
-                .RegisterDataflowExecution()
-                .RegisterTaskExecutionLogger()
-                .UseTaskExecutionReporting(x => Path.Combine(reportsFolderPath, x.Name))
+                .UseDataflowPipelineExecution()
+                .UseTaskExecutionLogger()
+                .UseTaskExecutionReporter(x => Path.Combine(reportsFolderPath, x.Name))
                 .Build();
         }
     }

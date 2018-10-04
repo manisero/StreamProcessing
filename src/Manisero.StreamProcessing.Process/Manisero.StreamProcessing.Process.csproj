@@ -6,12 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
-    <PackageReference Include="Manisero.Navvy" Version="0.14.0" />
-    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.14.0" />
+    <PackageReference Include="Manisero.Navvy" Version="0.15.0" />
+    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.15.0" />
+    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.15.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Manisero.Navvy.Reporting\Manisero.Navvy.Reporting.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.Domain\Manisero.StreamProcessing.Domain.csproj" />
     <ProjectReference Include="..\Manisero.StreamProcessing.Utils\Manisero.StreamProcessing.Utils.csproj" />
   </ItemGroup>
