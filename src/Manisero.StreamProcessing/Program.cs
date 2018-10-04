@@ -18,7 +18,7 @@ namespace Manisero.StreamProcessing
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetDefaultConnectionString();
 
-            var reportsFolderPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var reportsFolderPath = Path.Combine(Path.GetTempPath(), "StreamProcessing_reports");
             var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);
 
             var clientRepository = new ClientRepository(connectionString);

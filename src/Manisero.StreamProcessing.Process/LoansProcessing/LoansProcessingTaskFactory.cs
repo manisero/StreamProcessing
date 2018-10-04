@@ -39,6 +39,7 @@ namespace Manisero.StreamProcessing.Process.LoansProcessing
             var clientsReader = _clientRepository.GetBatchedReader(process.DatasetId, batchSize);
 
             return new TaskDefinition(
+                $"LoansProcessing_{process.LoansProcessId}",
                 PipelineTaskStep
                     .Builder<ClientsToProcess>("Process")
                     .WithInput(

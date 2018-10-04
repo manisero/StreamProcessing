@@ -1,4 +1,5 @@
-﻿using Manisero.Navvy;
+﻿using System.IO;
+using Manisero.Navvy;
 using Manisero.Navvy.Dataflow;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
@@ -19,7 +20,7 @@ namespace Manisero.StreamProcessing.Process
             return new TaskExecutorBuilder()
                 .RegisterDataflowExecution()
                 .RegisterTaskExecutionLogger()
-                .UseTaskExecutionReporting(x => reportsFolderPath)
+                .UseTaskExecutionReporting(x => Path.Combine(reportsFolderPath, x.Name))
                 .Build();
         }
     }
