@@ -7,14 +7,13 @@ using Manisero.Navvy.Reporting.Utils;
 
 namespace Manisero.Navvy.Reporting.PipelineReporting
 {
-    internal interface IPipelineReportWriter
+    internal interface IPipelineReportsGenerator
     {
-        void Write(
-            PipelineReportData data,
-            string targetFolderPath);
+        IEnumerable<TaskExecutionReport> Generate(
+            PipelineReportData data);
     }
 
-    internal class PipelineReportWriter : IPipelineReportWriter
+    internal class PipelineReportsGenerator : IPipelineReportsGenerator
     {
         private struct ReportTemplate
         {
@@ -27,18 +26,16 @@ namespace Manisero.Navvy.Reporting.PipelineReporting
         private static readonly Lazy<ICollection<ReportTemplate>> ReportTemplates =
             new Lazy<ICollection<ReportTemplate>>(() => GetReportTemplates().ToArray());
 
-        public void Write(
-            PipelineReportData data,
-            string targetFolderPath)
+        public IEnumerable<TaskExecutionReport> Generate(
+            PipelineReportData data)
         {
             var reportDataJson = data.ToJson();
 
             foreach (var template in ReportTemplates.Value)
             {
-                var report = template.Body.Replace(ReportDataJsonToken, reportDataJson);
-                var reportFilePath = Path.Combine(targetFolderPath, $"{data.PipelineName}_{template.FileName}");
-
-                File.WriteAllText(reportFilePath, report);
+                yield return new TaskExecutionReport(
+                    $"{data.PipelineName}_{template.FileName}",
+                    template.Body.Replace(ReportDataJsonToken, reportDataJson));
             }
         }
 

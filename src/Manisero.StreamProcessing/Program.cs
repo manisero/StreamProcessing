@@ -37,7 +37,7 @@ namespace Manisero.StreamProcessing
             var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
 
             Console.WriteLine($"Task took {loansProcessingTask.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
-            Console.WriteLine($"Report written to: {loansProcessingTask.GetReportPath()}");
+            Console.WriteLine($"Report written to: {loansProcessingTask.GetExecutionReportsPath()}");
         }
     }
 }
