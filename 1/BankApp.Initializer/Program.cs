@@ -10,7 +10,7 @@ namespace BankApp.Initializer
     class Program
     {
         private const int DatasetsCount = 2;
-        private const int ClientsPerDataset = 100;
+        private const int ClientsPerDataset = 100000;
         private const int LoansPerClient = 2;
 
         static void Main(string[] args)

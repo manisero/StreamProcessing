@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Linq;
 using BankApp.CalculateClientLoans;
 using BankApp.DataAccess;
+using BankApp.Domain;
 using BankApp.Utils;
 
 namespace BankApp
@@ -19,9 +21,19 @@ namespace BankApp
             var calculateClientLoansTaskFactory = new CalculateClientLoansTaskFactory(
                 () => new EfContext(connectionString));
 
-            var task = calculateClientLoansTaskFactory.Create(2);
+            var datasetId = GetDatasetId(connectionString);
+            var task = calculateClientLoansTaskFactory.Create(datasetId);
 
             var taskResult = taskExecutor.Execute(task);
+        }
+
+        private static int GetDatasetId(
+            string connectionString)
+        {
+            using (var context = new EfContext(connectionString))
+            {
+                return context.Set<Dataset>().Select(x => x.DatasetId).Max();
+            }
         }
     }
 }

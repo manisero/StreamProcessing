@@ -22,6 +22,7 @@ namespace BankApp.DataAccess
             }
 
             optionsBuilder
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseNpgsql(_connectionString);
         }
 
