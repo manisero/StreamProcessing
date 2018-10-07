@@ -10,17 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configs", "0. Configs", 
 		appsettings.json = appsettings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{D3898707-5C83-4F11-A7EF-9CAA7C778E51}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess", "3. DataAccess", "{C5EC5301-7456-4C89-9916-18D5ED9821B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DataAccess", "BankApp.DataAccess\BankApp.DataAccess.csproj", "{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess", "BankApp.DataAccess\BankApp.DataAccess.csproj", "{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Utils", "1. Utils", "{58B21B16-E751-47B9-A6DB-649F77B649C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Utils", "BankApp.Utils\BankApp.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Utils", "BankApp.Utils\BankApp.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Initializer", "BankApp.Initializer\BankApp.Initializer.csproj", "{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
