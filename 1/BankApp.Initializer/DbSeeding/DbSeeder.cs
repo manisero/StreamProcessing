@@ -11,6 +11,7 @@ namespace BankApp.Initializer.DbSeeding
         private readonly string _connectionString;
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
+        private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeeder(
             string connectionString)
@@ -18,6 +19,7 @@ namespace BankApp.Initializer.DbSeeding
             _connectionString = connectionString;
             _datasetRepository = new DatasetRepository(connectionString);
             _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
+            _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
         }
 
         public void Seed(
@@ -30,6 +32,7 @@ namespace BankApp.Initializer.DbSeeding
             foreach (var dataset in datasets)
             {
                 var clients = CreateClients(dataset.DatasetId, clientsPerDataset);
+                CreateLoans(clients, loansPerClient);
             }
         }
 
@@ -77,6 +80,32 @@ namespace BankApp.Initializer.DbSeeding
             {
                 return context.Set<ClientSnapshot>().ToList();
             }
+        }
+
+        private void CreateLoans(
+            ICollection<ClientSnapshot> clients,
+            int loansPerClient)
+        {
+            var nextLoanId = 1;
+            var loans = new List<LoanSnapshot>();
+
+            foreach (var client in clients)
+            {
+                for (var i = 0; i < loansPerClient; i++)
+                {
+                    loans.Add(
+                        new LoanSnapshot
+                        {
+                            LoanId = nextLoanId,
+                            ClientSnapshotId = client.ClientSnapshotId,
+                            Value = 1m
+                        });
+
+                    nextLoanId++;
+                }
+            }
+
+            _loanSnapshotRepository.CreateMany(loans);
         }
     }
 }
