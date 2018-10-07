@@ -25,7 +25,7 @@ namespace BankApp.CalculateClientLoans
             var clientLoansCalculation = CreateClientLoansCalculation(datasetId);
 
             return new TaskDefinition(
-                nameof(CalculateClientLoans),
+                $"{nameof(CalculateClientLoans)}_{clientLoansCalculation.ClientLoansCalculationId}",
                 PipelineTaskStep.Builder<DatasetToProcess>(nameof(CalculateClientLoans))
                     .WithInput(LoadDatasetAsEnumerable(datasetId), 1)
                     .WithBlock(
@@ -37,6 +37,9 @@ namespace BankApp.CalculateClientLoans
                                 x.ClientLoans.Add(client.ClientSnapshotId, client.Loans.Sum(l => l.Value));
                             }
                         })
+                    .WithBlock(
+                        "SaveClientTotalLoans",
+                        x => SaveClientTotalLoans(x, clientLoansCalculation.ClientLoansCalculationId))
                     .Build());
         }
 
@@ -70,6 +73,27 @@ namespace BankApp.CalculateClientLoans
                     .Single(x => x.DatasetId == datasetId);
 
                 yield return new DatasetToProcess { Dataset = dataset };
+            }
+        }
+
+        private void SaveClientTotalLoans(
+            DatasetToProcess datasetToProcess,
+            int clientLoansCalculationId)
+        {
+            using (var context = _efContextFactory())
+            {
+                var clientTotalLoans = datasetToProcess.ClientLoans.Select(
+                    x => new ClientTotalLoan
+                    {
+                        ClientLoansCalculationId = clientLoansCalculationId,
+                        ClientSnapshotId = x.Key,
+                        TotalLoan = x.Value
+                    });
+
+                context.Set<ClientTotalLoan>().AddRange(
+                    clientTotalLoans);
+
+                context.SaveChanges();
             }
         }
     }

@@ -2,7 +2,7 @@
 {
     public class ClientTotalLoan
     {
-        public int ClientTotalLoanId { get; set; }
+        public long ClientTotalLoanId { get; set; }
 
         public int ClientLoansCalculationId { get; set; }
 
