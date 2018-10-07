@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess;
 using BankApp.Domain;
+using BankApp.Utils;
 
 namespace BankApp.Initializer.DbSeeding
 {
@@ -78,7 +79,7 @@ namespace BankApp.Initializer.DbSeeding
 
             using (var context = new EfContext(_connectionString))
             {
-                return context.Set<ClientSnapshot>().ToList();
+                return context.Set<ClientSnapshot>().Where(x => x.DatasetId == datasetId).ToList();
             }
         }
 
@@ -86,8 +87,15 @@ namespace BankApp.Initializer.DbSeeding
             ICollection<ClientSnapshot> clients,
             int loansPerClient)
         {
-            var nextLoanId = 1;
+            var random = new Random();
+
+            var loansCount = clients.Count * loansPerClient;
+            var loanIds = random
+                .NextUniqueCollection(loansCount, loansCount * 2)
+                .ToArray();
+            
             var loans = new List<LoanSnapshot>();
+            var loanIndex = 0;
 
             foreach (var client in clients)
             {
@@ -96,12 +104,12 @@ namespace BankApp.Initializer.DbSeeding
                     loans.Add(
                         new LoanSnapshot
                         {
-                            LoanId = nextLoanId,
+                            LoanId = loanIds[loanIndex],
                             ClientSnapshotId = client.ClientSnapshotId,
-                            Value = 1m
+                            Value = random.Next(1000, 1000000)
                         });
 
-                    nextLoanId++;
+                    loanIndex++;
                 }
             }
 
