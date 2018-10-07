@@ -6,7 +6,7 @@
 
         public int ClientLoansCalculationId { get; set; }
 
-        public long ClientSnapshotId { get; set; }
+        public int ClientId { get; set; }
 
         public decimal TotalLoan { get; set; }
 

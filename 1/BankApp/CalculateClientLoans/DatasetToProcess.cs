@@ -7,7 +7,7 @@ namespace BankApp.CalculateClientLoans
     {
         public Dataset Dataset { get; set; }
 
-        /// <summary>ClientSnapshotId -> total loan</summary>
-        public IDictionary<long, decimal> ClientLoans { get; } = new Dictionary<long, decimal>();
+        /// <summary>ClientId -> total loan</summary>
+        public IDictionary<int, decimal> ClientLoans { get; } = new Dictionary<int, decimal>();
     }
 }

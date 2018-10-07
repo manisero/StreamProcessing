@@ -34,7 +34,7 @@ namespace BankApp.CalculateClientLoans
                         {
                             foreach (var client in x.Dataset.Clients)
                             {
-                                x.ClientLoans.Add(client.ClientSnapshotId, client.Loans.Sum(l => l.Value));
+                                x.ClientLoans.Add(client.ClientId, client.Loans.Sum(l => l.Value));
                             }
                         })
                     .WithBlock(
@@ -53,9 +53,7 @@ namespace BankApp.CalculateClientLoans
                     DatasetId = datasetId
                 };
 
-                context.Set<ClientLoansCalculation>().Add(
-                    clientLoansCalculation);
-
+                context.Set<ClientLoansCalculation>().Add(clientLoansCalculation);
                 context.SaveChanges();
 
                 return clientLoansCalculation;
@@ -86,13 +84,11 @@ namespace BankApp.CalculateClientLoans
                     x => new ClientTotalLoan
                     {
                         ClientLoansCalculationId = clientLoansCalculationId,
-                        ClientSnapshotId = x.Key,
+                        ClientId = x.Key,
                         TotalLoan = x.Value
                     });
 
-                context.Set<ClientTotalLoan>().AddRange(
-                    clientTotalLoans);
-
+                context.Set<ClientTotalLoan>().AddRange(clientTotalLoans);
                 context.SaveChanges();
             }
         }
