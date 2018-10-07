@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configs", "0. Configs", 
 		appsettings.json = appsettings.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{D3898707-5C83-4F11-A7EF-9CAA7C778E51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +24,16 @@ Global
 		{A3F599A2-AE57-4EC6-97B2-2C0031114AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3F599A2-AE57-4EC6-97B2-2C0031114AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3F599A2-AE57-4EC6-97B2-2C0031114AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4} = {D3898707-5C83-4F11-A7EF-9CAA7C778E51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}
