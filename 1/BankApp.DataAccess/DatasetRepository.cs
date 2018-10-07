@@ -12,7 +12,6 @@ namespace BankApp.DataAccess
         private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>>
             {
-                [nameof(Dataset.DatasetId)] = (writer, x) => writer.Write(x.DatasetId, NpgsqlDbType.Smallint),
                 [nameof(Dataset.Date)] = (writer, x) => writer.Write(x.Date, NpgsqlDbType.Date)
             };
 

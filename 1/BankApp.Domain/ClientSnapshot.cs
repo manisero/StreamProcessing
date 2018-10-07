@@ -8,7 +8,7 @@ namespace BankApp.Domain
 
         public int ClientId { get; set; }
 
-        public short DatasetId { get; set; }
+        public int DatasetId { get; set; }
 
         public Dataset Dataset { get; set; }
 

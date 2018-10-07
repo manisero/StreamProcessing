@@ -5,7 +5,7 @@ namespace BankApp.Domain
 {
     public class Dataset
     {
-        public short DatasetId { get; set; }
+        public int DatasetId { get; set; }
 
         public DateTime Date { get; set; }
 

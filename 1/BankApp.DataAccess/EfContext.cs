@@ -28,6 +28,8 @@ namespace BankApp.DataAccess
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
         {
+            modelBuilder.ForNpgsqlUseIdentityAlwaysColumns();
+
             modelBuilder.Entity<Dataset>().Property(x => x.Date).HasColumnType("date");
             modelBuilder.Entity<ClientSnapshot>();
             modelBuilder.Entity<LoanSnapshot>();
