@@ -26,7 +26,7 @@ namespace BankApp.CalculateClientLoans
                 nameof(CalculateClientLoans),
                 PipelineTaskStep.Builder<Dataset>(nameof(CalculateClientLoans))
                     .WithInput(
-                        LoadDataset(datasetId),
+                        LoadDatasetAsEnumerable(datasetId),
                         1)
                     .WithBlock(
                         nameof(CalculateClientLoans),
@@ -37,7 +37,7 @@ namespace BankApp.CalculateClientLoans
                     .Build());
         }
 
-        public IEnumerable<Dataset> LoadDataset(
+        public IEnumerable<Dataset> LoadDatasetAsEnumerable(
             int datasetId)
         {
             using (var context = _efContextFactory())

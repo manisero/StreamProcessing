@@ -1,4 +1,5 @@
-﻿using BankApp.CalculateClientLoans;
+﻿using System.IO;
+using BankApp.CalculateClientLoans;
 using BankApp.DataAccess;
 using BankApp.Utils;
 
@@ -11,7 +12,9 @@ namespace BankApp
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetDefaultConnectionString();
 
-            var taskExecutor = new TaskExecutorFactory().Create();
+            var reportsFolderPath = Path.Combine(Path.GetTempPath(), "BankApp1_reports");
+
+            var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);
 
             var calculateClientLoansTaskFactory = new CalculateClientLoansTaskFactory(
                 () => new EfContext(connectionString));
