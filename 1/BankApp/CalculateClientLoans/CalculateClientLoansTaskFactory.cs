@@ -22,30 +22,54 @@ namespace BankApp.CalculateClientLoans
         public TaskDefinition Create(
             int datasetId)
         {
+            var clientLoansCalculation = CreateClientLoansCalculation(datasetId);
+
             return new TaskDefinition(
                 nameof(CalculateClientLoans),
-                PipelineTaskStep.Builder<Dataset>(nameof(CalculateClientLoans))
-                    .WithInput(
-                        LoadDatasetAsEnumerable(datasetId),
-                        1)
+                PipelineTaskStep.Builder<DatasetToProcess>(nameof(CalculateClientLoans))
+                    .WithInput(LoadDatasetAsEnumerable(datasetId), 1)
                     .WithBlock(
-                        nameof(CalculateClientLoans),
+                        "Calculate",
                         x =>
                         {
-                            var a = 3;
+                            foreach (var client in x.Dataset.Clients)
+                            {
+                                x.ClientLoans.Add(client.ClientSnapshotId, client.Loans.Sum(l => l.Value));
+                            }
                         })
                     .Build());
         }
 
-        public IEnumerable<Dataset> LoadDatasetAsEnumerable(
+        private ClientLoansCalculation CreateClientLoansCalculation(
             int datasetId)
         {
             using (var context = _efContextFactory())
             {
-                yield return context
+                var clientLoansCalculation = new ClientLoansCalculation
+                {
+                    DatasetId = datasetId
+                };
+
+                context.Set<ClientLoansCalculation>().Add(
+                    clientLoansCalculation);
+
+                context.SaveChanges();
+
+                return clientLoansCalculation;
+            }
+        }
+
+        private IEnumerable<DatasetToProcess> LoadDatasetAsEnumerable(
+            int datasetId)
+        {
+            using (var context = _efContextFactory())
+            {
+                var dataset = context
                     .Set<Dataset>()
                     .Include(x => x.Clients).ThenInclude(x => x.Loans)
                     .Single(x => x.DatasetId == datasetId);
+
+                yield return new DatasetToProcess { Dataset = dataset };
             }
         }
     }

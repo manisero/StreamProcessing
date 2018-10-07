@@ -33,6 +33,8 @@ namespace BankApp.DataAccess
             modelBuilder.Entity<Dataset>().Property(x => x.Date).HasColumnType("date");
             modelBuilder.Entity<ClientSnapshot>();
             modelBuilder.Entity<LoanSnapshot>();
+            modelBuilder.Entity<ClientLoansCalculation>();
+            modelBuilder.Entity<ClientTotalLoan>();
         }
     }
 }
