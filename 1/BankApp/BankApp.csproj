@@ -11,4 +11,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BankApp.DataAccess\BankApp.DataAccess.csproj" />
+    <ProjectReference Include="..\BankApp.Utils\BankApp.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

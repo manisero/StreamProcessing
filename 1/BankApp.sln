@@ -12,7 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configs", "0. Configs", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{D3898707-5C83-4F11-A7EF-9CAA7C778E51}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{D3898707-5C83-4F11-A7EF-9CAA7C778E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess", "3. DataAccess", "{C5EC5301-7456-4C89-9916-18D5ED9821B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DataAccess", "BankApp.DataAccess\BankApp.DataAccess.csproj", "{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Utils", "1. Utils", "{58B21B16-E751-47B9-A6DB-649F77B649C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Utils", "BankApp.Utils\BankApp.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,12 +36,22 @@ Global
 		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{96BF224F-1D0A-47D1-BA7C-574DA5D0A8A4} = {D3898707-5C83-4F11-A7EF-9CAA7C778E51}
+		{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6} = {C5EC5301-7456-4C89-9916-18D5ED9821B3}
+		{4306FFB9-7FEF-4823-A7DE-B899C80AE87B} = {58B21B16-E751-47B9-A6DB-649F77B649C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}

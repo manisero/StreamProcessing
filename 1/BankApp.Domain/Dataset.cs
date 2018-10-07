@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BankApp.Domain
 {
@@ -7,5 +8,7 @@ namespace BankApp.Domain
         public short DatasetId { get; set; }
 
         public DateTime Date { get; set; }
+
+        public IList<ClientSnapshot> Clients { get; set; }
     }
 }

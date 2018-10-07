@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankApp.DataAccess;
+using BankApp.Utils;
 
 namespace BankApp
 {
@@ -6,7 +7,11 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = ConfigUtils.GetConfig();
+            var connectionString = config.GetDefaultConnectionString();
+
+            var efContext = new EfContext(connectionString);
+            efContext.Database.EnsureCreated();
         }
     }
 }
