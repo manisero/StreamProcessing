@@ -63,6 +63,10 @@ namespace BankApp.Initializer.DbSeeding
             int datasetId,
             int clientsCount)
         {
+            var clientIds = new Random()
+                .NextUniqueCollection(clientsCount, clientsCount * 2)
+                .ToArray();
+
             var clients = new List<ClientSnapshot>();
 
             for (var i = 0; i < clientsCount; i++)
@@ -70,7 +74,7 @@ namespace BankApp.Initializer.DbSeeding
                 clients.Add(
                     new ClientSnapshot
                     {
-                        ClientId = i + 1,
+                        ClientId = clientIds[clients.Count],
                         DatasetId = datasetId
                     });
             }
@@ -95,7 +99,6 @@ namespace BankApp.Initializer.DbSeeding
                 .ToArray();
             
             var loans = new List<LoanSnapshot>();
-            var loanIndex = 0;
 
             foreach (var client in clients)
             {
@@ -104,12 +107,10 @@ namespace BankApp.Initializer.DbSeeding
                     loans.Add(
                         new LoanSnapshot
                         {
-                            LoanId = loanIds[loanIndex],
+                            LoanId = loanIds[loans.Count],
                             ClientSnapshotId = client.ClientSnapshotId,
                             Value = random.Next(1000, 1000000)
                         });
-
-                    loanIndex++;
                 }
             }
 
