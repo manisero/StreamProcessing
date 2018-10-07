@@ -16,4 +16,9 @@
     <ProjectReference Include="..\BankApp.Utils\BankApp.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Manisero.Navvy" Version="0.15.2" />
+    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.15.2" />
+  </ItemGroup>
+
 </Project>
