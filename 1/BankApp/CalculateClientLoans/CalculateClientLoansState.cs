@@ -3,7 +3,7 @@ using BankApp.Domain;
 
 namespace BankApp.CalculateClientLoans
 {
-    public class DatasetToProcess
+    public class CalculateClientLoansState
     {
         public Dataset Dataset { get; set; }
 

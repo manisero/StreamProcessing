@@ -22,7 +22,7 @@ namespace BankApp.CalculateClientLoans
             int datasetId)
         {
             var clientLoansCalculation = CreateClientLoansCalculation(datasetId);
-            var datasetToProcess = new DatasetToProcess();
+            var state = new CalculateClientLoansState();
 
             return new TaskDefinition(
                 $"{nameof(CalculateClientLoans)}_{clientLoansCalculation.ClientLoansCalculationId}",
@@ -32,7 +32,7 @@ namespace BankApp.CalculateClientLoans
                     {
                         using (var context = _efContextFactory())
                         {
-                            datasetToProcess.Dataset = context
+                            state.Dataset = context
                                 .Set<Dataset>()
                                 .Include(x => x.Clients).ThenInclude(x => x.Loans)
                                 .Single(x => x.DatasetId == datasetId);
@@ -42,9 +42,11 @@ namespace BankApp.CalculateClientLoans
                     "CalculateTotalLoans",
                     () =>
                     {
-                        foreach (var client in datasetToProcess.Dataset.Clients)
+                        foreach (var client in state.Dataset.Clients)
                         {
-                            datasetToProcess.ClientLoans.Add(client.ClientId, client.Loans.Sum(l => l.Value));
+                            state.ClientLoans.Add(
+                                client.ClientId,
+                                client.Loans.Sum(l => l.Value));
                         }
                     }),
                 new BasicTaskStep(
@@ -53,7 +55,7 @@ namespace BankApp.CalculateClientLoans
                     {
                         using (var context = _efContextFactory())
                         {
-                            var clientTotalLoans = datasetToProcess.ClientLoans.Select(
+                            var clientTotalLoans = state.ClientLoans.Select(
                                 x => new ClientTotalLoan
                                 {
                                     ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
