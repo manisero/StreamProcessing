@@ -6,13 +6,13 @@ using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp.CalculateClientLoans
+namespace BankApp.ClientLoansCalculationTask
 {
-    public class CalculateClientLoansTaskFactory
+    public class ClientLoansCalculationTaskFactory
     {
         private readonly Func<EfContext> _efContextFactory;
 
-        public CalculateClientLoansTaskFactory(
+        public ClientLoansCalculationTaskFactory(
             Func<EfContext> efContextFactory)
         {
             _efContextFactory = efContextFactory;
@@ -22,10 +22,10 @@ namespace BankApp.CalculateClientLoans
             int datasetId)
         {
             var clientLoansCalculation = CreateClientLoansCalculation(datasetId);
-            var state = new CalculateClientLoansState();
+            var state = new ClientLoansCalculationState();
 
             return new TaskDefinition(
-                $"{nameof(CalculateClientLoans)}_{clientLoansCalculation.ClientLoansCalculationId}",
+                $"{nameof(ClientLoansCalculation)}_{clientLoansCalculation.ClientLoansCalculationId}",
                 new BasicTaskStep(
                     "LoadDataset",
                     () =>

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using BankApp.CalculateClientLoans;
+using BankApp.ClientLoansCalculationTask;
 using BankApp.DataAccess;
 using BankApp.Domain;
 using BankApp.Utils;
@@ -18,11 +18,11 @@ namespace BankApp
 
             var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);
 
-            var calculateClientLoansTaskFactory = new CalculateClientLoansTaskFactory(
+            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 () => new EfContext(connectionString));
 
             var datasetId = GetDatasetId(connectionString);
-            var task = calculateClientLoansTaskFactory.Create(datasetId);
+            var task = clientLoansCalculationTaskFactory.Create(datasetId);
 
             var taskResult = taskExecutor.Execute(task);
         }

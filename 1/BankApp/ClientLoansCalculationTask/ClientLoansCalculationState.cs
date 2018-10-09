@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using BankApp.Domain;
 
-namespace BankApp.CalculateClientLoans
+namespace BankApp.ClientLoansCalculationTask
 {
-    public class CalculateClientLoansState
+    public class ClientLoansCalculationState
     {
         public Dataset Dataset { get; set; }
 
