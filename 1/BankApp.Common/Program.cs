@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace BankApp.Common
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
+}
