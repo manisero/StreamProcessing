@@ -1,7 +1,7 @@
-﻿using Manisero.StreamProcessing.DbSeeder.DatasetCreation;
-using Manisero.StreamProcessing.DbSeeder.DatasetPopulation;
+﻿using Manisero.StreamProcessing.Initializer.DbSeeding.DatasetCreation;
+using Manisero.StreamProcessing.Initializer.DbSeeding.DatasetPopulation;
 
-namespace Manisero.StreamProcessing.DbSeeder
+namespace Manisero.StreamProcessing.Initializer.DbSeeding
 {
     public static class Seeder
     {

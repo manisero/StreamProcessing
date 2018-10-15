@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Manisero.StreamProcessing.DbMigrator;
-using Manisero.StreamProcessing.DbSeeder;
+using Manisero.StreamProcessing.Initializer.DbMigration;
+using Manisero.StreamProcessing.Initializer.DbSeeding;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing.Initializer

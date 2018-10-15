@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Manisero.StreamProcessing.Domain;
-using Manisero.StreamProcessing.Utils;
 using Manisero.StreamProcessing.Utils.DataAccess;
 using Npgsql;
 using NpgsqlTypes;
 
-namespace Manisero.StreamProcessing.DbSeeder.DatasetPopulation
+namespace Manisero.StreamProcessing.Initializer.DbSeeding.DatasetPopulation
 {
     public static class DatasetPopulator
     {

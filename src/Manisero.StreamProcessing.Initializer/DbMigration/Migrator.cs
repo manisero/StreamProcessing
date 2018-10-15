@@ -1,7 +1,7 @@
 ﻿using System;
 using DbUp;
 
-namespace Manisero.StreamProcessing.DbMigrator
+namespace Manisero.StreamProcessing.Initializer.DbMigration
 {
     public static class Migrator
     {
