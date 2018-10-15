@@ -4,7 +4,7 @@ using Manisero.Navvy.Dataflow;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
 
-namespace Manisero.StreamProcessing.Process
+namespace Manisero.StreamProcessing
 {
     public interface ITaskExecutorFactory
     {

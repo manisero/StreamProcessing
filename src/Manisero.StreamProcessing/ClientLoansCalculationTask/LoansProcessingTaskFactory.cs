@@ -5,7 +5,7 @@ using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process.DataAccess;
 using Manisero.StreamProcessing.Utils;
 
-namespace Manisero.StreamProcessing.Process.LoansProcessing
+namespace Manisero.StreamProcessing.ClientLoansCalculationTask
 {
     public interface ILoansProcessingTaskFactory
     {

@@ -3,10 +3,10 @@ using System.IO;
 using Manisero.Navvy;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
+using Manisero.StreamProcessing.ClientLoansCalculationTask;
 using Manisero.StreamProcessing.Domain;
 using Manisero.StreamProcessing.Process;
 using Manisero.StreamProcessing.Process.DataAccess;
-using Manisero.StreamProcessing.Process.LoansProcessing;
 using Manisero.StreamProcessing.Utils;
 
 namespace Manisero.StreamProcessing

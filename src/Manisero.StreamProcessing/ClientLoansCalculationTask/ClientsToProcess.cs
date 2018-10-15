@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Manisero.StreamProcessing.Domain;
 
-namespace Manisero.StreamProcessing.Process.LoansProcessing
+namespace Manisero.StreamProcessing.ClientLoansCalculationTask
 {
     public class ClientsToProcess
     {

@@ -5,13 +5,9 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing", "Manisero.StreamProcessing\Manisero.StreamProcessing.csproj", "{3FF69D71-7D11-491B-8103-5CD4650F8BC6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Database", "1. Database", "{01BEAB89-FB40-43AB-901C-12E9394AB240}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.DbMigrator", "Manisero.StreamProcessing.DbMigrator\Manisero.StreamProcessing.DbMigrator.csproj", "{32731C57-AB4D-417F-BA3F-CD3109B8CF63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.DbSeeder", "Manisero.StreamProcessing.DbSeeder\Manisero.StreamProcessing.DbSeeder.csproj", "{87322861-AA3A-471C-8D2F-867B62C5F94D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{CC171B47-0536-425F-9D7B-19070C63D50B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.Domain", "Manisero.StreamProcessing.Domain\Manisero.StreamProcessing.Domain.csproj", "{7326D095-0528-44CD-AB2A-279DC2ACFBA0}"
 EndProject
@@ -19,12 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.Initializer", "Manisero.StreamProcessing.Initializer\Manisero.StreamProcessing.Initializer.csproj", "{1C612682-E235-40E1-9D3E-A3E3032B6D47}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configs", "0. Configs", "{E8F7A999-A5B2-4AB5-A376-6B637FDFB8A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.Process", "Manisero.StreamProcessing.Process\Manisero.StreamProcessing.Process.csproj", "{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BankApp2", "BankApp2", "{216A0CAB-A6B9-4AA0-A362-2859246169E2}"
 	ProjectSection(SolutionItems) = preProject
 		_configs\appsettings.json = _configs\appsettings.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manisero.StreamProcessing.Process", "Manisero.StreamProcessing.Process\Manisero.StreamProcessing.Process.csproj", "{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{5D5E875C-0433-4A1D-B2E3-A69D4AADC84D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. DataAccess", "2. DataAccess", "{3937EC74-5BF5-4481-AB5B-BD4ECAAF9466}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,11 +65,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{32731C57-AB4D-417F-BA3F-CD3109B8CF63} = {01BEAB89-FB40-43AB-901C-12E9394AB240}
-		{87322861-AA3A-471C-8D2F-867B62C5F94D} = {CC171B47-0536-425F-9D7B-19070C63D50B}
-		{7326D095-0528-44CD-AB2A-279DC2ACFBA0} = {CC171B47-0536-425F-9D7B-19070C63D50B}
-		{1EE0263B-A0B2-461E-8931-43B2E0EF3963} = {CC171B47-0536-425F-9D7B-19070C63D50B}
-		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5} = {CC171B47-0536-425F-9D7B-19070C63D50B}
+		{3FF69D71-7D11-491B-8103-5CD4650F8BC6} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
+		{32731C57-AB4D-417F-BA3F-CD3109B8CF63} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
+		{87322861-AA3A-471C-8D2F-867B62C5F94D} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
+		{7326D095-0528-44CD-AB2A-279DC2ACFBA0} = {5D5E875C-0433-4A1D-B2E3-A69D4AADC84D}
+		{1C612682-E235-40E1-9D3E-A3E3032B6D47} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
+		{ACA61DB2-C9CD-474F-BF06-B1384E9E2CF5} = {3937EC74-5BF5-4481-AB5B-BD4ECAAF9466}
+		{5D5E875C-0433-4A1D-B2E3-A69D4AADC84D} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
+		{3937EC74-5BF5-4481-AB5B-BD4ECAAF9466} = {216A0CAB-A6B9-4AA0-A362-2859246169E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66214217-DFB0-4077-B87B-89FC88C0F00B}
