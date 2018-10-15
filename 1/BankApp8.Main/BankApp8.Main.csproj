@@ -5,4 +5,15 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Manisero.Navvy" Version="0.16.1" />
+    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.16.1" />
+    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.16.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankApp.Utils\BankApp.Utils.csproj" />
+    <ProjectReference Include="..\BankApp8.Common\BankApp8.Common.csproj" />
+  </ItemGroup>
+
 </Project>

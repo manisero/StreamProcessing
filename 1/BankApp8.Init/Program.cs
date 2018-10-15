@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using BankApp.Utils;
+using BankApp8.Init.DbMigration;
+using BankApp8.Init.DbSeeding;
 
 namespace BankApp8.Init
 {
@@ -6,7 +10,14 @@ namespace BankApp8.Init
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = ConfigUtils.GetConfig();
+            var connectionString = config.GetDefaultConnectionString();
+
+            Migrator.Migrate(connectionString, true, true);
+
+            var sw = Stopwatch.StartNew();
+            Seeder.Seed(connectionString, 1000000, 2);
+            Console.WriteLine($"Seeding took {sw.Elapsed}.");
         }
     }
 }

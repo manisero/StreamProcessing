@@ -5,4 +5,18 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="DbMigration\Scripts\001.sql" />
+    <EmbeddedResource Include="DbMigration\Scripts\002.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dbup-postgresql" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankApp.Utils\BankApp.Utils.csproj" />
+    <ProjectReference Include="..\BankApp8.Common\BankApp8.Common.csproj" />
+  </ItemGroup>
+
 </Project>
