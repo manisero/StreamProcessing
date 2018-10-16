@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BankApp.DataAccess\BankApp.DataAccess.csproj" />
+    <ProjectReference Include="..\BankApp1.Common\BankApp1.Common.csproj" />
     <ProjectReference Include="..\StreamProcessing.Utils\StreamProcessing.Utils.csproj" />
   </ItemGroup>
 

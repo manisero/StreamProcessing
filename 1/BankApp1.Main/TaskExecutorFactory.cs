@@ -3,7 +3,7 @@ using Manisero.Navvy;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
 
-namespace BankApp
+namespace BankApp1.Main
 {
     public class TaskExecutorFactory
     {

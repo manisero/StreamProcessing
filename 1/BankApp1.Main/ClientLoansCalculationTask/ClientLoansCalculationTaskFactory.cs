@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using BankApp.DataAccess;
-using BankApp.Domain;
+using BankApp1.Common.DataAccess;
+using BankApp1.Common.Domain;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp.ClientLoansCalculationTask
+namespace BankApp1.Main.ClientLoansCalculationTask
 {
     public class ClientLoansCalculationTaskFactory
     {

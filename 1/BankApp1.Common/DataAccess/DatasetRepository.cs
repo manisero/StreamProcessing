@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankApp.Domain;
+using BankApp1.Common.Domain;
 using Npgsql;
 using NpgsqlTypes;
 using StreamProcessing.Utils.DatabaseAccess;
 
-namespace BankApp.DataAccess
+namespace BankApp1.Common.DataAccess
 {
     public class DatasetRepository
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain;
+using BankApp1.Common.Domain;
 
-namespace BankApp.ClientLoansCalculationTask
+namespace BankApp1.Main.ClientLoansCalculationTask
 {
     public class ClientLoansCalculationState
     {

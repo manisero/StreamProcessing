@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
-using BankApp.ClientLoansCalculationTask;
-using BankApp.DataAccess;
-using BankApp.Domain;
+using BankApp1.Common.DataAccess;
+using BankApp1.Common.Domain;
+using BankApp1.Main.ClientLoansCalculationTask;
 using StreamProcessing.Utils;
 
-namespace BankApp
+namespace BankApp1.Main
 {
     class Program
     {

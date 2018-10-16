@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using BankApp.DataAccess;
-using BankApp.Initializer.DbSeeding;
+using BankApp1.Common.DataAccess;
+using BankApp1.Init.DbSeeding;
 using Microsoft.EntityFrameworkCore;
 using StreamProcessing.Utils;
 
-namespace BankApp.Initializer
+namespace BankApp1.Init
 {
     class Program
     {

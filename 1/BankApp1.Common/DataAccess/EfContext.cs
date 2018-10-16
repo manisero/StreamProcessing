@@ -1,7 +1,7 @@
-﻿using BankApp.Domain;
+﻿using BankApp1.Common.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp.DataAccess
+namespace BankApp1.Common.DataAccess
 {
     public class EfContext : DbContext
     {

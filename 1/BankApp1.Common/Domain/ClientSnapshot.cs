@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BankApp.Domain
+namespace BankApp1.Common.Domain
 {
     public class ClientSnapshot
     {
