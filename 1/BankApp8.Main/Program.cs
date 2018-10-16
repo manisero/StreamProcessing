@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using BankApp.Utils;
 using BankApp8.Common.DataAccess;
 using BankApp8.Common.Domain;
 using BankApp8.Main.ClientLoansCalculationTask;
 using Manisero.Navvy;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
+using StreamProcessing.Utils;
 
 namespace BankApp8.Main
 {

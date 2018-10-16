@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Npgsql;
 
-namespace BankApp.Utils.DatabaseAccess
+namespace StreamProcessing.Utils.DatabaseAccess
 {
     public static class PostgresCopyExecutor
     {

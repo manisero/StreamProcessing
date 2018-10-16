@@ -3,7 +3,7 @@ using System.Linq;
 using BankApp.ClientLoansCalculationTask;
 using BankApp.DataAccess;
 using BankApp.Domain;
-using BankApp.Utils;
+using StreamProcessing.Utils;
 
 namespace BankApp
 {

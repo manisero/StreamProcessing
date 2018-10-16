@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace BankApp.Utils.DatabaseAccess
+namespace StreamProcessing.Utils.DatabaseAccess
 {
     public static class DbConnectionUtils
     {

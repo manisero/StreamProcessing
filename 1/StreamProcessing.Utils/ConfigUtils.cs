@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace BankApp.Utils
+namespace StreamProcessing.Utils
 {
     public static class ConfigUtils
     {

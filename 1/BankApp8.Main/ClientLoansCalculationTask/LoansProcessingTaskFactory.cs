@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using BankApp.Utils;
 using BankApp8.Common.DataAccess;
 using BankApp8.Common.Domain;
 using Manisero.Navvy;
 using Manisero.Navvy.PipelineProcessing;
+using StreamProcessing.Utils;
 
 namespace BankApp8.Main.ClientLoansCalculationTask
 {

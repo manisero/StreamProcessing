@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 
-namespace BankApp.Utils.DatabaseAccess.BatchedReading
+namespace StreamProcessing.Utils.DatabaseAccess.BatchedReading
 {
     public class BatchedDataReader<TRow>
     {

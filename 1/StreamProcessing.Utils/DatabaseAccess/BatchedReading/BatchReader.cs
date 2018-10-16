@@ -3,7 +3,7 @@ using System.Data.Common;
 using System.Linq;
 using Dapper;
 
-namespace BankApp.Utils.DatabaseAccess.BatchedReading
+namespace StreamProcessing.Utils.DatabaseAccess.BatchedReading
 {
     public static class BatchReader
     {

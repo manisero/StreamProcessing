@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BankApp.Utils
+namespace StreamProcessing.Utils
 {
     public static class ObjectUtils
     {

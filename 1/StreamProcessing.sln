@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. DataAccess", "2. DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess", "BankApp.DataAccess\BankApp.DataAccess.csproj", "{E9C59EBC-4262-43A6-99D5-CD07E2A49DA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Utils", "BankApp.Utils\BankApp.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamProcessing.Utils", "StreamProcessing.Utils\StreamProcessing.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Initializer", "BankApp.Initializer\BankApp.Initializer.csproj", "{53CE6651-E47C-42DA-A15C-7E7E0FE915B6}"
 EndProject
@@ -26,11 +26,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shared", "_Shared", "{78E1
 		appsettings.json = appsettings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp8.Common", "BankApp8.Common\BankApp8.Common.csproj", "{F00F8AA8-3E6C-4403-9F19-4CD6AA6E3620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp8.Common", "BankApp8.Common\BankApp8.Common.csproj", "{F00F8AA8-3E6C-4403-9F19-4CD6AA6E3620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp8.Main", "BankApp8.Main\BankApp8.Main.csproj", "{70CF2D08-D88C-4611-908A-060C019E914C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp8.Main", "BankApp8.Main\BankApp8.Main.csproj", "{70CF2D08-D88C-4611-908A-060C019E914C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp8.Init", "BankApp8.Init\BankApp8.Init.csproj", "{76EDE64D-BD16-4BAF-8897-E62651FB7697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp8.Init", "BankApp8.Init\BankApp8.Init.csproj", "{76EDE64D-BD16-4BAF-8897-E62651FB7697}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

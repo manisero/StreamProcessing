@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankApp.Utils.DatabaseAccess;
 using BankApp8.Common.Domain;
 using Npgsql;
 using NpgsqlTypes;
+using StreamProcessing.Utils.DatabaseAccess;
 
 namespace BankApp8.Init.DbSeeding.DatasetPopulation
 {

@@ -1,4 +1,4 @@
-﻿namespace BankApp.Utils
+﻿namespace StreamProcessing.Utils
 {
     public static class IntUtils
     {

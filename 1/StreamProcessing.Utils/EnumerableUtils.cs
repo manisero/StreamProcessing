@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BankApp.Utils
+namespace StreamProcessing.Utils
 {
     public static class EnumerableUtils
     {

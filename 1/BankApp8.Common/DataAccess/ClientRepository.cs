@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using BankApp.Utils.DatabaseAccess.BatchedReading;
 using BankApp8.Common.Domain;
 using Dapper;
 using Npgsql;
+using StreamProcessing.Utils.DatabaseAccess.BatchedReading;
 
 namespace BankApp8.Common.DataAccess
 {
