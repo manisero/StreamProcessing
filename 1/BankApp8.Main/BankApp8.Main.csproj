@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\appsettings.json" Link="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Manisero.Navvy" Version="0.16.1" />
     <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.16.1" />
     <PackageReference Include="Manisero.Navvy.Reporting" Version="0.16.1" />

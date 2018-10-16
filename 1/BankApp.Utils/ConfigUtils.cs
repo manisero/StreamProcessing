@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
 namespace BankApp.Utils
@@ -13,6 +14,6 @@ namespace BankApp.Utils
 
         public static string GetDefaultConnectionString(
             this IConfigurationRoot config)
-            => config.GetConnectionString("Default");
+            => config.GetConnectionString(Assembly.GetEntryAssembly().FullName.Split('.')[0]);
     }
 }
