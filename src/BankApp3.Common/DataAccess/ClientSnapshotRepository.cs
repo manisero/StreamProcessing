@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankApp1.Common.Domain;
+using BankApp3.Common.Domain;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp3.Common.DataAccess
 {
     public class ClientSnapshotRepository
     {

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankApp3.Common\BankApp3.Common.csproj" />
+    <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>
 
 </Project>
