@@ -1,4 +1,4 @@
-﻿namespace StreamProcessing.Utils
+﻿namespace DataProcessing.Utils
 {
     public static class IntUtils
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StreamProcessing.Utils
+namespace DataProcessing.Utils
 {
     public static class RandomUtils
     {

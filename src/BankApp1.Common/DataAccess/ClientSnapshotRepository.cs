@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using BankApp1.Common.Domain;
+using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 using NpgsqlTypes;
-using StreamProcessing.Utils.DatabaseAccess;
 
 namespace BankApp1.Common.DataAccess
 {

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace StreamProcessing.Utils.DatabaseAccess
+namespace DataProcessing.Utils.DatabaseAccess
 {
     public static class DbConnectionUtils
     {

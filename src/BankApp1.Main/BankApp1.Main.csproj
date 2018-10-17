@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankApp1.Common\BankApp1.Common.csproj" />
-    <ProjectReference Include="..\StreamProcessing.Utils\StreamProcessing.Utils.csproj" />
+    <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>
 
 </Project>

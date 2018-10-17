@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace StreamProcessing.Utils
+namespace DataProcessing.Utils
 {
     public static class PropertyInfoUtils
     {

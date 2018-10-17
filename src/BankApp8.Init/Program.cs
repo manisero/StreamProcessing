@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using BankApp8.Init.DbMigration;
 using BankApp8.Init.DbSeeding;
-using StreamProcessing.Utils;
+using DataProcessing.Utils;
 
 namespace BankApp8.Init
 {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using BankApp8.Common.Domain;
 using Dapper;
+using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 using NpgsqlTypes;
-using StreamProcessing.Utils.DatabaseAccess;
 
 namespace BankApp8.Common.DataAccess
 {

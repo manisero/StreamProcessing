@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StreamProcessing.Utils
+namespace DataProcessing.Utils
 {
     public static class EnumerableUtils
     {

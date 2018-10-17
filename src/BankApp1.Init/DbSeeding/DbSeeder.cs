@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp1.Common.DataAccess;
 using BankApp1.Common.Domain;
-using StreamProcessing.Utils;
+using DataProcessing.Utils;
 
 namespace BankApp1.Init.DbSeeding
 {

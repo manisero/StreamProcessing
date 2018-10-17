@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using BankApp1.Common.DataAccess;
 using BankApp1.Init.DbSeeding;
+using DataProcessing.Utils;
 using Microsoft.EntityFrameworkCore;
-using StreamProcessing.Utils;
 
 namespace BankApp1.Init
 {

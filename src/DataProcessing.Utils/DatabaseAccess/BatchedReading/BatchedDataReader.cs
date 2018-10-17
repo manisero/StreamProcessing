@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 
-namespace StreamProcessing.Utils.DatabaseAccess.BatchedReading
+namespace DataProcessing.Utils.DatabaseAccess.BatchedReading
 {
     public class BatchedDataReader<TRow>
     {

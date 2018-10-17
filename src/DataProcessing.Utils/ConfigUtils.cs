@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace StreamProcessing.Utils
+namespace DataProcessing.Utils
 {
     public static class ConfigUtils
     {
