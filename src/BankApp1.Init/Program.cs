@@ -3,20 +3,18 @@ using System.Diagnostics;
 using BankApp1.Common.DataAccess;
 using BankApp1.Init.DbSeeding;
 using DataProcessing.Utils;
+using DataProcessing.Utils.DataSeeding;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankApp1.Init
 {
     class Program
     {
-        private const int DatasetsCount = 2;
-        private const int ClientsPerDataset = 100000;
-        private const int LoansPerClient = 2;
-
         static void Main(string[] args)
         {
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetDefaultConnectionString();
+            var dataSetup = config.GetDataSetup();
 
             var dbCreated = TryCreateDb(connectionString);
 
@@ -27,7 +25,7 @@ namespace BankApp1.Init
 
             Console.WriteLine("Seeding db...");
             var seedSw = Stopwatch.StartNew();
-            new DbSeeder(connectionString).Seed(DatasetsCount, ClientsPerDataset, LoansPerClient);
+            new DbSeeder(connectionString).Seed(dataSetup);
             Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
         }
 

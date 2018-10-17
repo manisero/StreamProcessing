@@ -15,5 +15,13 @@ namespace DataProcessing.Utils
         public static string GetDefaultConnectionString(
             this IConfigurationRoot config)
             => config.GetConnectionString(Assembly.GetEntryAssembly().FullName.Split('.')[0]);
+
+        public static TTarget BindAndReturn<TTarget>(
+            this IConfigurationSection section,
+            TTarget target)
+        {
+            section.Bind(target);
+            return target;
+        }
     }
 }
