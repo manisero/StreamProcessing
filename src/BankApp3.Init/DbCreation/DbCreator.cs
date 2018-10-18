@@ -1,4 +1,5 @@
 ﻿using System;
+using DataProcessing.Utils.DatabaseAccess;
 using DbUp;
 
 namespace BankApp3.Init.DbCreation
@@ -8,7 +9,7 @@ namespace BankApp3.Init.DbCreation
         public static bool TryCreate(
             string connectionString)
         {
-            EnsureDatabase.For.PostgresqlDatabase(connectionString);
+            DatabaseManager.EnsureCreated(connectionString);
 
             var upgrader = DeployChanges
                 .To.PostgresqlDatabase(connectionString)
