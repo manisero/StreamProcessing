@@ -15,7 +15,7 @@ namespace BankApp3.Main
             var taskExecutor = TaskExecutorFactory.Create();
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
-                new ClientLoansCalculationRepository(),
+                new ClientLoansCalculationRepository(connectionString),
                 new LoanSnapshotRepository(connectionString),
                 new ClientTotalLoanRepository(connectionString));
 

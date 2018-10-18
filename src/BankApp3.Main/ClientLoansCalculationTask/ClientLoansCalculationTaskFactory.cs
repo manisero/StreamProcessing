@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BankApp3.Common.DataAccess;
 using BankApp3.Common.Domain;
+using DataProcessing.Utils;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
 
@@ -47,7 +48,7 @@ namespace BankApp3.Main.ClientLoansCalculationTask
                     {
                         foreach (var loan in state.Loans)
                         {
-                            state.ClientLoans[loan.ClientId] += loan.Value;
+                            state.ClientLoans[loan.ClientId] = loan.Value + state.ClientLoans.GetValueOrDefault(loan.ClientId);
                         }
                     }),
                 new BasicTaskStep(

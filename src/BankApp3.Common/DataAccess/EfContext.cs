@@ -1,10 +1,10 @@
-﻿using BankApp1.Common.Domain;
+﻿using BankApp3.Common.Domain;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp3.Common.DataAccess
 {
-    public class EfContext : DbContext
+    internal class EfContext : DbContext
     {
         private readonly string _connectionString;
 
@@ -33,10 +33,10 @@ namespace BankApp1.Common.DataAccess
             modelBuilder.ForNpgsqlUseIdentityAlwaysColumns();
 
             modelBuilder.Entity<Dataset>().Property(x => x.Date).HasColumnType(nameof(NpgsqlDbType.Date));
-            modelBuilder.Entity<ClientSnapshot>();
-            modelBuilder.Entity<LoanSnapshot>();
+            modelBuilder.Entity<ClientSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId });
+            modelBuilder.Entity<LoanSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId, x.LoanId });
             modelBuilder.Entity<ClientLoansCalculation>();
-            modelBuilder.Entity<ClientTotalLoan>();
+            modelBuilder.Entity<ClientTotalLoan>().HasKey(x => new { x.ClientLoansCalculationId, x.ClientId });
         }
     }
 }
