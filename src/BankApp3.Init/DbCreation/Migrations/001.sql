@@ -1,6 +1,6 @@
 ﻿CREATE TABLE "Dataset"
 (
-    "DatasetId" smallint not null,
+    "DatasetId" smallint generated always as identity,
 	"Date" date not null,
     CONSTRAINT "PK_Dataset" PRIMARY KEY ("DatasetId")
 );
@@ -25,7 +25,7 @@ CREATE TABLE "LoanSnapshot"
 
 CREATE TABLE "ClientLoansCalculation"
 (
-    "ClientLoansCalculationId" smallint not null,
+    "ClientLoansCalculationId" smallint generated always as identity,
 	"DatasetId" smallint not null,
 	CONSTRAINT "PK_ClientLoansCalculation" PRIMARY KEY ("ClientLoansCalculationId"),
 	CONSTRAINT "FK_ClientLoansCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
