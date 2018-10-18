@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BankApp3.Common.Domain;
+using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -23,6 +24,21 @@ namespace BankApp3.Common.DataAccess
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public ICollection<LoanSnapshot> GetForDataset(
+            short datasetId)
+        {
+            var sql = $@"
+SELECT * FROM ""{nameof(LoanSnapshot)}""
+WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection
+                    .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
+                    .AsList();
+            }
         }
 
         public void CreateMany(

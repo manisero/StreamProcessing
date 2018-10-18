@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using BankApp1.Common.DataAccess;
 using BankApp1.Common.Domain;
 using BankApp1.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
+using DataProcessing.Utils.Navvy;
 
 namespace BankApp1.Main
 {
@@ -14,9 +14,7 @@ namespace BankApp1.Main
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
 
-            var reportsFolderPath = Path.Combine(Path.GetTempPath(), "BankApp1_reports");
-
-            var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);
+            var taskExecutor = TaskExecutorFactory.Create();
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 () => new EfContext(connectionString));

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BankApp3.Common.DataAccess;
+using BankApp3.Main.ClientLoansCalculationTask;
+using DataProcessing.Utils;
+using DataProcessing.Utils.Navvy;
 
 namespace BankApp3.Main
 {
@@ -6,7 +9,20 @@ namespace BankApp3.Main
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = ConfigUtils.GetConfig();
+            var connectionString = config.GetConnectionString();
+
+            var taskExecutor = TaskExecutorFactory.Create();
+
+            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
+                new ClientLoansCalculationRepository(),
+                new LoanSnapshotRepository(connectionString),
+                new ClientTotalLoanRepository(connectionString));
+
+            var datasetId = new DatasetRepository(connectionString).GetMaxId();
+            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+
+            var taskResult = taskExecutor.Execute(task);
         }
     }
 }

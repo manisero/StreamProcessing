@@ -27,7 +27,7 @@ namespace BankApp1.Main.ClientLoansCalculationTask
             return new TaskDefinition(
                 $"{nameof(ClientLoansCalculation)}_{clientLoansCalculation.ClientLoansCalculationId}",
                 new BasicTaskStep(
-                    "LoadDataset",
+                    "LoadData",
                     () =>
                     {
                         using (var context = _efContextFactory())

@@ -34,6 +34,15 @@ namespace BankApp3.Common.DataAccess
             }
         }
 
+        public short? GetMaxId()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection
+                    .QuerySingle<short?>($@"SELECT MAX(""{nameof(Dataset.DatasetId)}"") FROM ""{nameof(Dataset)}""");
+            }
+        }
+
         public void CreateMany(
             IEnumerable<Dataset> items)
         {

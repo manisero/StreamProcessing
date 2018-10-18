@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
 namespace DataProcessing.Utils
@@ -14,7 +13,7 @@ namespace DataProcessing.Utils
 
         public static string GetConnectionString(
             this IConfigurationRoot config)
-            => config.GetConnectionString(Assembly.GetEntryAssembly().FullName.Split('.')[0]);
+            => config.GetConnectionString(AppDomainUtils.GetCurrentAppName());
 
         public static TTarget BindAndReturn<TTarget>(
             this IConfigurationSection section,
