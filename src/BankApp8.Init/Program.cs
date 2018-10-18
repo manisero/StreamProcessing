@@ -11,7 +11,7 @@ namespace BankApp8.Init
         static void Main(string[] args)
         {
             var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetDefaultConnectionString();
+            var connectionString = config.GetConnectionString();
 
             Migrator.Migrate(connectionString, true, true);
 

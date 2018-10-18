@@ -15,7 +15,7 @@ namespace BankApp8.Main
         static void Main(string[] args)
         {
             var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetDefaultConnectionString();
+            var connectionString = config.GetConnectionString();
 
             var reportsFolderPath = Path.Combine(Path.GetTempPath(), "StreamProcessing_reports");
             var taskExecutor = new TaskExecutorFactory().Create(reportsFolderPath);

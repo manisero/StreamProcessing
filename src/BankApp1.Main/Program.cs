@@ -12,7 +12,7 @@ namespace BankApp1.Main
         static void Main(string[] args)
         {
             var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetDefaultConnectionString();
+            var connectionString = config.GetConnectionString();
 
             var reportsFolderPath = Path.Combine(Path.GetTempPath(), "BankApp1_reports");
 

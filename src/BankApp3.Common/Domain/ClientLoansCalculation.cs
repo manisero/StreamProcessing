@@ -4,6 +4,6 @@
     {
         public short ClientLoansCalculationId { get; set; }
 
-        public int DatasetId { get; set; }
+        public short DatasetId { get; set; }
     }
 }

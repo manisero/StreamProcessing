@@ -13,7 +13,7 @@ namespace BankApp1.Init
         static void Main(string[] args)
         {
             var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetDefaultConnectionString();
+            var connectionString = config.GetConnectionString();
             var dataSetup = config.GetDataSetup();
 
             var dbCreated = TryCreateDb(connectionString);

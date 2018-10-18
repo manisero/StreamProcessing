@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankApp3.Init.DbCreation;
+using DataProcessing.Utils;
 
 namespace BankApp3.Init
 {
@@ -6,7 +7,10 @@ namespace BankApp3.Init
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = ConfigUtils.GetConfig();
+            var connectionString = config.GetConnectionString();
+
+            var dbCreated = DbCreator.TryCreate(connectionString);
         }
     }
 }

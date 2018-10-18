@@ -12,7 +12,7 @@ namespace DataProcessing.Utils
         public static IConfigurationRoot GetConfig()
             => Config.Value;
 
-        public static string GetDefaultConnectionString(
+        public static string GetConnectionString(
             this IConfigurationRoot config)
             => config.GetConnectionString(Assembly.GetEntryAssembly().FullName.Split('.')[0]);
 
