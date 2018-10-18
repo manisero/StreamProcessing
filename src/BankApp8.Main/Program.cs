@@ -4,7 +4,6 @@ using BankApp8.Common.DataAccess;
 using BankApp8.Common.Domain;
 using BankApp8.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
-using Manisero.Navvy;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
 
@@ -31,9 +30,8 @@ namespace BankApp8.Main
 
             var process = loansProcessRepository.Create(new LoansProcess { DatasetId = 5 });
             var loansProcessingTask = loansProcessingTaskFactory.Create(process);
-            var progress = new Progress<TaskProgress>(x => Console.WriteLine($"{x.StepName}: {x.ProgressPercentage}%"));
             
-            var taskResult = taskExecutor.Execute(loansProcessingTask, progress);
+            var taskResult = taskExecutor.Execute(loansProcessingTask);
 
             Console.WriteLine($"Task took {loansProcessingTask.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
             Console.WriteLine($"Report written to: {loansProcessingTask.GetExecutionReportsPath()}");

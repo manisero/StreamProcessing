@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Manisero.Navvy;
+using Manisero.Navvy.Core.Events;
 using Manisero.Navvy.Dataflow;
 using Manisero.Navvy.Logging;
 using Manisero.Navvy.Reporting;
@@ -16,7 +18,8 @@ namespace DataProcessing.Utils.Navvy
 
             var builder = new TaskExecutorBuilder()
                 .UseTaskExecutionLogger()
-                .UseTaskExecutionReporter(x => Path.Combine(reportsFolderPath, x.Name));
+                .UseTaskExecutionReporter(x => Path.Combine(reportsFolderPath, x.Name))
+                .RegisterProgressHandler(x => Console.WriteLine($"{x.Step.Name}: {x.ProgressPercentage}%"));
 
             if (useDataflow)
             {

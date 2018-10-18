@@ -6,9 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
-    <PackageReference Include="Manisero.Navvy" Version="0.16.1" />
-    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.16.1" />
-    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.16.1" />
+    <PackageReference Include="Manisero.Navvy" Version="0.17.0" />
+    <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.17.0" />
+    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.17.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
