@@ -22,7 +22,7 @@ namespace BankApp3.Init
                 return;
             }
 
-            Console.WriteLine("Seeding db...");
+            Console.WriteLine($"Seeding db ({dataSetup})...");
             var seedSw = Stopwatch.StartNew();
             new DbSeeder(connectionString).Seed(dataSetup);
             Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");

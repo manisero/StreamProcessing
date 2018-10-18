@@ -7,5 +7,10 @@
         public int ClientsPerDataset { get; set; }
 
         public int LoansPerClient { get; set; }
+
+        public override string ToString()
+        {
+            return $"{nameof(DatasetsCount)}: {DatasetsCount}, {nameof(ClientsPerDataset)}: {ClientsPerDataset}, {nameof(LoansPerClient)}: {LoansPerClient}";
+        }
     }
 }
