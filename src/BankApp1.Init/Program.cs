@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using BankApp1.Common.DataAccess;
 using BankApp1.Init.DbSeeding;
 using DataProcessing.Utils;
+using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.DataSeeding;
-using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace BankApp1.Init
 {
@@ -32,33 +32,29 @@ namespace BankApp1.Init
         private static bool TryCreateDb(
             string connectionString)
         {
-            using (var efContext = new EfContext(connectionString))
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+
+            Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
+            var isNewDb = DatabaseManager.EnsureCreated(connectionString);
+
+            if (!isNewDb)
             {
-                var connection = efContext.Database.GetDbConnection();
+                Console.WriteLine("Db already exists. Recreate? (y - yes; anything else - exit)");
+                var answer = Console.ReadLine();
 
-                Console.WriteLine($"Creating db '{connection.Database}'...");
-                var isNewDb = efContext.Database.EnsureCreated();
-
-                if (!isNewDb)
+                if (answer != "y")
                 {
-                    Console.WriteLine("Db already exists. Recreate? (y - yes; anything else - exit)");
-                    var answer = Console.ReadLine();
-
-                    if (answer == "y")
-                    {
-                        Console.WriteLine("Dropping existing db...");
-                        efContext.Database.EnsureDeleted();
-                        Console.WriteLine("Recreating db...");
-                        efContext.Database.EnsureCreated();
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
-                return true;
+                Console.WriteLine("Dropping existing db...");
+                DatabaseManager.EnsureDeleted(connectionString);
+
+                Console.WriteLine("Recreating db...");
+                DatabaseManager.EnsureCreated(connectionString);
             }
+
+            return true;
         }
     }
 }

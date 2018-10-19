@@ -55,14 +55,15 @@ namespace BankApp3.Main.ClientLoansCalculationTask
                     "SaveClientTotalLoans",
                     () =>
                     {
-                        _clientTotalLoanRepository.CreateMany(
-                            state.ClientLoans.Select(
-                                x => new ClientTotalLoan
-                                {
-                                    ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
-                                    ClientId = x.Key,
-                                    TotalLoan = x.Value
-                                }));
+                        var clientTotalLoans = state.ClientLoans.Select(
+                            x => new ClientTotalLoan
+                            {
+                                ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
+                                ClientId = x.Key,
+                                TotalLoan = x.Value
+                            });
+
+                        _clientTotalLoanRepository.CreateMany(clientTotalLoans);
                     }));
         }
     }

@@ -1,27 +1,36 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BankApp1.Common.DataAccess;
 using BankApp1.Common.Domain;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
-using Microsoft.EntityFrameworkCore;
 
 namespace BankApp1.Main.ClientLoansCalculationTask
 {
     public class ClientLoansCalculationTaskFactory
     {
-        private readonly Func<EfContext> _efContextFactory;
+        private readonly DatasetRepository _datasetRepository;
+        private readonly ClientLoansCalculationRepository _clientLoansCalculationRepository;
+        private readonly ClientTotalLoanRepository _clientTotalLoanRepository;
 
         public ClientLoansCalculationTaskFactory(
-            Func<EfContext> efContextFactory)
+            DatasetRepository datasetRepository,
+            ClientLoansCalculationRepository clientLoansCalculationRepository,
+            ClientTotalLoanRepository clientTotalLoanRepository)
         {
-            _efContextFactory = efContextFactory;
+            _datasetRepository = datasetRepository;
+            _clientLoansCalculationRepository = clientLoansCalculationRepository;
+            _clientTotalLoanRepository = clientTotalLoanRepository;
         }
 
         public TaskDefinition Create(
             int datasetId)
         {
-            var clientLoansCalculation = CreateClientLoansCalculation(datasetId);
+            var clientLoansCalculation = _clientLoansCalculationRepository.Create(
+                new ClientLoansCalculation
+                {
+                    DatasetId = datasetId
+                });
+
             var state = new ClientLoansCalculationState();
 
             return new TaskDefinition(
@@ -30,13 +39,7 @@ namespace BankApp1.Main.ClientLoansCalculationTask
                     "LoadData",
                     () =>
                     {
-                        using (var context = _efContextFactory())
-                        {
-                            state.Dataset = context
-                                .Set<Dataset>()
-                                .Include(x => x.Clients).ThenInclude(x => x.Loans)
-                                .Single(x => x.DatasetId == datasetId);
-                        }
+                        state.Dataset = _datasetRepository.Get(datasetId);
                     }),
                 new BasicTaskStep(
                     "CalculateTotalLoans",
@@ -53,37 +56,16 @@ namespace BankApp1.Main.ClientLoansCalculationTask
                     "SaveClientTotalLoans",
                     () =>
                     {
-                        using (var context = _efContextFactory())
-                        {
-                            var clientTotalLoans = state.ClientLoans.Select(
-                                x => new ClientTotalLoan
-                                {
-                                    ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
-                                    ClientId = x.Key,
-                                    TotalLoan = x.Value
-                                });
+                        var clientTotalLoans = state.ClientLoans.Select(
+                            x => new ClientTotalLoan
+                            {
+                                ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
+                                ClientId = x.Key,
+                                TotalLoan = x.Value
+                            });
 
-                            context.Set<ClientTotalLoan>().AddRange(clientTotalLoans);
-                            context.SaveChanges();
-                        }
+                        _clientTotalLoanRepository.CreateMany(clientTotalLoans);
                     }));
-        }
-
-        private ClientLoansCalculation CreateClientLoansCalculation(
-            int datasetId)
-        {
-            using (var context = _efContextFactory())
-            {
-                var clientLoansCalculation = new ClientLoansCalculation
-                {
-                    DatasetId = datasetId
-                };
-
-                context.Set<ClientLoansCalculation>().Add(clientLoansCalculation);
-                context.SaveChanges();
-
-                return clientLoansCalculation;
-            }
         }
     }
 }

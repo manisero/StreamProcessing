@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BankApp1.Common.Domain;
 using DataProcessing.Utils.DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -21,6 +23,34 @@ namespace BankApp1.Common.DataAccess
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public ICollection<Dataset> GetAll()
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context.Set<Dataset>().ToList();
+            }
+        }
+
+        public Dataset Get(
+            int datasetId)
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context
+                    .Set<Dataset>()
+                    .Include(x => x.Clients).ThenInclude(x => x.Loans)
+                    .Single(x => x.DatasetId == datasetId);
+            }
+        }
+
+        public int? GetMaxId()
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context.Set<Dataset>().Select(x => x.DatasetId).Max();
+            }
         }
 
         public void CreateMany(

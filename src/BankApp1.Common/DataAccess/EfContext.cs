@@ -4,7 +4,7 @@ using NpgsqlTypes;
 
 namespace BankApp1.Common.DataAccess
 {
-    public class EfContext : DbContext
+    internal class EfContext : DbContext
     {
         private readonly string _connectionString;
 

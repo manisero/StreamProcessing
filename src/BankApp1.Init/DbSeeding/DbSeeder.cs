@@ -10,7 +10,6 @@ namespace BankApp1.Init.DbSeeding
 {
     public class DbSeeder
     {
-        private readonly string _connectionString;
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
@@ -18,7 +17,6 @@ namespace BankApp1.Init.DbSeeding
         public DbSeeder(
             string connectionString)
         {
-            _connectionString = connectionString;
             _datasetRepository = new DatasetRepository(connectionString);
             _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
             _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
@@ -52,10 +50,7 @@ namespace BankApp1.Init.DbSeeding
 
             _datasetRepository.CreateMany(datasets);
 
-            using (var context = new EfContext(_connectionString))
-            {
-                return context.Set<Dataset>().ToList();
-            }
+            return _datasetRepository.GetAll();
         }
 
         private ICollection<ClientSnapshot> CreateClients(
@@ -80,10 +75,7 @@ namespace BankApp1.Init.DbSeeding
 
             _clientSnapshotRepository.CreateMany(clients);
 
-            using (var context = new EfContext(_connectionString))
-            {
-                return context.Set<ClientSnapshot>().Where(x => x.DatasetId == datasetId).ToList();
-            }
+            return _clientSnapshotRepository.GetForDataset(datasetId);
         }
 
         private void CreateLoans(

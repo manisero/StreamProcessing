@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using BankApp1.Common.DataAccess;
-using BankApp1.Common.Domain;
+﻿using BankApp1.Common.DataAccess;
 using BankApp1.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
@@ -17,21 +15,14 @@ namespace BankApp1.Main
             var taskExecutor = TaskExecutorFactory.Create();
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
-                () => new EfContext(connectionString));
+                new DatasetRepository(connectionString),
+                new ClientLoansCalculationRepository(connectionString),
+                new ClientTotalLoanRepository(connectionString, false));
 
-            var datasetId = GetDatasetId(connectionString);
-            var task = clientLoansCalculationTaskFactory.Create(datasetId);
+            var datasetId = new DatasetRepository(connectionString).GetMaxId();;
+            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
 
             var taskResult = taskExecutor.Execute(task);
-        }
-
-        private static int GetDatasetId(
-            string connectionString)
-        {
-            using (var context = new EfContext(connectionString))
-            {
-                return context.Set<Dataset>().Select(x => x.DatasetId).Max();
-            }
         }
     }
 }

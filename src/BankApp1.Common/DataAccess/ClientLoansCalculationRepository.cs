@@ -1,6 +1,6 @@
-﻿using BankApp3.Common.Domain;
+﻿using BankApp1.Common.Domain;
 
-namespace BankApp3.Common.DataAccess
+namespace BankApp1.Common.DataAccess
 {
     public class ClientLoansCalculationRepository
     {
