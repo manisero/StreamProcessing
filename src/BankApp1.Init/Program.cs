@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BankApp1.Common.DataAccess;
 using BankApp1.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
@@ -15,7 +16,7 @@ namespace BankApp1.Init
             var connectionString = config.GetConnectionString();
             var dataSetup = config.GetDataSetup();
 
-            var dbCreated = DatabaseManager.TryCreate(connectionString);
+            var dbCreated = DatabaseManager.TryCreate(connectionString, x => new EfContext(x));
 
             if (!dbCreated)
             {

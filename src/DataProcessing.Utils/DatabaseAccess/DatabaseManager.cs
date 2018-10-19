@@ -22,9 +22,12 @@ namespace DataProcessing.Utils.DatabaseAccess
         }
 
         public static bool EnsureCreated(
-            string connectionString)
+            string connectionString,
+            Func<string, DbContext> efContextFactory = null)
         {
-            using (var efContext = new EmptyEfContext(connectionString))
+            using (var efContext = efContextFactory != null
+                ? efContextFactory(connectionString)
+                : new EmptyEfContext(connectionString))
             {
                 return efContext.Database.EnsureCreated();
             }
@@ -40,12 +43,13 @@ namespace DataProcessing.Utils.DatabaseAccess
         }
 
         public static bool TryCreate(
-            string connectionString)
+            string connectionString,
+            Func<string, DbContext> efContextFactory = null)
         {
             var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
 
             Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
-            var isNewDb = DatabaseManager.EnsureCreated(connectionString);
+            var isNewDb = EnsureCreated(connectionString, efContextFactory);
 
             if (!isNewDb)
             {
@@ -58,10 +62,10 @@ namespace DataProcessing.Utils.DatabaseAccess
                 }
 
                 Console.WriteLine("Dropping existing db...");
-                DatabaseManager.EnsureDeleted(connectionString);
+                EnsureDeleted(connectionString);
 
                 Console.WriteLine("Recreating db...");
-                DatabaseManager.EnsureCreated(connectionString);
+                EnsureCreated(connectionString, efContextFactory);
             }
 
             return true;
