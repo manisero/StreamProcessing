@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace DataProcessing.Utils.DatabaseAccess
 {
@@ -35,6 +37,34 @@ namespace DataProcessing.Utils.DatabaseAccess
             {
                 return efContext.Database.EnsureDeleted();
             }
+        }
+
+        public static bool TryCreate(
+            string connectionString)
+        {
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+
+            Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
+            var isNewDb = DatabaseManager.EnsureCreated(connectionString);
+
+            if (!isNewDb)
+            {
+                Console.WriteLine("Db already exists. Recreate? (y - yes; anything else - exit)");
+                var answer = Console.ReadLine();
+
+                if (answer != "y")
+                {
+                    return false;
+                }
+
+                Console.WriteLine("Dropping existing db...");
+                DatabaseManager.EnsureDeleted(connectionString);
+
+                Console.WriteLine("Recreating db...");
+                DatabaseManager.EnsureCreated(connectionString);
+            }
+
+            return true;
         }
     }
 }

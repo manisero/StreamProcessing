@@ -1,7 +1,6 @@
 ﻿using System;
 using DataProcessing.Utils.DatabaseAccess;
 using DbUp;
-using Npgsql;
 
 namespace BankApp3.Init.DbCreation
 {
@@ -10,7 +9,7 @@ namespace BankApp3.Init.DbCreation
         public static bool TryCreate(
             string connectionString)
         {
-            var dbCreated = TryCreateDb(connectionString);
+            var dbCreated = DatabaseManager.TryCreate(connectionString);
 
             if (!dbCreated)
             {
@@ -18,34 +17,6 @@ namespace BankApp3.Init.DbCreation
             }
 
             UpgradeDb(connectionString);
-
-            return true;
-        }
-
-        private static bool TryCreateDb(
-            string connectionString)
-        {
-            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
-
-            Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
-            var isNewDb = DatabaseManager.EnsureCreated(connectionString);
-
-            if (!isNewDb)
-            {
-                Console.WriteLine("Db already exists. Recreate? (y - yes; anything else - exit)");
-                var answer = Console.ReadLine();
-
-                if (answer != "y")
-                {
-                    return false;
-                }
-
-                Console.WriteLine("Dropping existing db...");
-                DatabaseManager.EnsureDeleted(connectionString);
-
-                Console.WriteLine("Recreating db...");
-                DatabaseManager.EnsureCreated(connectionString);
-            }
 
             return true;
         }
