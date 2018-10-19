@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DbCreation\Migrations\001.sql" />
+    <None Remove="Migrations\001.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="DbCreation\Migrations\001.sql" />
+    <EmbeddedResource Include="Migrations\001.sql" />
   </ItemGroup>
 
   <ItemGroup>
