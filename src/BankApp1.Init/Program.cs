@@ -16,7 +16,9 @@ namespace BankApp1.Init
             var connectionString = config.GetConnectionString();
             var dataSetup = config.GetDataSetup();
 
-            var dbCreated = DatabaseManager.TryCreate(connectionString, x => new EfContext(x));
+            var dbCreated = DatabaseManager.TryRecreate(
+                connectionString,
+                efContextFactory: x => new EfContext(x));
 
             if (!dbCreated)
             {

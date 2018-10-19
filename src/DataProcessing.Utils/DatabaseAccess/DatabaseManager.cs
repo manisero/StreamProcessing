@@ -1,4 +1,5 @@
 ﻿using System;
+using DbUp;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -21,28 +22,27 @@ namespace DataProcessing.Utils.DatabaseAccess
                 => optionsBuilder.UseNpgsql(_connectionString);
         }
 
-        public static bool EnsureCreated(
+        public static bool TryRecreate(
             string connectionString,
-            Func<string, DbContext> efContextFactory = null)
+            Func<string, DbContext> efContextFactory = null,
+            Type migrationScriptsAssemblySampleType = null)
         {
-            using (var efContext = efContextFactory != null
-                ? efContextFactory(connectionString)
-                : new EmptyEfContext(connectionString))
+            var created = TryRecreateDb(connectionString, efContextFactory);
+
+            if (!created)
             {
-                return efContext.Database.EnsureCreated();
+                return false;
             }
+
+            if (migrationScriptsAssemblySampleType != null)
+            {
+                Upgrade(connectionString, migrationScriptsAssemblySampleType);
+            }
+
+            return true;
         }
 
-        public static bool EnsureDeleted(
-            string connectionString)
-        {
-            using (var efContext = new EmptyEfContext(connectionString))
-            {
-                return efContext.Database.EnsureDeleted();
-            }
-        }
-
-        public static bool TryCreate(
+        private static bool TryRecreateDb(
             string connectionString,
             Func<string, DbContext> efContextFactory = null)
         {
@@ -69,6 +69,49 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
 
             return true;
+        }
+
+        public static bool EnsureCreated(
+            string connectionString,
+            Func<string, DbContext> efContextFactory = null)
+        {
+            using (var efContext = efContextFactory != null
+                ? efContextFactory(connectionString)
+                : new EmptyEfContext(connectionString))
+            {
+                return efContext.Database.EnsureCreated();
+            }
+        }
+
+        public static bool EnsureDeleted(
+            string connectionString)
+        {
+            using (var efContext = new EmptyEfContext(connectionString))
+            {
+                return efContext.Database.EnsureDeleted();
+            }
+        }
+
+        public static void Upgrade(
+            string connectionString,
+            Type migrationScriptsAssemblySampleType)
+        {
+            var upgrader = DeployChanges
+                .To.PostgresqlDatabase(connectionString)
+                .WithScriptsEmbeddedInAssembly(migrationScriptsAssemblySampleType.Assembly)
+                .WithTransaction()
+                .LogToConsole()
+                .LogScriptOutput()
+                .Build();
+
+            var result = upgrader.PerformUpgrade();
+
+            if (!result.Successful)
+            {
+                throw new InvalidOperationException(
+                    "Error while updating database schema. See inner exception for details.",
+                    result.Error);
+            }
         }
     }
 }

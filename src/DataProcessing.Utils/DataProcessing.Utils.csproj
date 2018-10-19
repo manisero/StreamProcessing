@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="dbup-postgresql" Version="4.1.0" />
     <PackageReference Include="Manisero.Navvy" Version="0.17.0" />
     <PackageReference Include="Manisero.Navvy.Dataflow" Version="0.17.0" />
     <PackageReference Include="Manisero.Navvy.Reporting" Version="0.17.0" />
