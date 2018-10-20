@@ -14,25 +14,37 @@ namespace BankApp1.Main
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
             var processingSettings = config.GetProcessingSettings();
+            var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
+
+            var datasetRepository = new DatasetRepository(connectionString);
+            var totalLoanCalculationRepository = new TotalLoanCalculationRepository(connectionString);
+            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
+            var clientTotalLoanRepository = new ClientTotalLoanRepository(connectionString, processingSettings.UseBulkCopy);
+
+            var totalLoanCalculationTaskFactory = new TotalLoanCalculationTaskFactory(
+                datasetRepository,
+                totalLoanCalculationRepository);
+
+            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
+                datasetRepository,
+                clientLoansCalculationRepository,
+                clientTotalLoanRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
 
-            var datasetId = new DatasetRepository(connectionString).GetMaxId();
+            var datasetId = datasetRepository.GetMaxId();
 
-            var totalLoanCalculationTaskFactory = new TotalLoanCalculationTaskFactory(
-                new DatasetRepository(connectionString),
-                new TotalLoanCalculationRepository(connectionString));
+            if (tasksToExecuteSettings.TotalLoanCalculation)
+            {
+                var totalLoanCalculationTask = totalLoanCalculationTaskFactory.Create(datasetId.Value);
+                taskExecutor.Execute(totalLoanCalculationTask);
+            }
 
-            var totalLoanCalculationTask = totalLoanCalculationTaskFactory.Create(datasetId.Value);
-            taskExecutor.Execute(totalLoanCalculationTask);
-
-            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
-                new DatasetRepository(connectionString),
-                new ClientLoansCalculationRepository(connectionString),
-                new ClientTotalLoanRepository(connectionString, processingSettings.UseBulkCopy));
-            
-            var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
-            taskExecutor.Execute(clientLoansCalculationTask);
+            if (tasksToExecuteSettings.ClientLoansCalculation)
+            {
+                var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+                taskExecutor.Execute(clientLoansCalculationTask);
+            }
         }
     }
 }

@@ -9,17 +9,17 @@ namespace BankApp3.Main.ClientLoansCalculationTask
 {
     public class ClientLoansCalculationTaskFactory
     {
-        private readonly ClientLoansCalculationRepository _clientLoansCalculationRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
+        private readonly ClientLoansCalculationRepository _clientLoansCalculationRepository;
         private readonly ClientTotalLoanRepository _clientTotalLoanRepository;
 
         public ClientLoansCalculationTaskFactory(
-            ClientLoansCalculationRepository clientLoansCalculationRepository,
             LoanSnapshotRepository loanSnapshotRepository,
+            ClientLoansCalculationRepository clientLoansCalculationRepository,
             ClientTotalLoanRepository clientTotalLoanRepository)
         {
-            _clientLoansCalculationRepository = clientLoansCalculationRepository;
             _loanSnapshotRepository = loanSnapshotRepository;
+            _clientLoansCalculationRepository = clientLoansCalculationRepository;
             _clientTotalLoanRepository = clientTotalLoanRepository;
         }
 

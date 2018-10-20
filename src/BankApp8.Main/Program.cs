@@ -2,6 +2,7 @@
 using BankApp8.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
+using DataProcessing.Utils.Settings;
 
 namespace BankApp8.Main
 {
@@ -11,18 +12,26 @@ namespace BankApp8.Main
         {
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
+            var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
+
+            var clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
+            var loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
+            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
+
+            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
+                clientSnapshotRepository,
+                loanSnapshotRepository,
+                clientLoansCalculationRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
-            
-            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
-                new ClientSnapshotRepository(connectionString),
-                new LoanSnapshotRepository(connectionString),
-                new ClientLoansCalculationRepository(connectionString));
 
             var datasetId = new DatasetRepository(connectionString).GetMaxId();
-            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
-            
-            var taskResult = taskExecutor.Execute(task);
+
+            if (tasksToExecuteSettings.ClientLoansCalculation)
+            {
+                var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+                taskExecutor.Execute(clientLoansCalculationTask);
+            }
         }
     }
 }
