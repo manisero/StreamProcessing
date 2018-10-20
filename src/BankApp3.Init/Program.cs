@@ -3,7 +3,7 @@ using System.Diagnostics;
 using BankApp3.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
-using DataProcessing.Utils.DataSeeding;
+using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init
 {
@@ -13,7 +13,7 @@ namespace BankApp3.Init
         {
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
-            var dataSetup = config.GetDataSetup();
+            var dataSettings = config.GetDataSettings();
 
             var dbCreated = DatabaseManager.TryRecreate(
                 connectionString,
@@ -24,9 +24,9 @@ namespace BankApp3.Init
                 return;
             }
 
-            Console.WriteLine($"Seeding db ({dataSetup})...");
+            Console.WriteLine($"Seeding db ({dataSettings})...");
             var seedSw = Stopwatch.StartNew();
-            new DbSeeder(connectionString).Seed(dataSetup);
+            new DbSeeder(connectionString).Seed(dataSettings);
             Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
         }
     }

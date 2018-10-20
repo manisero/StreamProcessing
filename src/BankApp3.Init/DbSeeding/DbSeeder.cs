@@ -4,7 +4,7 @@ using System.Linq;
 using BankApp3.Common.DataAccess;
 using BankApp3.Common.Domain;
 using DataProcessing.Utils;
-using DataProcessing.Utils.DataSeeding;
+using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init.DbSeeding
 {
@@ -23,14 +23,14 @@ namespace BankApp3.Init.DbSeeding
         }
 
         public void Seed(
-            DataSetup setup)
+            DataSettings settings)
         {
-            var datasets = CreateDatasets(setup.DatasetsCount);
+            var datasets = CreateDatasets(settings.DatasetsCount);
 
             foreach (var dataset in datasets)
             {
-                var clients = CreateClients(dataset.DatasetId, setup.ClientsPerDataset);
-                CreateLoans(dataset.DatasetId, clients, setup.LoansPerClient);
+                var clients = CreateClients(dataset.DatasetId, settings.ClientsPerDataset);
+                CreateLoans(dataset.DatasetId, clients, settings.LoansPerClient);
             }
         }
 

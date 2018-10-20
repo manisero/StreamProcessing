@@ -1,6 +1,6 @@
-﻿namespace DataProcessing.Utils.DataSeeding
+﻿namespace DataProcessing.Utils.Settings
 {
-    public class DataSetup
+    public class DataSettings
     {
         public int DatasetsCount { get; set; }
 
