@@ -10,7 +10,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
     public interface ILoansProcessingTaskFactory
     {
         TaskDefinition Create(
-            LoansProcess process);
+            short datasetId);
     }
 
     public class LoansProcessingTaskFactory : ILoansProcessingTaskFactory
@@ -30,8 +30,10 @@ namespace BankApp8.Main.ClientLoansCalculationTask
         }
 
         public TaskDefinition Create(
-            LoansProcess process)
+            short datasetId)
         {
+            var process = _loansProcessRepository.Create(new LoansProcess { DatasetId = datasetId });
+
             var clientsCount = _clientRepository.CountInDataset(process.DatasetId);
 
             var batchSize = Client.DefaultReadingBatchSize;

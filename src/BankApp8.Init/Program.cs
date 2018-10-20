@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using BankApp8.Init.DbMigration;
 using BankApp8.Init.DbSeeding;
 using DataProcessing.Utils;
+using DataProcessing.Utils.DatabaseAccess;
+using DataProcessing.Utils.Settings;
 
 namespace BankApp8.Init
 {
@@ -12,12 +13,21 @@ namespace BankApp8.Init
         {
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
+            var dataSettings = config.GetDataSettings();
 
-            Migrator.Migrate(connectionString, true, true);
+            var dbCreated = DatabaseManager.TryRecreate(
+                connectionString,
+                migrationScriptsAssemblySampleType: typeof(Program));
 
-            var sw = Stopwatch.StartNew();
-            Seeder.Seed(connectionString, 1000000, 2);
-            Console.WriteLine($"Seeding took {sw.Elapsed}.");
+            if (!dbCreated)
+            {
+                return;
+            }
+
+            Console.WriteLine($"Seeding db ({dataSettings})...");
+            var seedSw = Stopwatch.StartNew();
+            DbSeeder.Seed(connectionString, dataSettings);
+            Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
         }
     }
 }

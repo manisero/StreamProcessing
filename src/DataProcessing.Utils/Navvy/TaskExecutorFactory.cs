@@ -19,7 +19,15 @@ namespace DataProcessing.Utils.Navvy
             var builder = new TaskExecutorBuilder()
                 .UseTaskExecutionLogger()
                 .UseTaskExecutionReporter(x => Path.Combine(reportsFolderPath, x.Name))
-                .RegisterProgressHandler(x => Console.WriteLine($"{x.Step.Name}: {x.ProgressPercentage}%"));
+                .RegisterEvents(
+                    new TaskExecutionEvents(
+                        taskStarted: x => Console.WriteLine($"Task {x.Task.Name} started."),
+                        stepProgressed: x => Console.WriteLine($"{x.Step.Name}: {x.ProgressPercentage}%"),
+                        taskEnded: x =>
+                        {
+                            Console.WriteLine($"Task took {x.Task.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
+                            Console.WriteLine($"Report written to: {x.Task.GetExecutionReportsPath()}");
+                        }));
 
             if (useDataflow)
             {

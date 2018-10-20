@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="DbMigration\Scripts\001.sql" />
-    <EmbeddedResource Include="DbMigration\Scripts\002.sql" />
+    <EmbeddedResource Include="Migrations\001.sql" />
+    <EmbeddedResource Include="Migrations\002.sql" />
   </ItemGroup>
 
   <ItemGroup>

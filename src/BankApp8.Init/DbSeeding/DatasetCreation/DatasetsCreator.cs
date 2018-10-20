@@ -17,11 +17,12 @@ namespace BankApp8.Init.DbSeeding.DatasetCreation
             };
 
         public static IDictionary<short, Dataset> Create(
-            string connectionString)
+            string connectionString,
+            int datasetsCount)
         {
             var datasets = new Dictionary<short, Dataset>();
 
-            for (short datasetId = 1; datasetId <= 9; datasetId++)
+            for (short datasetId = 1; datasetId <= datasetsCount; datasetId++)
             {
                 datasets.Add(
                     datasetId,
