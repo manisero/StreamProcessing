@@ -1,4 +1,13 @@
-﻿CREATE TABLE "ClientLoansCalculation"
+﻿CREATE TABLE "TotalLoanCalculation"
+(
+    "TotalLoanCalculationId" smallint generated always as identity,
+	"DatasetId" smallint not null,
+	"TotalLoan" numeric(19, 4) null,
+	CONSTRAINT "PK_TotalLoanCalculation" PRIMARY KEY ("TotalLoanCalculationId"),
+	CONSTRAINT "FK_TotalLoanCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
+);
+
+CREATE TABLE "ClientLoansCalculation"
 (
     "ClientLoansCalculationId" smallint generated always as identity,
     "DatasetId" smallint not null,

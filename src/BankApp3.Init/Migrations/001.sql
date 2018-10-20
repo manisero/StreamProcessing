@@ -23,6 +23,15 @@ CREATE TABLE "LoanSnapshot"
 	CONSTRAINT "FK_LoanSnapshot_ClientSnapshot" FOREIGN KEY ("DatasetId", "ClientId") REFERENCES "ClientSnapshot" ("DatasetId", "ClientId")
 );
 
+CREATE TABLE "TotalLoanCalculation"
+(
+    "TotalLoanCalculationId" smallint generated always as identity,
+	"DatasetId" smallint not null,
+	"TotalLoan" numeric(19, 4) null,
+	CONSTRAINT "PK_TotalLoanCalculation" PRIMARY KEY ("TotalLoanCalculationId"),
+	CONSTRAINT "FK_TotalLoanCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
+);
+
 CREATE TABLE "ClientLoansCalculation"
 (
     "ClientLoansCalculationId" smallint generated always as identity,
