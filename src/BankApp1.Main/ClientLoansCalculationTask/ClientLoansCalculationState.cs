@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.SurrogateKeys;
 using BankApp.Domain.SurrogateKeys.Data;
 
 namespace BankApp1.Main.ClientLoansCalculationTask

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
-using BankApp3.Common.DataAccess;
+using BankApp3.Common.DataAccess.Data;
 using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init.DbSeeding

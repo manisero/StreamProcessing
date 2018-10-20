@@ -1,4 +1,5 @@
-﻿using BankApp1.Common.DataAccess;
+﻿using BankApp1.Common.DataAccess.Data;
+using BankApp1.Common.DataAccess.Tasks;
 using BankApp1.Main.ClientLoansCalculationTask;
 using BankApp1.Main.TotalLoanCalculationTask;
 using DataProcessing.Utils;

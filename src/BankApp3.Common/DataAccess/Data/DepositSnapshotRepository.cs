@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.SurrogateKeys;
-using BankApp.Domain.SurrogateKeys.Data;
+using BankApp.Domain.WideKeys.Data;
+using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp3.Common.DataAccess.Data
 {
     public class DepositSnapshotRepository
     {
@@ -14,6 +14,21 @@ namespace BankApp1.Common.DataAccess
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public ICollection<DepositSnapshot> GetForDataset(
+            short datasetId)
+        {
+            var sql = $@"
+SELECT * FROM ""{nameof(DepositSnapshot)}""
+WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection
+                    .Query<DepositSnapshot>(sql, new { DatasetId = datasetId })
+                    .AsList();
+            }
         }
 
         public void CreateMany(

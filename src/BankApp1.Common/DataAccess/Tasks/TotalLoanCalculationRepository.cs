@@ -1,8 +1,7 @@
-﻿using BankApp.Domain.SurrogateKeys;
-using BankApp.Domain.SurrogateKeys.Tasks;
+﻿using BankApp.Domain.SurrogateKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp1.Common.DataAccess.Tasks
 {
     public class TotalLoanCalculationRepository
     {

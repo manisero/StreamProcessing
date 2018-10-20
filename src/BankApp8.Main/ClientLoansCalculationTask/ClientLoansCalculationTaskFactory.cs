@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
 using BankApp.Domain.WideKeys.Tasks;
-using BankApp8.Common.DataAccess;
+using BankApp8.Common.DataAccess.Data;
+using BankApp8.Common.DataAccess.Tasks;
 using DataProcessing.Utils;
 using Manisero.Navvy;
 using Manisero.Navvy.PipelineProcessing;

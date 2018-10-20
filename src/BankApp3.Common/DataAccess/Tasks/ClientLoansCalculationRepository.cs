@@ -1,7 +1,6 @@
-﻿using BankApp.Domain.SurrogateKeys;
-using BankApp.Domain.SurrogateKeys.Tasks;
+﻿using BankApp.Domain.WideKeys.Tasks;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp3.Common.DataAccess.Tasks
 {
     public class ClientLoansCalculationRepository
     {

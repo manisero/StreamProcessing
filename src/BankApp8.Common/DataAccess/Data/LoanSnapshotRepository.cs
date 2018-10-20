@@ -1,40 +1,39 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp8.Common.DataAccess
+namespace BankApp8.Common.DataAccess.Data
 {
-    public class DepositSnapshotRepository
+    public class LoanSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public DepositSnapshotRepository(
+        public LoanSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        /// <summary>Returns ClientId -> Deposits</summary>
-        public IDictionary<int, ICollection<DepositSnapshot>> GetRange(
+        /// <summary>Returns ClientId -> Loans</summary>
+        public IDictionary<int, ICollection<LoanSnapshot>> GetRange(
             short datasetId,
             int firstClientId,
             int lastClientId)
         {
             var sql = $@"
 SELECT *
-FROM ""{nameof(DepositSnapshot)}""
+FROM ""{nameof(LoanSnapshot)}""
 WHERE
-  ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId AND
-  ""{nameof(DepositSnapshot.ClientId)}"" BETWEEN @FirstClientId AND @LastClientId";
+  ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId AND
+  ""{nameof(LoanSnapshot.ClientId)}"" BETWEEN @FirstClientId AND @LastClientId";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
-                    .Query<DepositSnapshot>(
+                    .Query<LoanSnapshot>(
                         sql,
                         new
                         {
@@ -50,14 +49,14 @@ WHERE
         }
 
         public void CreateMany(
-            IEnumerable<DepositSnapshot> items)
+            IEnumerable<LoanSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    DepositSnapshot.ColumnMapping);
+                    LoanSnapshot.ColumnMapping);
             }
         }
     }

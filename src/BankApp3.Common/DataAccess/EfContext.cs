@@ -1,5 +1,4 @@
-﻿using BankApp.Domain.WideKeys;
-using BankApp.Domain.WideKeys.Data;
+﻿using BankApp.Domain.WideKeys.Data;
 using BankApp.Domain.WideKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;

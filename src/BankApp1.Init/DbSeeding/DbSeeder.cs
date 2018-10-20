@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BankApp.Domain.SurrogateKeys;
 using BankApp.Domain.SurrogateKeys.Data;
-using BankApp1.Common.DataAccess;
+using BankApp1.Common.DataAccess.Data;
 using DataProcessing.Utils.Settings;
 
 namespace BankApp1.Init.DbSeeding

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp8.Common.DataAccess
+namespace BankApp3.Common.DataAccess.Data
 {
     public class DatasetRepository
     {

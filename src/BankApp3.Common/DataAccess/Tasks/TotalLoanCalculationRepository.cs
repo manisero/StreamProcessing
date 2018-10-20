@@ -1,8 +1,7 @@
-﻿using BankApp.Domain.WideKeys;
-using BankApp.Domain.WideKeys.Tasks;
+﻿using BankApp.Domain.WideKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp3.Common.DataAccess
+namespace BankApp3.Common.DataAccess.Tasks
 {
     public class TotalLoanCalculationRepository
     {

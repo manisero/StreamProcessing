@@ -1,4 +1,5 @@
-﻿using BankApp8.Common.DataAccess;
+﻿using BankApp8.Common.DataAccess.Data;
+using BankApp8.Common.DataAccess.Tasks;
 using BankApp8.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;

@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.WideKeys;
-using BankApp.Domain.WideKeys.Tasks;
+using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess
+namespace BankApp1.Common.DataAccess.Data
 {
-    public class ClientTotalLoanRepository
+    public class LoanSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public ClientTotalLoanRepository(
+        public LoanSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
         public void CreateMany(
-            IEnumerable<ClientTotalLoan> items)
+            IEnumerable<LoanSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    ClientTotalLoan.ColumnMapping);
+                    LoanSnapshot.ColumnMapping);
             }
         }
     }

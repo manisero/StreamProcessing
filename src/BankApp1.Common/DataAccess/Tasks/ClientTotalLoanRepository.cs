@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.SurrogateKeys;
 using BankApp.Domain.SurrogateKeys.Tasks;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp1.Common.DataAccess.Tasks
 {
     public class ClientTotalLoanRepository
     {

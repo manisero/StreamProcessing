@@ -1,46 +1,49 @@
 ﻿using System.Collections.Generic;
-using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess
+namespace BankApp8.Common.DataAccess.Data
 {
-    public class DepositSnapshotRepository
+    public class DatasetRepository
     {
         private readonly string _connectionString;
 
-        public DepositSnapshotRepository(
+        public DatasetRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public ICollection<DepositSnapshot> GetForDataset(
-            short datasetId)
+        public ICollection<Dataset> GetAll()
         {
-            var sql = $@"
-SELECT * FROM ""{nameof(DepositSnapshot)}""
-WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId";
-
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
-                    .Query<DepositSnapshot>(sql, new { DatasetId = datasetId })
+                    .Query<Dataset>($@"SELECT * FROM ""{nameof(Dataset)}""")
                     .AsList();
             }
         }
 
+        public short? GetMaxId()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection
+                    .QuerySingle<short?>($@"SELECT MAX(""{nameof(Dataset.DatasetId)}"") FROM ""{nameof(Dataset)}""");
+            }
+        }
+
         public void CreateMany(
-            IEnumerable<DepositSnapshot> items)
+            IEnumerable<Dataset> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    DepositSnapshot.ColumnMapping);
+                    Dataset.ColumnMapping);
             }
         }
     }
