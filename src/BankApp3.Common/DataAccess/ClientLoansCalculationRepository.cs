@@ -1,4 +1,5 @@
 ﻿using BankApp.Domain.WideKeys;
+using BankApp.Domain.WideKeys.Tasks;
 
 namespace BankApp3.Common.DataAccess
 {

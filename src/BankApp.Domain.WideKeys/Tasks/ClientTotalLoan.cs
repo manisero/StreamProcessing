@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using Npgsql;
 
-namespace BankApp.Domain.SurrogateKeys
+namespace BankApp.Domain.WideKeys.Tasks
 {
     public class ClientTotalLoan
     {
-        public long ClientTotalLoanId { get; set; }
-
-        public int ClientLoansCalculationId { get; set; }
+        public short ClientLoansCalculationId { get; set; }
 
         public int ClientId { get; set; }
 
         public decimal TotalLoan { get; set; }
-
-        public ClientLoansCalculation ClientLoansCalculation { get; set; }
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>>

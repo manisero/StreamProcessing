@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BankApp.Domain.SurrogateKeys;
+using BankApp.Domain.SurrogateKeys.Tasks;
 using BankApp1.Common.DataAccess;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;

@@ -1,4 +1,4 @@
-﻿namespace BankApp.Domain.WideKeys
+﻿namespace BankApp.Domain.WideKeys.Tasks
 {
     public class ClientLoansCalculation
     {

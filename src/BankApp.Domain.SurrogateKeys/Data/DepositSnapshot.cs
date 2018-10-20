@@ -4,52 +4,49 @@ using System.Linq;
 using DataProcessing.Utils;
 using Npgsql;
 
-namespace BankApp.Domain.WideKeys
+namespace BankApp.Domain.SurrogateKeys.Data
 {
     public class DepositSnapshot
     {
-        public short DatasetId { get; set; }
-
-        public int ClientId { get; set; }
+        public long DepositSnapshotId { get; set; }
 
         public int DepositId { get; set; }
 
+        public long ClientSnapshotId { get; set; }
+
         public decimal Value { get; set; }
 
-        public const int DefaultReadingBatchSize = 100000;
+        public ClientSnapshot Client { get; set; }
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, DepositSnapshot>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, DepositSnapshot>>
             {
-                [nameof(DatasetId)] = (writer, x) => writer.Write(x.DatasetId),
-                [nameof(ClientId)] = (writer, x) => writer.Write(x.ClientId),
                 [nameof(DepositId)] = (writer, x) => writer.Write(x.DepositId),
+                [nameof(ClientSnapshotId)] = (writer, x) => writer.Write(x.ClientSnapshotId),
                 [nameof(Value)] = (writer, x) => writer.Write(x.Value)
             };
 
         public static IEnumerable<DepositSnapshot> GetRandom(
-            short datasetId,
-            ICollection<int> clientIds,
+            ICollection<long> clientSnapshotIds,
             int depositsPerClient)
         {
             var random = new Random();
 
-            var depositsCount = clientIds.Count * depositsPerClient;
+            var depositsCount = clientSnapshotIds.Count * depositsPerClient;
             var depositIds = random
                 .NextUniqueSet(depositsCount, depositsCount * 2)
                 .ToArray();
 
             var depositsCounter = 0;
 
-            foreach (var clientId in clientIds)
+            foreach (var clientSnapshotId in clientSnapshotIds)
             {
                 for (var i = 0; i < depositsPerClient; i++)
                 {
                     yield return new DepositSnapshot
                     {
-                        DatasetId = datasetId,
-                        ClientId = clientId,
                         DepositId = depositIds[depositsCounter],
+                        ClientSnapshotId = clientSnapshotId,
                         Value = random.Next(1000, 1000000)
                     };
 

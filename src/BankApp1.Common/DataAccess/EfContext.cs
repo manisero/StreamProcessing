@@ -1,4 +1,6 @@
 ﻿using BankApp.Domain.SurrogateKeys;
+using BankApp.Domain.SurrogateKeys.Data;
+using BankApp.Domain.SurrogateKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 

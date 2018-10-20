@@ -4,21 +4,15 @@ using System.Linq;
 using DataProcessing.Utils;
 using Npgsql;
 
-namespace BankApp.Domain.SurrogateKeys
+namespace BankApp.Domain.WideKeys.Data
 {
     public class ClientSnapshot
     {
-        public long ClientSnapshotId { get; set; }
+        public short DatasetId { get; set; }
 
         public int ClientId { get; set; }
 
-        public int DatasetId { get; set; }
-
-        public Dataset Dataset { get; set; }
-
-        public IList<DepositSnapshot> Deposits { get; set; }
-
-        public IList<LoanSnapshot> Loans { get; set; }
+        public const int DefaultReadingBatchSize = 100000;
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>>
@@ -28,7 +22,7 @@ namespace BankApp.Domain.SurrogateKeys
             };
 
         public static IEnumerable<ClientSnapshot> GetRandom(
-            int datasetId,
+            short datasetId,
             int count)
         {
             var clientIds = new Random()
@@ -39,8 +33,8 @@ namespace BankApp.Domain.SurrogateKeys
             {
                 yield return new ClientSnapshot
                 {
-                    ClientId = clientIds[i],
-                    DatasetId = datasetId
+                    DatasetId = datasetId,
+                    ClientId = clientIds[i]
                 };
             }
         }

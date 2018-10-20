@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using BankApp.Domain.SurrogateKeys.Data;
 
-namespace BankApp.Domain.SurrogateKeys
+namespace BankApp.Domain.SurrogateKeys.Tasks
 {
     public class ClientLoansCalculation
     {

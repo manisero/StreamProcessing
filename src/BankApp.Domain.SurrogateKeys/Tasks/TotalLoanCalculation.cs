@@ -1,4 +1,6 @@
-﻿namespace BankApp.Domain.SurrogateKeys
+﻿using BankApp.Domain.SurrogateKeys.Data;
+
+namespace BankApp.Domain.SurrogateKeys.Tasks
 {
     public class TotalLoanCalculation
     {

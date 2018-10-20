@@ -4,52 +4,49 @@ using System.Linq;
 using DataProcessing.Utils;
 using Npgsql;
 
-namespace BankApp.Domain.WideKeys
+namespace BankApp.Domain.SurrogateKeys.Data
 {
     public class LoanSnapshot
     {
-        public short DatasetId { get; set; }
-
-        public int ClientId { get; set; }
+        public long LoanSnapshotId { get; set; }
 
         public int LoanId { get; set; }
 
+        public long ClientSnapshotId { get; set; }
+
         public decimal Value { get; set; }
 
-        public const int DefaultReadingBatchSize = 100000;
+        public ClientSnapshot Client { get; set; }
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, LoanSnapshot>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, LoanSnapshot>>
             {
-                [nameof(DatasetId)] = (writer, x) => writer.Write(x.DatasetId),
-                [nameof(ClientId)] = (writer, x) => writer.Write(x.ClientId),
                 [nameof(LoanId)] = (writer, x) => writer.Write(x.LoanId),
+                [nameof(ClientSnapshotId)] = (writer, x) => writer.Write(x.ClientSnapshotId),
                 [nameof(Value)] = (writer, x) => writer.Write(x.Value)
             };
 
         public static IEnumerable<LoanSnapshot> GetRandom(
-            short datasetId,
-            ICollection<int> clientIds,
+            ICollection<long> clientSnapshotIds,
             int loansPerClient)
         {
             var random = new Random();
 
-            var loansCount = clientIds.Count * loansPerClient;
+            var loansCount = clientSnapshotIds.Count * loansPerClient;
             var loanIds = random
                 .NextUniqueSet(loansCount, loansCount * 2)
                 .ToArray();
 
             var loansCounter = 0;
 
-            foreach (var clientId in clientIds)
+            foreach (var clientSnapshotId in clientSnapshotIds)
             {
                 for (var i = 0; i < loansPerClient; i++)
                 {
                     yield return new LoanSnapshot
                     {
-                        DatasetId = datasetId,
-                        ClientId = clientId,
                         LoanId = loanIds[loansCounter],
+                        ClientSnapshotId = clientSnapshotId,
                         Value = random.Next(1000, 1000000)
                     };
 

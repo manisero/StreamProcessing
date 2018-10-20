@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BankApp.Domain.WideKeys;
+using BankApp.Domain.WideKeys.Tasks;
 using BankApp3.Common.DataAccess;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;

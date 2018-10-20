@@ -1,4 +1,5 @@
 ﻿using BankApp.Domain.SurrogateKeys;
+using BankApp.Domain.SurrogateKeys.Tasks;
 
 namespace BankApp1.Common.DataAccess
 {
