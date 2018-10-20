@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp3.Main", "BankApp3.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain.WideKeys", "BankApp.Domain.WideKeys\BankApp.Domain.WideKeys.csproj", "{A3AD8D1B-FE01-49F5-A192-D9CC9B4BD427}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain.SurrogateKeys", "BankApp.Domain.SurrogateKeys\BankApp.Domain.SurrogateKeys.csproj", "{AD8A5988-88AA-4C64-B26E-431524B70B29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{A3AD8D1B-FE01-49F5-A192-D9CC9B4BD427}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3AD8D1B-FE01-49F5-A192-D9CC9B4BD427}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3AD8D1B-FE01-49F5-A192-D9CC9B4BD427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8A5988-88AA-4C64-B26E-431524B70B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8A5988-88AA-4C64-B26E-431524B70B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8A5988-88AA-4C64-B26E-431524B70B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8A5988-88AA-4C64-B26E-431524B70B29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{FCA23D25-3199-419B-AE7A-A988F9EF865D} = {699D6759-F017-4B86-AD76-990907DD0AEF}
 		{25AD0B42-E9E8-43CF-BC63-F3604D7FEB36} = {699D6759-F017-4B86-AD76-990907DD0AEF}
 		{A3AD8D1B-FE01-49F5-A192-D9CC9B4BD427} = {78E12F48-1F65-49A6-8579-BEA5C30EB803}
+		{AD8A5988-88AA-4C64-B26E-431524B70B29} = {78E12F48-1F65-49A6-8579-BEA5C30EB803}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}

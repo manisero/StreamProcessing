@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankApp.Domain.SurrogateKeys\BankApp.Domain.SurrogateKeys.csproj" />
     <ProjectReference Include="..\BankApp1.Common\BankApp1.Common.csproj" />
     <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>

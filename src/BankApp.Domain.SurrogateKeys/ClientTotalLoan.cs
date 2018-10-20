@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Npgsql;
 
-namespace BankApp1.Common.Domain
+namespace BankApp.Domain.SurrogateKeys
 {
     public class ClientTotalLoan
     {

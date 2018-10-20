@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Npgsql;
 using NpgsqlTypes;
 
-namespace BankApp1.Common.Domain
+namespace BankApp.Domain.SurrogateKeys
 {
     public class Dataset
     {

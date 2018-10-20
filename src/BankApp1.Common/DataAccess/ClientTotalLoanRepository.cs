@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BankApp1.Common.Domain;
+using BankApp.Domain.SurrogateKeys;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
