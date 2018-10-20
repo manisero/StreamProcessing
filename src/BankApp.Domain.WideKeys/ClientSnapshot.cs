@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using DataProcessing.Utils;
 using Npgsql;
 
 namespace BankApp.Domain.WideKeys
@@ -18,5 +20,23 @@ namespace BankApp.Domain.WideKeys
                 [nameof(ClientId)] = (writer, x) => writer.Write(x.ClientId),
                 [nameof(DatasetId)] = (writer, x) => writer.Write(x.DatasetId)
             };
+
+        public static IEnumerable<ClientSnapshot> GetRandom(
+            short datasetId,
+            int count)
+        {
+            var clientIds = new Random()
+                .NextUniqueSet(count, count * 2)
+                .ToArray();
+
+            for (var i = 0; i < count; i++)
+            {
+                yield return new ClientSnapshot
+                {
+                    DatasetId = datasetId,
+                    ClientId = clientIds[i]
+                };
+            }
+        }
     }
 }

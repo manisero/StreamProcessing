@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BankApp.Domain.WideKeys;
 using BankApp3.Common.DataAccess;
-using DataProcessing.Utils;
 using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init.DbSeeding
@@ -29,84 +27,39 @@ namespace BankApp3.Init.DbSeeding
 
             foreach (var dataset in datasets)
             {
-                var clients = CreateClients(dataset.DatasetId, settings.ClientsPerDataset);
-                CreateLoans(dataset.DatasetId, clients, settings.LoansPerClient);
+                var clientIds = CreateClients(dataset.DatasetId, settings.ClientsPerDataset);
+                CreateLoans(dataset.DatasetId, clientIds, settings.LoansPerClient);
             }
         }
 
         private ICollection<Dataset> CreateDatasets(
             int datasetsCount)
         {
-            var datasets = new List<Dataset>();
-
-            for (var i = 0; i < datasetsCount; i++)
-            {
-                datasets.Add(
-                    new Dataset
-                    {
-                        Date = new DateTime(2018, 1, 1).AddMonths(i)
-                    });
-            }
-
+            var datasets = Dataset.GetRandom(datasetsCount);
             _datasetRepository.CreateMany(datasets);
 
             return _datasetRepository.GetAll();
         }
 
-        private ICollection<ClientSnapshot> CreateClients(
+        private ICollection<int> CreateClients(
             short datasetId,
             int clientsCount)
         {
-            var clientIds = new Random()
-                .NextUniqueSet(clientsCount, clientsCount * 2)
-                .ToArray();
-
-            var clients = new List<ClientSnapshot>();
-
-            for (var i = 0; i < clientsCount; i++)
-            {
-                clients.Add(
-                    new ClientSnapshot
-                    {
-                        DatasetId = datasetId,
-                        ClientId = clientIds[clients.Count]
-                    });
-            }
-
+            var clients = ClientSnapshot.GetRandom(datasetId, clientsCount);
             _clientSnapshotRepository.CreateMany(clients);
 
-            return _clientSnapshotRepository.GetForDataset(datasetId);
+            return _clientSnapshotRepository
+                .GetForDataset(datasetId)
+                .Select(x => x.ClientId)
+                .ToArray();
         }
 
         private void CreateLoans(
             short datasetId,
-            ICollection<ClientSnapshot> clients,
+            ICollection<int> clientIds,
             int loansPerClient)
         {
-            var random = new Random();
-
-            var loansCount = clients.Count * loansPerClient;
-            var loanIds = random
-                .NextUniqueSet(loansCount, loansCount * 2)
-                .ToArray();
-
-            var loans = new List<LoanSnapshot>();
-
-            foreach (var client in clients)
-            {
-                for (var i = 0; i < loansPerClient; i++)
-                {
-                    loans.Add(
-                        new LoanSnapshot
-                        {
-                            DatasetId = datasetId,
-                            ClientId = client.ClientId,
-                            LoanId = loanIds[loans.Count],
-                            Value = random.Next(1000, 1000000)
-                        });
-                }
-            }
-
+            var loans = LoanSnapshot.GetRandom(datasetId, clientIds, loansPerClient);
             _loanSnapshotRepository.CreateMany(loans);
         }
     }

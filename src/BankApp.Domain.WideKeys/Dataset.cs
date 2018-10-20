@@ -16,5 +16,17 @@ namespace BankApp.Domain.WideKeys
             {
                 [nameof(Date)] = (writer, x) => writer.Write(x.Date, NpgsqlDbType.Date)
             };
+
+        public static IEnumerable<Dataset> GetRandom(
+            int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                yield return new Dataset
+                {
+                    Date = new DateTime(2018, 1, 1).AddMonths(i)
+                };
+            }
+        }
     }
 }

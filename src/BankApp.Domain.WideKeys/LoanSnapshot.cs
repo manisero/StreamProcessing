@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using DataProcessing.Utils;
 using Npgsql;
 
 namespace BankApp.Domain.WideKeys
@@ -24,5 +26,36 @@ namespace BankApp.Domain.WideKeys
                 [nameof(LoanId)] = (writer, x) => writer.Write(x.LoanId),
                 [nameof(Value)] = (writer, x) => writer.Write(x.Value)
             };
+
+        public static IEnumerable<LoanSnapshot> GetRandom(
+            short datasetId,
+            ICollection<int> clientIds,
+            int loansPerClient)
+        {
+            var random = new Random();
+
+            var loansCount = clientIds.Count * loansPerClient;
+            var loanIds = random
+                .NextUniqueSet(loansCount, loansCount * 2)
+                .ToArray();
+
+            var loansCounter = 0;
+
+            foreach (var clientId in clientIds)
+            {
+                for (var i = 0; i < loansPerClient; i++)
+                {
+                    yield return new LoanSnapshot
+                    {
+                        DatasetId = datasetId,
+                        ClientId = clientId,
+                        LoanId = loanIds[loansCounter],
+                        Value = random.Next(1000, 1000000)
+                    };
+
+                    loansCounter++;
+                }
+            }
+        }
     }
 }

@@ -58,10 +58,7 @@ namespace BankApp1.Init.DbSeeding
             ICollection<long> clientSnapshotIds,
             int loansPerClient)
         {
-            var loans = LoanSnapshot.GetRandom(
-                clientSnapshotIds,
-                loansPerClient);
-
+            var loans = LoanSnapshot.GetRandom(clientSnapshotIds, loansPerClient);
             _loanSnapshotRepository.CreateMany(loans);
         }
     }
