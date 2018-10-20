@@ -1,6 +1,7 @@
 ﻿using BankApp3.Common.DataAccess.Data;
 using BankApp3.Common.DataAccess.Tasks;
 using BankApp3.Main.ClientLoansCalculationTask;
+using BankApp3.Main.MaxLossCalculationTask;
 using BankApp3.Main.TotalLoanCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
@@ -15,12 +16,19 @@ namespace BankApp3.Main
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
             var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
-            
+
+            var depositSnapshotRepository = new DepositSnapshotRepository(connectionString);
             var loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
+            var maxLossCalculationRepository = new MaxLossCalculationRepository(connectionString);
             var totalLoanCalculationRepository = new TotalLoanCalculationRepository(connectionString);
             var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
             var clientTotalLoanRepository = new ClientTotalLoanRepository(connectionString);
             
+            var maxLossCalculationTaskFactory = new MaxLossCalculationTaskFactory(
+                depositSnapshotRepository, 
+                loanSnapshotRepository,
+                maxLossCalculationRepository);
+
             var totalLoanCalculationTaskFactory = new TotalLoanCalculationTaskFactory(
                 loanSnapshotRepository,
                 totalLoanCalculationRepository);
@@ -33,6 +41,12 @@ namespace BankApp3.Main
             var taskExecutor = TaskExecutorFactory.Create();
 
             var datasetId = new DatasetRepository(connectionString).GetMaxId();
+
+            if (tasksToExecuteSettings.MaxLossCalculation)
+            {
+                var maxLossCalculationTask = maxLossCalculationTaskFactory.Create(datasetId.Value);
+                taskExecutor.Execute(maxLossCalculationTask);
+            }
 
             if (tasksToExecuteSettings.TotalLoanCalculation)
             {

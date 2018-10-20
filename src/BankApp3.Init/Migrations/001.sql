@@ -33,6 +33,15 @@ CREATE TABLE "LoanSnapshot"
 	CONSTRAINT "FK_LoanSnapshot_ClientSnapshot" FOREIGN KEY ("DatasetId", "ClientId") REFERENCES "ClientSnapshot" ("DatasetId", "ClientId")
 );
 
+CREATE TABLE "MaxLossCalculation"
+(
+    "MaxLossCalculationId" smallint generated always as identity,
+	"DatasetId" smallint not null,
+	"MaxLoss" numeric(19, 4) null,
+	CONSTRAINT "PK_MaxLossCalculation" PRIMARY KEY ("MaxLossCalculationId"),
+	CONSTRAINT "FK_MaxLossCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
+);
+
 CREATE TABLE "TotalLoanCalculation"
 (
     "TotalLoanCalculationId" smallint generated always as identity,
