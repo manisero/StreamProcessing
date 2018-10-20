@@ -37,6 +37,7 @@ namespace BankApp1.Common.DataAccess
             modelBuilder.Entity<ClientSnapshot>();
             modelBuilder.Entity<DepositSnapshot>();
             modelBuilder.Entity<LoanSnapshot>();
+            modelBuilder.Entity<MaxLossCalculation>();
             modelBuilder.Entity<TotalLoanCalculation>();
             modelBuilder.Entity<ClientLoansCalculation>();
             modelBuilder.Entity<ClientTotalLoan>();

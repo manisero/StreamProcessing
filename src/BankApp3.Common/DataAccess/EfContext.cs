@@ -37,6 +37,7 @@ namespace BankApp3.Common.DataAccess
             modelBuilder.Entity<ClientSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId });
             modelBuilder.Entity<DepositSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId, x.DepositId });
             modelBuilder.Entity<LoanSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId, x.LoanId });
+            modelBuilder.Entity<MaxLossCalculation>();
             modelBuilder.Entity<TotalLoanCalculation>();
             modelBuilder.Entity<ClientLoansCalculation>();
             modelBuilder.Entity<ClientTotalLoan>().HasKey(x => new { x.ClientLoansCalculationId, x.ClientId });

@@ -1,6 +1,7 @@
 ﻿using BankApp1.Common.DataAccess.Data;
 using BankApp1.Common.DataAccess.Tasks;
 using BankApp1.Main.ClientLoansCalculationTask;
+using BankApp1.Main.MaxLossCalculationTask;
 using BankApp1.Main.TotalLoanCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
@@ -18,9 +19,14 @@ namespace BankApp1.Main
             var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
 
             var datasetRepository = new DatasetRepository(connectionString);
+            var maxLossCalculationRepository = new MaxLossCalculationRepository(connectionString);
             var totalLoanCalculationRepository = new TotalLoanCalculationRepository(connectionString);
             var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
             var clientTotalLoanRepository = new ClientTotalLoanRepository(connectionString, processingSettings.UseBulkCopy);
+            
+            var maxLossCalculationTaskFactory = new MaxLossCalculationTaskFactory(
+                datasetRepository,
+                maxLossCalculationRepository);
 
             var totalLoanCalculationTaskFactory = new TotalLoanCalculationTaskFactory(
                 datasetRepository,
@@ -34,6 +40,12 @@ namespace BankApp1.Main
             var taskExecutor = TaskExecutorFactory.Create();
 
             var datasetId = datasetRepository.GetMaxId();
+
+            if (tasksToExecuteSettings.MaxLossCalculation)
+            {
+                var maxLossCalculationTask = maxLossCalculationTaskFactory.Create(datasetId.Value);
+                taskExecutor.Execute(maxLossCalculationTask);
+            }
 
             if (tasksToExecuteSettings.TotalLoanCalculation)
             {
