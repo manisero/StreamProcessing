@@ -21,13 +21,28 @@ namespace BankApp8.Common.DataAccess
             short datasetId)
         {
             var sql = $@"
-select count(*)
-from ""{nameof(ClientSnapshot)}""
-where ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
+SELECT COUNT(*)
+FROM ""{nameof(ClientSnapshot)}""
+WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection.QuerySingle<int>(sql, new { DatasetId = datasetId });
+            }
+        }
+
+        public ICollection<ClientSnapshot> GetForDataset(
+            short datasetId)
+        {
+            var sql = $@"
+SELECT * FROM ""{nameof(ClientSnapshot)}""
+WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return connection
+                    .Query<ClientSnapshot>(sql, new { DatasetId = datasetId })
+                    .AsList();
             }
         }
 

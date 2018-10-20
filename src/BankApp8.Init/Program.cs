@@ -26,7 +26,7 @@ namespace BankApp8.Init
 
             Console.WriteLine($"Seeding db ({dataSettings})...");
             var seedSw = Stopwatch.StartNew();
-            DbSeeder.Seed(connectionString, dataSettings);
+            new DbSeeder(connectionString).Seed(dataSettings);
             Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
         }
     }

@@ -24,11 +24,11 @@ namespace BankApp8.Common.DataAccess
             int lastClientId)
         {
             var sql = $@"
-select *
-from ""{nameof(LoanSnapshot)}""
-where
-  ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId and
-  ""{nameof(LoanSnapshot.ClientId)}"" between @FirstClientId and @LastClientId";
+SELECT *
+FROM ""{nameof(LoanSnapshot)}""
+WHERE
+  ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId AND
+  ""{nameof(LoanSnapshot.ClientId)}"" BETWEEN @FirstClientId AND @LastClientId";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {

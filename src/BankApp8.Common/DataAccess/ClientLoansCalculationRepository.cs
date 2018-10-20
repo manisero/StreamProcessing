@@ -22,10 +22,10 @@ namespace BankApp8.Common.DataAccess
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 var loansProcessSql = $@"
-insert into ""{nameof(ClientLoansCalculation)}""
+INSERT INTO ""{nameof(ClientLoansCalculation)}""
 (""{nameof(ClientLoansCalculation.DatasetId)}"") values
 (@DatasetId)
-returning *";
+RETURNING *";
 
                 var calculation = connection.QuerySingle<ClientLoansCalculation>(loansProcessSql, item);
 
