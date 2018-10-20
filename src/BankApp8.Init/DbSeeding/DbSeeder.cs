@@ -10,6 +10,7 @@ namespace BankApp8.Init.DbSeeding
     {
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
+        private readonly DepositSnapshotRepository _depositSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeeder(
@@ -17,6 +18,7 @@ namespace BankApp8.Init.DbSeeding
         {
             _datasetRepository = new DatasetRepository(connectionString);
             _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
+            _depositSnapshotRepository = new DepositSnapshotRepository(connectionString);
             _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
         }
 
@@ -28,6 +30,7 @@ namespace BankApp8.Init.DbSeeding
             foreach (var datasetId in datasetIds)
             {
                 var clientIds = CreateClients(datasetId, settings.ClientsPerDataset);
+                CreateDeposits(datasetId, clientIds, settings.DepositsPerClient);
                 CreateLoans(datasetId, clientIds, settings.LoansPerClient);
             }
         }
@@ -55,6 +58,15 @@ namespace BankApp8.Init.DbSeeding
                 .GetForDataset(datasetId)
                 .Select(x => x.ClientId)
                 .ToArray();
+        }
+
+        private void CreateDeposits(
+            short datasetId,
+            ICollection<int> clientIds,
+            int depositsPerClient)
+        {
+            var deposits = DepositSnapshot.GetRandom(datasetId, clientIds, depositsPerClient);
+            _depositSnapshotRepository.CreateMany(deposits);
         }
 
         private void CreateLoans(

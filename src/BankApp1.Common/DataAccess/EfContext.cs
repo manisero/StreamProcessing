@@ -34,6 +34,7 @@ namespace BankApp1.Common.DataAccess
 
             modelBuilder.Entity<Dataset>().Property(x => x.Date).HasColumnType(nameof(NpgsqlDbType.Date));
             modelBuilder.Entity<ClientSnapshot>();
+            modelBuilder.Entity<DepositSnapshot>();
             modelBuilder.Entity<LoanSnapshot>();
             modelBuilder.Entity<TotalLoanCalculation>();
             modelBuilder.Entity<ClientLoansCalculation>();

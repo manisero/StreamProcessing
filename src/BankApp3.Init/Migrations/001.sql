@@ -13,6 +13,16 @@ CREATE TABLE "ClientSnapshot"
 	CONSTRAINT "FK_ClientSnapshot_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
 );
 
+CREATE TABLE "DepositSnapshot"
+(
+    "DatasetId" smallint not null,
+	"ClientId" int not null,
+    "DepositId" int not null,
+	"Value" numeric(19, 4) not null,
+	CONSTRAINT "PK_DepositSnapshot" PRIMARY KEY ("DatasetId", "ClientId", "DepositId"),
+	CONSTRAINT "FK_DepositSnapshot_ClientSnapshot" FOREIGN KEY ("DatasetId", "ClientId") REFERENCES "ClientSnapshot" ("DatasetId", "ClientId")
+);
+
 CREATE TABLE "LoanSnapshot"
 (
     "DatasetId" smallint not null,
