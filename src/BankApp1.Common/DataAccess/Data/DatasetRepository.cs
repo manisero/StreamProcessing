@@ -32,6 +32,7 @@ namespace BankApp1.Common.DataAccess.Data
             {
                 return context
                     .Set<Dataset>()
+                    .Include(x => x.Clients).ThenInclude(x => x.Deposits)
                     .Include(x => x.Clients).ThenInclude(x => x.Loans)
                     .Single(x => x.DatasetId == datasetId);
             }

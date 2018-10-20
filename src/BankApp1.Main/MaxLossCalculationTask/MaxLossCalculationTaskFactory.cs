@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BankApp.Domain.SurrogateKeys.Tasks;
 using BankApp1.Common.DataAccess.Data;
 using BankApp1.Common.DataAccess.Tasks;
@@ -48,8 +47,12 @@ namespace BankApp1.Main.MaxLossCalculationTask
                         {
                             var clientLoan = client.Loans.Sum(x => x.Value);
                             var clientDeposit = client.Deposits.Sum(x => x.Value);
+                            var clientMaxLoss = clientLoan - clientDeposit;
 
-                            state.MaxLoss += Math.Max(clientLoan - clientDeposit, 0m);
+                            if (clientMaxLoss > 0)
+                            {
+                                state.MaxLoss += clientMaxLoss;
+                            }
                         }
                     }),
                 new BasicTaskStep(
