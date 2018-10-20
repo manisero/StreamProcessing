@@ -7,25 +7,19 @@ using Manisero.Navvy.PipelineProcessing;
 
 namespace BankApp8.Main.ClientLoansCalculationTask
 {
-    public interface ILoansProcessingTaskFactory
+    public class LoansProcessingTaskFactory
     {
-        TaskDefinition Create(
-            short datasetId);
-    }
-
-    public class LoansProcessingTaskFactory : ILoansProcessingTaskFactory
-    {
-        private readonly IClientRepository _clientRepository;
-        private readonly ILoanRepository _loanRepository;
-        private readonly ILoansProcessRepository _loansProcessRepository;
+        private readonly ClientSnapshotRepository _clientSnapshotRepository;
+        private readonly LoanSnapshotRepository _loanSnapshotRepository;
+        private readonly LoansProcessRepository _loansProcessRepository;
 
         public LoansProcessingTaskFactory(
-            IClientRepository clientRepository,
-            ILoanRepository loanRepository,
-            ILoansProcessRepository loansProcessRepository)
+            ClientSnapshotRepository clientSnapshotRepository,
+            LoanSnapshotRepository loanSnapshotRepository,
+            LoansProcessRepository loansProcessRepository)
         {
-            _clientRepository = clientRepository;
-            _loanRepository = loanRepository;
+            _clientSnapshotRepository = clientSnapshotRepository;
+            _loanSnapshotRepository = loanSnapshotRepository;
             _loansProcessRepository = loansProcessRepository;
         }
 
@@ -34,11 +28,10 @@ namespace BankApp8.Main.ClientLoansCalculationTask
         {
             var process = _loansProcessRepository.Create(new LoansProcess { DatasetId = datasetId });
 
-            var clientsCount = _clientRepository.CountInDataset(process.DatasetId);
-
-            var batchSize = Client.DefaultReadingBatchSize;
+            var clientsCount = _clientSnapshotRepository.CountInDataset(process.DatasetId);
+            var batchSize = ClientSnapshot.DefaultReadingBatchSize;
             var batchesCount = clientsCount.CeilingOfDivisionBy(batchSize);
-            var clientsReader = _clientRepository.GetBatchedReader(process.DatasetId, batchSize);
+            var clientsReader = _clientSnapshotRepository.GetBatchedReader(process.DatasetId, batchSize);
 
             return new TaskDefinition(
                 $"LoansProcessing_{process.LoansProcessId}",
@@ -58,7 +51,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                         "LoadLoans",
                         x =>
                         {
-                            var loans = _loanRepository.GetRange(
+                            var loans = _loanSnapshotRepository.GetRange(
                                 process.DatasetId,
                                 x.Clients.First().Key,
                                 x.Clients.Last().Key);

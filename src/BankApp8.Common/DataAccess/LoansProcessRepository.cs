@@ -8,16 +8,7 @@ using NpgsqlTypes;
 
 namespace BankApp8.Common.DataAccess
 {
-    public interface ILoansProcessRepository
-    {
-        LoansProcess Create(
-            LoansProcess loansProcess);
-
-        void SaveClientResults(
-            IEnumerable<LoansProcessClientResult> results);
-    }
-
-    public class LoansProcessRepository : ILoansProcessRepository
+    public class LoansProcessRepository
     {
         private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, LoansProcessClientResult>> LoansProcessClientResultColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, LoansProcessClientResult>>

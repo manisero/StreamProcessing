@@ -11,9 +11,9 @@ namespace BankApp8.Main.ClientLoansCalculationTask
 
     public class ClientToProcess
     {
-        public Client Client { get; set; }
+        public ClientSnapshot Client { get; set; }
 
-        public ICollection<Loan> Loans { get; set; }
+        public ICollection<LoanSnapshot> Loans { get; set; }
 
         public decimal TotalLoan { get; set; }
     }

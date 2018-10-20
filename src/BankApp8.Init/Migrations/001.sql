@@ -5,23 +5,23 @@
     CONSTRAINT "PK_Dataset" PRIMARY KEY ("DatasetId")
 );
 
-CREATE TABLE "Client"
+CREATE TABLE "ClientSnapshot"
 (
     "DatasetId" smallint not null,
     "ClientId" int not null
 ) PARTITION BY LIST ("DatasetId");
 
-CREATE TABLE "Client_1" PARTITION OF "Client" (CONSTRAINT "PK_Client_1" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (1);
-CREATE TABLE "Client_2" PARTITION OF "Client" (CONSTRAINT "PK_Client_2" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (2);
-CREATE TABLE "Client_3" PARTITION OF "Client" (CONSTRAINT "PK_Client_3" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (3);
-CREATE TABLE "Client_4" PARTITION OF "Client" (CONSTRAINT "PK_Client_4" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (4);
-CREATE TABLE "Client_5" PARTITION OF "Client" (CONSTRAINT "PK_Client_5" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (5);
-CREATE TABLE "Client_6" PARTITION OF "Client" (CONSTRAINT "PK_Client_6" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (6);
-CREATE TABLE "Client_7" PARTITION OF "Client" (CONSTRAINT "PK_Client_7" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (7);
-CREATE TABLE "Client_8" PARTITION OF "Client" (CONSTRAINT "PK_Client_8" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (8);
-CREATE TABLE "Client_9" PARTITION OF "Client" (CONSTRAINT "PK_Client_9" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (9);
+CREATE TABLE "ClientSnapshot_1" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_1" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (1);
+CREATE TABLE "ClientSnapshot_2" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_2" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (2);
+CREATE TABLE "ClientSnapshot_3" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_3" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (3);
+CREATE TABLE "ClientSnapshot_4" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_4" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (4);
+CREATE TABLE "ClientSnapshot_5" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_5" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (5);
+CREATE TABLE "ClientSnapshot_6" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_6" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (6);
+CREATE TABLE "ClientSnapshot_7" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_7" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (7);
+CREATE TABLE "ClientSnapshot_8" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_8" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (8);
+CREATE TABLE "ClientSnapshot_9" PARTITION OF "ClientSnapshot" (CONSTRAINT "PK_ClientSnapshot_9" PRIMARY KEY ("DatasetId", "ClientId")) FOR VALUES IN (9);
 
-CREATE TABLE "Loan"
+CREATE TABLE "LoanSnapshot"
 (
     "DatasetId" smallint not null,
 	"ClientId" int not null,
@@ -29,12 +29,12 @@ CREATE TABLE "Loan"
 	"Value" numeric(19, 4) not null
 ) PARTITION BY LIST ("DatasetId");
 
-CREATE TABLE "Loan_1" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_1" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (1);
-CREATE TABLE "Loan_2" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_2" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (2);
-CREATE TABLE "Loan_3" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_3" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (3);
-CREATE TABLE "Loan_4" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_4" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (4);
-CREATE TABLE "Loan_5" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_5" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (5);
-CREATE TABLE "Loan_6" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_6" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (6);
-CREATE TABLE "Loan_7" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_7" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (7);
-CREATE TABLE "Loan_8" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_8" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (8);
-CREATE TABLE "Loan_9" PARTITION OF "Loan" (CONSTRAINT "PK_Loan_9" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (9);
+CREATE TABLE "LoanSnapshot_1" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_1" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (1);
+CREATE TABLE "LoanSnapshot_2" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_2" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (2);
+CREATE TABLE "LoanSnapshot_3" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_3" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (3);
+CREATE TABLE "LoanSnapshot_4" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_4" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (4);
+CREATE TABLE "LoanSnapshot_5" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_5" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (5);
+CREATE TABLE "LoanSnapshot_6" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_6" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (6);
+CREATE TABLE "LoanSnapshot_7" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_7" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (7);
+CREATE TABLE "LoanSnapshot_8" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_8" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (8);
+CREATE TABLE "LoanSnapshot_9" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_9" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (9);

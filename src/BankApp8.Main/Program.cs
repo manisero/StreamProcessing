@@ -15,8 +15,8 @@ namespace BankApp8.Main
             var taskExecutor = TaskExecutorFactory.Create();
             
             var loansProcessingTaskFactory = new LoansProcessingTaskFactory(
-                new ClientRepository(connectionString),
-                new LoanRepository(connectionString),
+                new ClientSnapshotRepository(connectionString),
+                new LoanSnapshotRepository(connectionString),
                 new LoansProcessRepository(connectionString));
             
             var loansProcessingTask = loansProcessingTaskFactory.Create(5);

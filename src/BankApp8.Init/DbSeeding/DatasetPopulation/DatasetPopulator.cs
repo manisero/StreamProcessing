@@ -1,57 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BankApp8.Common.DataAccess;
 using BankApp8.Common.Domain;
-using DataProcessing.Utils.DatabaseAccess;
-using Npgsql;
-using NpgsqlTypes;
 
 namespace BankApp8.Init.DbSeeding.DatasetPopulation
 {
     public static class DatasetPopulator
     {
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, Client>> ClientColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, Client>>
-            {
-                [nameof(Client.DatasetId)] = (writer, x) => writer.Write(x.DatasetId, NpgsqlDbType.Smallint),
-                [nameof(Client.ClientId)] = (writer, x) => writer.Write(x.ClientId, NpgsqlDbType.Integer)
-            };
-
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, Loan>> LoanColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, Loan>>
-            {
-                [nameof(Loan.DatasetId)] = (writer, x) => writer.Write(x.DatasetId, NpgsqlDbType.Smallint),
-                [nameof(Loan.ClientId)] = (writer, x) => writer.Write(x.ClientId, NpgsqlDbType.Integer),
-                [nameof(Loan.LoanId)] = (writer, x) => writer.Write(x.LoanId, NpgsqlDbType.Integer),
-                [nameof(Loan.Value)] = (writer, x) => writer.Write(x.Value, NpgsqlDbType.Numeric)
-            };
-
         public static void Populate(
             short datasetId,
             string connectionString,
             int clientsCount,
             int loansPerClient)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                PostgresCopyExecutor.Execute(
-                    connection,
-                    GetClients(datasetId, clientsCount),
-                    ClientColumnMapping);
+            new ClientSnapshotRepository(connectionString)
+                .CreateMany(GetClients(datasetId, clientsCount));
 
-                PostgresCopyExecutor.Execute(
-                    connection,
-                    GetLoans(datasetId, clientsCount, loansPerClient),
-                    LoanColumnMapping);
-            }
+            new LoanSnapshotRepository(connectionString)
+                .CreateMany(GetLoans(datasetId, clientsCount, loansPerClient));
         }
 
-        private static IEnumerable<Client> GetClients(
+        private static IEnumerable<ClientSnapshot> GetClients(
             short datasetId,
             int clientsCount)
         {
             for (var clientId = 1; clientId <= clientsCount; clientId++)
             {
-                yield return new Client
+                yield return new ClientSnapshot
                 {
                     DatasetId = datasetId,
                     ClientId = clientId
@@ -59,7 +33,7 @@ namespace BankApp8.Init.DbSeeding.DatasetPopulation
             }
         }
 
-        private static IEnumerable<Loan> GetLoans(
+        private static IEnumerable<LoanSnapshot> GetLoans(
             short datasetId,
             int clientsCount,
             int loansPerClient)
@@ -70,7 +44,7 @@ namespace BankApp8.Init.DbSeeding.DatasetPopulation
             {
                 for (var loanIndex = 0; loanIndex < loansPerClient; loanIndex++)
                 {
-                    yield return new Loan
+                    yield return new LoanSnapshot
                     {
                         DatasetId = datasetId,
                         ClientId = clientId,
