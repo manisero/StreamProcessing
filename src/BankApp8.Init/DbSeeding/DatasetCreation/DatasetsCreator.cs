@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankApp.Domain.WideKeys;
 using BankApp8.Common.DataAccess;
-using BankApp8.Common.Domain;
 
 namespace BankApp8.Init.DbSeeding.DatasetCreation
 {

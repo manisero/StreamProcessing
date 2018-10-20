@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankApp8.Common.Domain;
+using BankApp.Domain.WideKeys;
 using Dapper;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;

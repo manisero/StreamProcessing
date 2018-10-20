@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankApp.Domain.WideKeys\BankApp.Domain.WideKeys.csproj" />
     <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>
 

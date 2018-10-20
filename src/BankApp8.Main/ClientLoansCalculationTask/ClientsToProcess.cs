@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BankApp8.Common.Domain;
+using BankApp.Domain.WideKeys;
 
 namespace BankApp8.Main.ClientLoansCalculationTask
 {

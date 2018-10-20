@@ -1,4 +1,4 @@
-﻿namespace BankApp8.Common.Domain
+﻿namespace BankApp.Domain.WideKeys
 {
     public class ClientLoansCalculation
     {
