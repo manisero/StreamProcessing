@@ -5,8 +5,8 @@ namespace DataProcessing.Utils
 {
     public static class RandomUtils
     {
-        /// <summary>Generates collection of unique random numbers from 1 to specified max value.</summary>
-        public static ICollection<int> NextUniqueCollection(
+        /// <summary>Generates set of unique random numbers from 1 to specified max value.</summary>
+        public static ISet<int> NextUniqueSet(
             this Random random,
             int count,
             int maxValueInclusive)

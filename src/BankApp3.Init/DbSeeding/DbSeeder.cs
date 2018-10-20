@@ -58,7 +58,7 @@ namespace BankApp3.Init.DbSeeding
             int clientsCount)
         {
             var clientIds = new Random()
-                .NextUniqueCollection(clientsCount, clientsCount * 2)
+                .NextUniqueSet(clientsCount, clientsCount * 2)
                 .ToArray();
 
             var clients = new List<ClientSnapshot>();
@@ -87,7 +87,7 @@ namespace BankApp3.Init.DbSeeding
 
             var loansCount = clients.Count * loansPerClient;
             var loanIds = random
-                .NextUniqueCollection(loansCount, loansCount * 2)
+                .NextUniqueSet(loansCount, loansCount * 2)
                 .ToArray();
 
             var loans = new List<LoanSnapshot>();
