@@ -1,8 +1,8 @@
 ﻿namespace BankApp8.Common.Domain
 {
-    public class LoansProcess
+    public class ClientLoansCalculation
     {
-        public short LoansProcessId { get; set; }
+        public short ClientLoansCalculationId { get; set; }
 
         public short DatasetId { get; set; }
     }

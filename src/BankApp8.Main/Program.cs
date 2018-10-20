@@ -14,13 +14,13 @@ namespace BankApp8.Main
 
             var taskExecutor = TaskExecutorFactory.Create();
             
-            var loansProcessingTaskFactory = new LoansProcessingTaskFactory(
+            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 new ClientSnapshotRepository(connectionString),
                 new LoanSnapshotRepository(connectionString),
-                new LoansProcessRepository(connectionString));
+                new ClientLoansCalculationRepository(connectionString));
 
             var datasetId = new DatasetRepository(connectionString).GetMaxId();
-            var task = loansProcessingTaskFactory.Create(datasetId.Value);
+            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
             
             var taskResult = taskExecutor.Execute(task);
         }

@@ -7,34 +7,38 @@ using Manisero.Navvy.PipelineProcessing;
 
 namespace BankApp8.Main.ClientLoansCalculationTask
 {
-    public class LoansProcessingTaskFactory
+    public class ClientLoansCalculationTaskFactory
     {
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
-        private readonly LoansProcessRepository _loansProcessRepository;
+        private readonly ClientLoansCalculationRepository _clientLoansCalculationRepository;
 
-        public LoansProcessingTaskFactory(
+        public ClientLoansCalculationTaskFactory(
             ClientSnapshotRepository clientSnapshotRepository,
             LoanSnapshotRepository loanSnapshotRepository,
-            LoansProcessRepository loansProcessRepository)
+            ClientLoansCalculationRepository clientLoansCalculationRepository)
         {
             _clientSnapshotRepository = clientSnapshotRepository;
             _loanSnapshotRepository = loanSnapshotRepository;
-            _loansProcessRepository = loansProcessRepository;
+            _clientLoansCalculationRepository = clientLoansCalculationRepository;
         }
 
         public TaskDefinition Create(
             short datasetId)
         {
-            var process = _loansProcessRepository.Create(new LoansProcess { DatasetId = datasetId });
+            var clientLoansCalculation = _clientLoansCalculationRepository.Create(
+                new ClientLoansCalculation
+                {
+                    DatasetId = datasetId
+                });
 
-            var clientsCount = _clientSnapshotRepository.CountInDataset(process.DatasetId);
+            var clientsCount = _clientSnapshotRepository.CountInDataset(clientLoansCalculation.DatasetId);
             var batchSize = ClientSnapshot.DefaultReadingBatchSize;
             var batchesCount = clientsCount.CeilingOfDivisionBy(batchSize);
-            var clientsReader = _clientSnapshotRepository.GetBatchedReader(process.DatasetId, batchSize);
+            var clientsReader = _clientSnapshotRepository.GetBatchedReader(clientLoansCalculation.DatasetId, batchSize);
 
             return new TaskDefinition(
-                $"LoansProcessing_{process.LoansProcessId}",
+                $"{nameof(ClientLoansCalculation)}_{clientLoansCalculation.ClientLoansCalculationId}",
                 PipelineTaskStep
                     .Builder<ClientsToProcess>("Process")
                     .WithInput(
@@ -52,7 +56,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                         x =>
                         {
                             var loans = _loanSnapshotRepository.GetRange(
-                                process.DatasetId,
+                                clientLoansCalculation.DatasetId,
                                 x.Clients.First().Key,
                                 x.Clients.Last().Key);
 
@@ -62,7 +66,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                             }
                         })
                     .WithBlock(
-                        "SumLoans",
+                        "CalculateTotalLoans",
                         x =>
                         {
                             foreach (var client in x.Clients.Values)
@@ -71,14 +75,18 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                             }
                         })
                     .WithBlock(
-                        "SaveClientResults",
-                        x => _loansProcessRepository.SaveClientResults(
-                            x.Clients.Values.Select(c => new LoansProcessClientResult
+                        "SaveClientTotalLoans",
+                        x =>
+                        {
+                            var clientTotalLoans = x.Clients.Values.Select(c => new ClientTotalLoan
                             {
-                                LoansProcessId = process.LoansProcessId,
+                                ClientLoansCalculationId = clientLoansCalculation.ClientLoansCalculationId,
                                 ClientId = c.Client.ClientId,
                                 TotalLoan = c.TotalLoan
-                            })))
+                            });
+
+                            _clientLoansCalculationRepository.SaveClientTotalLoans(clientTotalLoans);
+                        })
                     .Build());
         }
     }

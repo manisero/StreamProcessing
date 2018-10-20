@@ -1,13 +1,14 @@
-﻿CREATE TABLE "LoansProcess"
+﻿CREATE TABLE "ClientLoansCalculation"
 (
-    "LoansProcessId" smallint generated always as identity,
+    "ClientLoansCalculationId" smallint generated always as identity,
     "DatasetId" smallint not null,
-    CONSTRAINT "PK_LoansProcess" PRIMARY KEY ("LoansProcessId")
+    CONSTRAINT "PK_ClientLoansCalculation" PRIMARY KEY ("ClientLoansCalculationId"),
+	CONSTRAINT "FK_ClientLoansCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
 );
 
-CREATE TABLE "LoansProcessClientResult"
+CREATE TABLE "ClientTotalLoan"
 (
-    "LoansProcessId" smallint not null,
+    "ClientLoansCalculationId" smallint not null,
     "ClientId" int not null,
 	"TotalLoan" numeric(19, 4) not null
-) PARTITION BY LIST ("LoansProcessId");
+) PARTITION BY LIST ("ClientLoansCalculationId");
