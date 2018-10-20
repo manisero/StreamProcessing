@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
@@ -10,13 +9,6 @@ namespace BankApp8.Common.DataAccess
 {
     public class ClientSnapshotRepository
     {
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>> ColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>>
-            {
-                [nameof(ClientSnapshot.ClientId)] = (writer, x) => writer.Write(x.ClientId),
-                [nameof(ClientSnapshot.DatasetId)] = (writer, x) => writer.Write(x.DatasetId)
-            };
-
         private readonly string _connectionString;
 
         public ClientSnapshotRepository(
@@ -59,7 +51,7 @@ where ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    ColumnMapping);
+                    ClientSnapshot.ColumnMapping);
             }
         }
     }

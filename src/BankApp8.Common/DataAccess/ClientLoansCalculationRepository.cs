@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
@@ -9,14 +8,6 @@ namespace BankApp8.Common.DataAccess
 {
     public class ClientLoansCalculationRepository
     {
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>> ClientTotalLoanColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>>
-            {
-                [nameof(ClientTotalLoan.ClientLoansCalculationId)] = (writer, x) => writer.Write(x.ClientLoansCalculationId),
-                [nameof(ClientTotalLoan.ClientId)] = (writer, x) => writer.Write(x.ClientId),
-                [nameof(ClientTotalLoan.TotalLoan)] = (writer, x) => writer.Write(x.TotalLoan)
-            };
-
         private readonly string _connectionString;
 
         public ClientLoansCalculationRepository(
@@ -58,7 +49,7 @@ FOR VALUES IN ({calculation.ClientLoansCalculationId})";
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    ClientTotalLoanColumnMapping);
+                    ClientTotalLoan.ColumnMapping);
             }
         }
     }

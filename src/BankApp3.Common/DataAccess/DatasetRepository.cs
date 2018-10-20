@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
-using NpgsqlTypes;
 
 namespace BankApp3.Common.DataAccess
 {
     public class DatasetRepository
     {
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>> ColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>>
-            {
-                [nameof(Dataset.Date)] = (writer, x) => writer.Write(x.Date, NpgsqlDbType.Date)
-            };
-
         private readonly string _connectionString;
 
         public DatasetRepository(
@@ -51,7 +43,7 @@ namespace BankApp3.Common.DataAccess
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    ColumnMapping);
+                    Dataset.ColumnMapping);
             }
         }
     }
