@@ -18,10 +18,11 @@ namespace BankApp8.Main
                 new ClientSnapshotRepository(connectionString),
                 new LoanSnapshotRepository(connectionString),
                 new LoansProcessRepository(connectionString));
+
+            var datasetId = new DatasetRepository(connectionString).GetMaxId();
+            var task = loansProcessingTaskFactory.Create(datasetId.Value);
             
-            var loansProcessingTask = loansProcessingTaskFactory.Create(5);
-            
-            var taskResult = taskExecutor.Execute(loansProcessingTask);
+            var taskResult = taskExecutor.Execute(task);
         }
     }
 }

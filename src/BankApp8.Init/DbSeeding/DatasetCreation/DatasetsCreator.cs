@@ -1,31 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankApp8.Common.DataAccess;
 using BankApp8.Common.Domain;
-using DataProcessing.Utils.DatabaseAccess;
-using Npgsql;
-using NpgsqlTypes;
 
 namespace BankApp8.Init.DbSeeding.DatasetCreation
 {
     public static class DatasetsCreator
     {
-        private static readonly Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>> ColumnMapping =
-            new Dictionary<string, Action<NpgsqlBinaryImporter, Dataset>>
-            {
-                [nameof(Dataset.DatasetId)] = (writer, x) => writer.Write(x.DatasetId, NpgsqlDbType.Smallint),
-                [nameof(Dataset.Date)] = (writer, x) => writer.Write(x.Date, NpgsqlDbType.Date)
-            };
-
-        public static IDictionary<short, Dataset> Create(
+        public static ICollection<Dataset> Create(
             string connectionString,
             int datasetsCount)
         {
-            var datasets = new Dictionary<short, Dataset>();
+            var datasets = new List<Dataset>();
 
             for (short datasetId = 1; datasetId <= datasetsCount; datasetId++)
             {
                 datasets.Add(
-                    datasetId,
                     new Dataset
                     {
                         DatasetId = datasetId,
@@ -33,15 +23,10 @@ namespace BankApp8.Init.DbSeeding.DatasetCreation
                     });
             }
 
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                PostgresCopyExecutor.Execute(
-                    connection,
-                    datasets.Values,
-                    ColumnMapping);
-            }
+            var datasetRepository = new DatasetRepository(connectionString);
+            datasetRepository.CreateMany(datasets);
 
-            return datasets;
+            return datasetRepository.GetAll();
         }
     }
 }

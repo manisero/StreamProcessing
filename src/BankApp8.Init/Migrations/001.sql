@@ -1,6 +1,6 @@
 ﻿CREATE TABLE "Dataset"
 (
-    "DatasetId" smallint not null,
+    "DatasetId" smallint generated always as identity,
 	"Date" date not null,
     CONSTRAINT "PK_Dataset" PRIMARY KEY ("DatasetId")
 );

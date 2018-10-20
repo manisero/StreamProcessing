@@ -12,9 +12,9 @@ namespace BankApp8.Init.DbSeeding
         {
             var datasets = DatasetsCreator.Create(connectionString, settings.DatasetsCount);
 
-            foreach (var datasetId in datasets.Keys)
+            foreach (var dataset in datasets)
             {
-                DatasetPopulator.Populate(datasetId, connectionString, settings.ClientsPerDataset, settings.LoansPerClient);
+                DatasetPopulator.Populate(dataset.DatasetId, connectionString, settings.ClientsPerDataset, settings.LoansPerClient);
             }
         }
     }
