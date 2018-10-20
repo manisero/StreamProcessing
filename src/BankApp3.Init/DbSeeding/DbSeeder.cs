@@ -23,22 +23,25 @@ namespace BankApp3.Init.DbSeeding
         public void Seed(
             DataSettings settings)
         {
-            var datasets = CreateDatasets(settings.DatasetsCount);
+            var datasetIds = CreateDatasets(settings.DatasetsCount);
 
-            foreach (var dataset in datasets)
+            foreach (var datasetId in datasetIds)
             {
-                var clientIds = CreateClients(dataset.DatasetId, settings.ClientsPerDataset);
-                CreateLoans(dataset.DatasetId, clientIds, settings.LoansPerClient);
+                var clientIds = CreateClients(datasetId, settings.ClientsPerDataset);
+                CreateLoans(datasetId, clientIds, settings.LoansPerClient);
             }
         }
 
-        private ICollection<Dataset> CreateDatasets(
+        private ICollection<short> CreateDatasets(
             int datasetsCount)
         {
             var datasets = Dataset.GetRandom(datasetsCount);
             _datasetRepository.CreateMany(datasets);
 
-            return _datasetRepository.GetAll();
+            return _datasetRepository
+                .GetAll()
+                .Select(x => x.DatasetId)
+                .ToArray();
         }
 
         private ICollection<int> CreateClients(
