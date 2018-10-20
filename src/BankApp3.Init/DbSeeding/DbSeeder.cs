@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp3.Common.DataAccess;
-using BankApp3.Common.Domain;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Settings;
 

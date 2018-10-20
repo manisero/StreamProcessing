@@ -1,4 +1,4 @@
-﻿using BankApp3.Common.Domain;
+﻿using BankApp.Domain.WideKeys;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
