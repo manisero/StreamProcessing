@@ -42,5 +42,38 @@ WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId";
                     DepositSnapshot.ColumnMapping);
             }
         }
+
+        public void DropConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(DepositSnapshot)}""
+DROP CONSTRAINT ""FK_{nameof(DepositSnapshot)}_{nameof(ClientSnapshot)}_{nameof(DepositSnapshot.DatasetId)}_{nameof(DepositSnapshot.ClientId)}"";
+
+ALTER TABLE ""{nameof(DepositSnapshot)}""
+DROP CONSTRAINT ""PK_{nameof(DepositSnapshot)}"";";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public void RestoreConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(DepositSnapshot)}""
+ADD CONSTRAINT ""PK_{nameof(DepositSnapshot)}""
+PRIMARY KEY (""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DepositId)}"");
+
+ALTER TABLE ""{nameof(DepositSnapshot)}""
+ADD CONSTRAINT ""FK_{nameof(DepositSnapshot)}_{nameof(ClientSnapshot)}_{nameof(DepositSnapshot.DatasetId)}_{nameof(DepositSnapshot.ClientId)}""
+FOREIGN KEY (""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DatasetId)}"")
+REFERENCES ""{nameof(ClientSnapshot)}"" (""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DatasetId)}"");";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
     }
 }

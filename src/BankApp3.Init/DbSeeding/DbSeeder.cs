@@ -25,6 +25,8 @@ namespace BankApp3.Init.DbSeeding
         public void Seed(
             DataSettings settings)
         {
+            _depositSnapshotRepository.DropConstraints();
+
             var datasetIds = CreateDatasets(settings.DatasetsCount);
 
             foreach (var datasetId in datasetIds)
@@ -33,6 +35,8 @@ namespace BankApp3.Init.DbSeeding
                 CreateDeposits(datasetId, clientIds, settings.DepositsPerClient);
                 CreateLoans(datasetId, clientIds, settings.LoansPerClient);
             }
+
+            _depositSnapshotRepository.RestoreConstraints();
         }
 
         private ICollection<short> CreateDatasets(
