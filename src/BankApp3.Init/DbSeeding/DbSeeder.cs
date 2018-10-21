@@ -51,13 +51,10 @@ namespace BankApp3.Init.DbSeeding
             short datasetId,
             int clientsCount)
         {
-            var clients = ClientSnapshot.GetRandom(datasetId, clientsCount);
+            var clients = ClientSnapshot.GetRandom(datasetId, clientsCount).ToArray();
             _clientSnapshotRepository.CreateMany(clients);
 
-            return _clientSnapshotRepository
-                .GetForDataset(datasetId)
-                .Select(x => x.ClientId)
-                .ToArray();
+            return clients.Select(x => x.ClientId).ToArray();
         }
 
         private void CreateDeposits(
