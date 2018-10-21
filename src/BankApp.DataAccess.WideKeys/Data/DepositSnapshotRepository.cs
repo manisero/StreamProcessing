@@ -4,42 +4,42 @@ using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess.Data
+namespace BankApp.DataAccess.WideKeys.Data
 {
-    public class ClientSnapshotRepository
+    public class DepositSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public ClientSnapshotRepository(
+        public DepositSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public ICollection<ClientSnapshot> GetForDataset(
+        public ICollection<DepositSnapshot> GetForDataset(
             short datasetId)
         {
             var sql = $@"
-SELECT * FROM ""{nameof(ClientSnapshot)}""
-WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
+SELECT * FROM ""{nameof(DepositSnapshot)}""
+WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
-                    .Query<ClientSnapshot>(sql, new { DatasetId = datasetId })
+                    .Query<DepositSnapshot>(sql, new { DatasetId = datasetId })
                     .AsList();
             }
         }
 
         public void CreateMany(
-            IEnumerable<ClientSnapshot> items)
+            IEnumerable<DepositSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    ClientSnapshot.ColumnMapping);
+                    DepositSnapshot.ColumnMapping);
             }
         }
     }

@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankApp.DataAccess.WideKeys\BankApp.DataAccess.WideKeys.csproj" />
     <ProjectReference Include="..\BankApp.Domain.WideKeys\BankApp.Domain.WideKeys.csproj" />
-    <ProjectReference Include="..\BankApp3.Common\BankApp3.Common.csproj" />
     <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>
 

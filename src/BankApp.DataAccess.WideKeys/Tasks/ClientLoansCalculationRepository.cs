@@ -1,6 +1,6 @@
 ﻿using BankApp.Domain.WideKeys.Tasks;
 
-namespace BankApp3.Common.DataAccess.Tasks
+namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientLoansCalculationRepository
     {

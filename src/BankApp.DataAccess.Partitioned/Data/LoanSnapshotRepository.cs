@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
+using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess.Data
+namespace BankApp.DataAccess.Partitioned.Data
 {
     public class LoanSnapshotRepository
     {
@@ -16,18 +17,34 @@ namespace BankApp3.Common.DataAccess.Data
             _connectionString = connectionString;
         }
 
-        public ICollection<LoanSnapshot> GetForDataset(
-            short datasetId)
+        /// <summary>Returns ClientId -> Loans</summary>
+        public IDictionary<int, ICollection<LoanSnapshot>> GetRange(
+            short datasetId,
+            int firstClientId,
+            int lastClientId)
         {
             var sql = $@"
-SELECT * FROM ""{nameof(LoanSnapshot)}""
-WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId";
+SELECT *
+FROM ""{nameof(LoanSnapshot)}""
+WHERE
+  ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId AND
+  ""{nameof(LoanSnapshot.ClientId)}"" BETWEEN @FirstClientId AND @LastClientId";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
-                    .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
-                    .AsList();
+                    .Query<LoanSnapshot>(
+                        sql,
+                        new
+                        {
+                            DatasetId = datasetId,
+                            FirstClientId = firstClientId,
+                            LastClientId = lastClientId
+                        },
+                        buffered: false)
+                    .GroupAndDict(
+                        x => x.ClientId,
+                        x => x.ToICollection());
             }
         }
 

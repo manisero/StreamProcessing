@@ -4,46 +4,42 @@ using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess.Data
+namespace BankApp.DataAccess.WideKeys.Data
 {
-    public class DatasetRepository
+    public class LoanSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public DatasetRepository(
+        public LoanSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public ICollection<Dataset> GetAll()
+        public ICollection<LoanSnapshot> GetForDataset(
+            short datasetId)
         {
+            var sql = $@"
+SELECT * FROM ""{nameof(LoanSnapshot)}""
+WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId";
+
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
-                    .Query<Dataset>($@"SELECT * FROM ""{nameof(Dataset)}""")
+                    .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
                     .AsList();
             }
         }
 
-        public short? GetMaxId()
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                return connection
-                    .QuerySingle<short?>($@"SELECT MAX(""{nameof(Dataset.DatasetId)}"") FROM ""{nameof(Dataset)}""");
-            }
-        }
-
         public void CreateMany(
-            IEnumerable<Dataset> items)
+            IEnumerable<LoanSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    Dataset.ColumnMapping);
+                    LoanSnapshot.ColumnMapping);
             }
         }
     }

@@ -5,7 +5,7 @@ using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.DatabaseAccess.BatchedReading;
 using Npgsql;
 
-namespace BankApp8.Common.DataAccess.Data
+namespace BankApp.DataAccess.Partitioned.Data
 {
     public class ClientSnapshotRepository
     {

@@ -4,7 +4,7 @@ using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp8.Common.DataAccess.Data
+namespace BankApp.DataAccess.Partitioned.Data
 {
     public class DatasetRepository
     {

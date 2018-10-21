@@ -3,7 +3,7 @@ using BankApp.Domain.WideKeys.Tasks;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp3.Common.DataAccess.Tasks
+namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientTotalLoanRepository
     {

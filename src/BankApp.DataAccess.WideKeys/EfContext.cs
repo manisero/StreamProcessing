@@ -3,7 +3,7 @@ using BankApp.Domain.WideKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
-namespace BankApp3.Common.DataAccess
+namespace BankApp.DataAccess.WideKeys
 {
     internal class EfContext : DbContext
     {

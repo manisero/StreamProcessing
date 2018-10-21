@@ -1,5 +1,5 @@
-﻿using BankApp3.Common.DataAccess.Data;
-using BankApp3.Common.DataAccess.Tasks;
+﻿using BankApp.DataAccess.WideKeys.Data;
+using BankApp.DataAccess.WideKeys.Tasks;
 using BankApp3.Main.ClientLoansCalculationTask;
 using BankApp3.Main.MaxLossCalculationTask;
 using BankApp3.Main.TotalLoanCalculationTask;

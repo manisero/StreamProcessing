@@ -4,7 +4,7 @@ using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp8.Common.DataAccess.Tasks
+namespace BankApp.DataAccess.Partitioned.Tasks
 {
     public class ClientLoansCalculationRepository
     {
