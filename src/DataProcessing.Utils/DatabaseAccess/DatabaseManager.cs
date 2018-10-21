@@ -24,10 +24,11 @@ namespace DataProcessing.Utils.DatabaseAccess
 
         public static bool TryRecreate(
             string connectionString,
+            bool force = false,
             Func<string, DbContext> efContextFactory = null,
             Type migrationScriptsAssemblySampleType = null)
         {
-            var created = TryRecreateDb(connectionString, efContextFactory);
+            var created = TryRecreateDb(connectionString, force, efContextFactory);
 
             if (!created)
             {
@@ -44,6 +45,7 @@ namespace DataProcessing.Utils.DatabaseAccess
 
         private static bool TryRecreateDb(
             string connectionString,
+            bool force = false,
             Func<string, DbContext> efContextFactory = null)
         {
             var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
@@ -51,7 +53,12 @@ namespace DataProcessing.Utils.DatabaseAccess
             Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
             var isNewDb = EnsureCreated(connectionString, efContextFactory);
 
-            if (!isNewDb)
+            if (isNewDb)
+            {
+                return true;
+            }
+
+            if (!force)
             {
                 Console.WriteLine("Db already exists. Recreate? (y - yes; anything else - exit)");
                 var answer = Console.ReadLine();
@@ -60,13 +67,13 @@ namespace DataProcessing.Utils.DatabaseAccess
                 {
                     return false;
                 }
-
-                Console.WriteLine("Dropping existing db...");
-                EnsureDeleted(connectionString);
-
-                Console.WriteLine("Recreating db...");
-                EnsureCreated(connectionString, efContextFactory);
             }
+            
+            Console.WriteLine("Dropping existing db...");
+            EnsureDeleted(connectionString);
+
+            Console.WriteLine("Recreating db...");
+            EnsureCreated(connectionString, efContextFactory);
 
             return true;
         }

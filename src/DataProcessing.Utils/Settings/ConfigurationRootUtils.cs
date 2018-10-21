@@ -4,6 +4,10 @@ namespace DataProcessing.Utils.Settings
 {
     public static class ConfigurationRootUtils
     {
+        public static DbCreationSettings GetDbCreationSettings(
+            this IConfigurationRoot config)
+            => config.GetSection(nameof(DbCreationSettings)).BindAndReturn(new DbCreationSettings());
+
         public static DataSettings GetDataSettings(
             this IConfigurationRoot config)
             => config.GetSection(nameof(DataSettings)).BindAndReturn(new DataSettings());

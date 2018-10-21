@@ -13,10 +13,12 @@ namespace BankApp8.Init
         {
             var config = ConfigUtils.GetConfig();
             var connectionString = config.GetConnectionString();
+            var dbCreationSettings = config.GetDbCreationSettings();
             var dataSettings = config.GetDataSettings();
 
             var dbCreated = DatabaseManager.TryRecreate(
                 connectionString,
+                dbCreationSettings.ForceRecreation,
                 migrationScriptsAssemblySampleType: typeof(Program));
 
             if (!dbCreated)
