@@ -58,11 +58,21 @@ namespace BankApp3.Init.DbSeeding
                         x => CreateLoans(x.DatasetId, x.ClientIds, settings.LoansPerClient))
                     .Build(),
                 new BasicTaskStep(
-                    "RecreateConstraints",
+                    "RecreateConstraints_Client",
                     () =>
                     {
                         _clientSnapshotRepository.RestoreConstraints();
+                    }),
+                new BasicTaskStep(
+                    "RecreateConstraints_Deposit",
+                    () =>
+                    {
                         _depositSnapshotRepository.RestoreConstraints();
+                    }),
+                new BasicTaskStep(
+                    "RecreateConstraints_Loan",
+                    () =>
+                    {
                         _loanSnapshotRepository.RestoreConstraints();
                     }));
         }
