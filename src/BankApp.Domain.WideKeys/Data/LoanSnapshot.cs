@@ -16,6 +16,8 @@ namespace BankApp.Domain.WideKeys.Data
 
         public decimal Value { get; set; }
 
+        public ClientSnapshot ClientSnapshot { get; set; }
+
         public const int DefaultReadingBatchSize = 100000;
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, LoanSnapshot>> ColumnMapping =

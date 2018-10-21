@@ -5,7 +5,7 @@ using NpgsqlTypes;
 
 namespace BankApp.DataAccess.WideKeys
 {
-    internal class EfContext : DbContext
+    public class EfContext : DbContext
     {
         private readonly string _connectionString;
 

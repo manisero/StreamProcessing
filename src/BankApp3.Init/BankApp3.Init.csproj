@@ -6,17 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Migrations\001.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\001.sql" />
   </ItemGroup>
 
   <ItemGroup>

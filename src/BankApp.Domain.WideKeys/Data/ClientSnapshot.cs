@@ -12,6 +12,8 @@ namespace BankApp.Domain.WideKeys.Data
 
         public int ClientId { get; set; }
 
+        public Dataset Dataset { get; set; }
+
         public const int DefaultReadingBatchSize = 100000;
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>> ColumnMapping =

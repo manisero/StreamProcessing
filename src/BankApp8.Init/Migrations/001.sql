@@ -26,7 +26,7 @@ CREATE TABLE "DepositSnapshot"
     "DatasetId" smallint not null,
 	"ClientId" int not null,
     "DepositId" int not null,
-	"Value" numeric(19, 4) not null
+	"Value" numeric not null
 ) PARTITION BY LIST ("DatasetId");
 
 CREATE TABLE "DepositSnapshot_1" PARTITION OF "DepositSnapshot" (CONSTRAINT "PK_DepositSnapshot_1" PRIMARY KEY ("DatasetId", "ClientId", "DepositId")) FOR VALUES IN (1);
@@ -44,7 +44,7 @@ CREATE TABLE "LoanSnapshot"
     "DatasetId" smallint not null,
 	"ClientId" int not null,
     "LoanId" int not null,
-	"Value" numeric(19, 4) not null
+	"Value" numeric not null
 ) PARTITION BY LIST ("DatasetId");
 
 CREATE TABLE "LoanSnapshot_1" PARTITION OF "LoanSnapshot" (CONSTRAINT "PK_LoanSnapshot_1" PRIMARY KEY ("DatasetId", "ClientId", "LoanId")) FOR VALUES IN (1);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BankApp.DataAccess.WideKeys;
 using BankApp3.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
@@ -19,7 +20,7 @@ namespace BankApp3.Init
             var dbCreated = DatabaseManager.TryRecreate(
                 connectionString,
                 dbCreationSettings.ForceRecreation,
-                migrationScriptsAssemblySampleType: typeof(Program));
+                efContextFactory: x => new EfContext(x));
 
             if (!dbCreated)
             {

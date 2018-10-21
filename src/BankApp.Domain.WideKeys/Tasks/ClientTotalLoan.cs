@@ -12,6 +12,8 @@ namespace BankApp.Domain.WideKeys.Tasks
 
         public decimal TotalLoan { get; set; }
 
+        public ClientLoansCalculation ClientLoansCalculation { get; set; }
+
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>> ColumnMapping =
             new Dictionary<string, Action<NpgsqlBinaryImporter, ClientTotalLoan>>
             {
