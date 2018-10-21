@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Manisero.Navvy;
 using Manisero.Navvy.Core.Events;
 using Manisero.Navvy.Dataflow;
@@ -25,6 +26,11 @@ namespace DataProcessing.Utils.Navvy
                         stepProgressed: x => Console.WriteLine($"{x.Step.Name}: {x.ProgressPercentage}%"),
                         taskEnded: x =>
                         {
+                            if (x.Result.Outcome == TaskOutcome.Failed)
+                            {
+                                throw x.Result.Errors.First();
+                            }
+
                             Console.WriteLine($"Task took {x.Task.GetExecutionLog().TaskDuration.Duration.TotalMilliseconds} ms.");
                             Console.WriteLine($"Report written to: {x.Task.GetExecutionReportsPath()}");
                         }));
