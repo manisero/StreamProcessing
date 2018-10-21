@@ -42,5 +42,38 @@ WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId";
                     LoanSnapshot.ColumnMapping);
             }
         }
+
+        public void DropConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(LoanSnapshot)}""
+DROP CONSTRAINT ""FK_{nameof(LoanSnapshot)}_{nameof(ClientSnapshot)}_{nameof(LoanSnapshot.DatasetId)}_{nameof(LoanSnapshot.ClientId)}"";
+
+ALTER TABLE ""{nameof(LoanSnapshot)}""
+DROP CONSTRAINT ""PK_{nameof(LoanSnapshot)}"";";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public void RestoreConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(LoanSnapshot)}""
+ADD CONSTRAINT ""PK_{nameof(LoanSnapshot)}""
+PRIMARY KEY (""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}"");
+
+ALTER TABLE ""{nameof(LoanSnapshot)}""
+ADD CONSTRAINT ""FK_{nameof(LoanSnapshot)}_{nameof(ClientSnapshot)}_{nameof(LoanSnapshot.DatasetId)}_{nameof(LoanSnapshot.ClientId)}""
+FOREIGN KEY (""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.DatasetId)}"")
+REFERENCES ""{nameof(ClientSnapshot)}"" (""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.DatasetId)}"");";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
     }
 }

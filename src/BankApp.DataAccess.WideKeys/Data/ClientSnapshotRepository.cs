@@ -42,5 +42,38 @@ WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
                     ClientSnapshot.ColumnMapping);
             }
         }
+
+        public void DropConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(ClientSnapshot)}""
+DROP CONSTRAINT ""FK_{nameof(ClientSnapshot)}_{nameof(Dataset)}_{nameof(ClientSnapshot.DatasetId)}"";
+
+ALTER TABLE ""{nameof(ClientSnapshot)}""
+DROP CONSTRAINT ""PK_{nameof(ClientSnapshot)}"";";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public void RestoreConstraints()
+        {
+            var sql = $@"
+ALTER TABLE ""{nameof(ClientSnapshot)}""
+ADD CONSTRAINT ""PK_{nameof(ClientSnapshot)}""
+PRIMARY KEY (""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}"");
+
+ALTER TABLE ""{nameof(ClientSnapshot)}""
+ADD CONSTRAINT ""FK_{nameof(ClientSnapshot)}_{nameof(Dataset)}_{nameof(ClientSnapshot.DatasetId)}""
+FOREIGN KEY (""{nameof(ClientSnapshot.DatasetId)}"")
+REFERENCES ""{nameof(Dataset)}"" (""{nameof(ClientSnapshot.DatasetId)}"");";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
     }
 }
