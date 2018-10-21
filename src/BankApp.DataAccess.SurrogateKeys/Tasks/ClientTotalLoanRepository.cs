@@ -3,7 +3,7 @@ using BankApp.Domain.SurrogateKeys.Tasks;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess.Tasks
+namespace BankApp.DataAccess.SurrogateKeys.Tasks
 {
     public class ClientTotalLoanRepository
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using BankApp1.Common.DataAccess;
+using BankApp.DataAccess.SurrogateKeys;
 using BankApp1.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;

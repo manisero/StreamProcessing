@@ -5,7 +5,7 @@ using DataProcessing.Utils.DatabaseAccess;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess.Data
+namespace BankApp.DataAccess.SurrogateKeys.Data
 {
     public class DatasetRepository
     {

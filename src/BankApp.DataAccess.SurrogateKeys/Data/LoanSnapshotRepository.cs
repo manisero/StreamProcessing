@@ -3,27 +3,27 @@ using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess.Data
+namespace BankApp.DataAccess.SurrogateKeys.Data
 {
-    public class DepositSnapshotRepository
+    public class LoanSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public DepositSnapshotRepository(
+        public LoanSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
         public void CreateMany(
-            IEnumerable<DepositSnapshot> items)
+            IEnumerable<LoanSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    DepositSnapshot.ColumnMapping);
+                    LoanSnapshot.ColumnMapping);
             }
         }
     }

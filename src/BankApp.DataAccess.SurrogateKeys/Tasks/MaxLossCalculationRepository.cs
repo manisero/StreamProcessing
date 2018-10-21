@@ -1,36 +1,36 @@
 ﻿using BankApp.Domain.SurrogateKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp1.Common.DataAccess.Tasks
+namespace BankApp.DataAccess.SurrogateKeys.Tasks
 {
-    public class TotalLoanCalculationRepository
+    public class MaxLossCalculationRepository
     {
         private readonly string _connectionString;
 
-        public TotalLoanCalculationRepository(
+        public MaxLossCalculationRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public TotalLoanCalculation Create(
-            TotalLoanCalculation item)
+        public MaxLossCalculation Create(
+            MaxLossCalculation item)
         {
             using (var context = new EfContext(_connectionString))
             {
-                context.Set<TotalLoanCalculation>().Add(item);
+                context.Set<MaxLossCalculation>().Add(item);
                 context.SaveChanges();
 
                 return item;
             }
         }
 
-        public TotalLoanCalculation Update(
-            TotalLoanCalculation item)
+        public MaxLossCalculation Update(
+            MaxLossCalculation item)
         {
             using (var context = new EfContext(_connectionString))
             {
-                var entry = context.Set<TotalLoanCalculation>().Attach(item);
+                var entry = context.Set<MaxLossCalculation>().Attach(item);
                 entry.State = EntityState.Modified;
                 context.SaveChanges();
 

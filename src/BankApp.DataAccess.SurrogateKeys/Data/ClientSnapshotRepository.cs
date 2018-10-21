@@ -1,29 +1,39 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
-namespace BankApp1.Common.DataAccess.Data
+namespace BankApp.DataAccess.SurrogateKeys.Data
 {
-    public class LoanSnapshotRepository
+    public class ClientSnapshotRepository
     {
         private readonly string _connectionString;
 
-        public LoanSnapshotRepository(
+        public ClientSnapshotRepository(
             string connectionString)
         {
             _connectionString = connectionString;
         }
 
+        public ICollection<ClientSnapshot> GetForDataset(
+            int datasetId)
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context.Set<ClientSnapshot>().Where(x => x.DatasetId == datasetId).ToList();
+            }
+        }
+
         public void CreateMany(
-            IEnumerable<LoanSnapshot> items)
+            IEnumerable<ClientSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.Execute(
                     connection,
                     items,
-                    LoanSnapshot.ColumnMapping);
+                    ClientSnapshot.ColumnMapping);
             }
         }
     }

@@ -3,7 +3,7 @@ using BankApp.Domain.SurrogateKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
-namespace BankApp1.Common.DataAccess
+namespace BankApp.DataAccess.SurrogateKeys
 {
     public class EfContext : DbContext
     {
