@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using BankApp.DataAccess.WideKeys;
+﻿using BankApp.DataAccess.WideKeys;
 using BankApp3.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
+using DataProcessing.Utils.Navvy;
 using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init
@@ -27,10 +26,10 @@ namespace BankApp3.Init
                 return;
             }
 
-            Console.WriteLine($"Seeding db ({dataSettings})...");
-            var seedSw = Stopwatch.StartNew();
-            new DbSeeder(connectionString).Seed(dataSettings);
-            Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
+            var taskExecutor = TaskExecutorFactory.Create();
+            var seedingTask = new DbSeedingTaskFactory(connectionString).Create(dataSettings);
+
+            taskExecutor.Execute(seedingTask);
         }
     }
 }
