@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProcessing.Utils", "DataProcessing.Utils\DataProcessing.Utils.csproj", "{4306FFB9-7FEF-4823-A7DE-B899C80AE87B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BankApp8", "BankApp8", "{4699ED22-9C8B-447C-9F30-CE39AA4668E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.1. BankApp8", "3.1. BankApp8", "{4699ED22-9C8B-447C-9F30-CE39AA4668E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Shared", "1. Shared", "{78E12F48-1F65-49A6-8579-BEA5C30EB803}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.1. Shared", "0.1. Shared", "{78E12F48-1F65-49A6-8579-BEA5C30EB803}"
 	ProjectSection(SolutionItems) = preProject
 		appsettings.json = appsettings.json
 	EndProjectSection
@@ -16,13 +16,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp8.Main", "BankApp8.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp8.Init", "BankApp8.Init\BankApp8.Init.csproj", "{76EDE64D-BD16-4BAF-8897-E62651FB7697}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BankApp1", "BankApp1", "{6CFC5F60-792F-494E-9D43-158547E5970F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1. BankApp1", "1.1. BankApp1", "{6CFC5F60-792F-494E-9D43-158547E5970F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp1.Init", "BankApp1.Init\BankApp1.Init.csproj", "{43142207-A1CF-4D59-B59C-3698B0EDCF08}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp1.Main", "BankApp1.Main\BankApp1.Main.csproj", "{60B9DC39-EF69-472C-845B-5D916F818CA4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BankApp3", "BankApp3", "{699D6759-F017-4B86-AD76-990907DD0AEF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2. BankApp3", "1.2. BankApp3", "{699D6759-F017-4B86-AD76-990907DD0AEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp3.Init", "BankApp3.Init\BankApp3.Init.csproj", "{FCA23D25-3199-419B-AE7A-A988F9EF865D}"
 EndProject
@@ -34,13 +34,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Domain.SurrogateKey
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess.SurrogateKeys", "BankApp.DataAccess.SurrogateKeys\BankApp.DataAccess.SurrogateKeys.csproj", "{52EBCA7F-06A1-430E-9217-4D38219AB852}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{28C8A767-8697-4CBB-BE46-7C0A08465C66}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.2. Domain", "0.2. Domain", "{28C8A767-8697-4CBB-BE46-7C0A08465C66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess", "3. DataAccess", "{4895CD50-4E7A-4EA9-829B-8F0577381BFF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.3. DataAccess", "0.3. DataAccess", "{4895CD50-4E7A-4EA9-829B-8F0577381BFF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess.WideKeys", "BankApp.DataAccess.WideKeys\BankApp.DataAccess.WideKeys.csproj", "{C29A1090-FCF8-4461-869F-A33C871F767A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess.Partitioned", "BankApp.DataAccess.Partitioned\BankApp.DataAccess.Partitioned.csproj", "{5339F646-EF55-40A2-85F7-30356EB3DA37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1. ClientLoanCalculator1", "2.1. ClientLoanCalculator1", "{20FE765C-19D4-4BFC-B89F-C65B91185145}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoanCalculator1", "ClientLoanCalculator1\ClientLoanCalculator1.csproj", "{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +100,10 @@ Global
 		{5339F646-EF55-40A2-85F7-30356EB3DA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5339F646-EF55-40A2-85F7-30356EB3DA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5339F646-EF55-40A2-85F7-30356EB3DA37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +121,7 @@ Global
 		{52EBCA7F-06A1-430E-9217-4D38219AB852} = {4895CD50-4E7A-4EA9-829B-8F0577381BFF}
 		{C29A1090-FCF8-4461-869F-A33C871F767A} = {4895CD50-4E7A-4EA9-829B-8F0577381BFF}
 		{5339F646-EF55-40A2-85F7-30356EB3DA37} = {4895CD50-4E7A-4EA9-829B-8F0577381BFF}
+		{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C} = {20FE765C-19D4-4BFC-B89F-C65B91185145}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}
