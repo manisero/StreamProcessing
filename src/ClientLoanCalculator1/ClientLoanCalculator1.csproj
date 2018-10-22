@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Manisero.Navvy" Version="0.17.0" />
-    <PackageReference Include="Manisero.Navvy.Reporting" Version="0.17.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,8 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BankApp.DataAccess.Partitioned\BankApp.DataAccess.Partitioned.csproj" />
+    <ProjectReference Include="..\BankApp.DataAccess.WideKeys\BankApp.DataAccess.WideKeys.csproj" />
     <ProjectReference Include="..\BankApp.Domain.WideKeys\BankApp.Domain.WideKeys.csproj" />
+    <ProjectReference Include="..\ClientLoanCalculator1\ClientLoanCalculator1.csproj" />
     <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
   </ItemGroup>
 

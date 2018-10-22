@@ -1,9 +1,10 @@
 ﻿using BankApp.DataAccess.WideKeys.Data;
 using BankApp.DataAccess.WideKeys.Tasks;
+using ClientLoanCalculator1;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
 
-namespace ClientLoanCalculator1
+namespace ClientLoanCalculator2
 {
     class Program
     {
@@ -17,7 +18,7 @@ namespace ClientLoanCalculator1
                 new ClientLoansCalculationRepository(settings.ConnectionString),
                 new ClientTotalLoanRepository(
                     settings.ConnectionString,
-                    createUsingCopy: false));
+                    createUsingCopy: true));
 
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
