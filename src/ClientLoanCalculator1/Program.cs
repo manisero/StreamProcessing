@@ -10,18 +10,17 @@ namespace ClientLoanCalculator1
         static void Main(string[] args)
         {
             var settings = ConfigUtils.GetAppSettings();
+            var taskExecutor = TaskExecutorFactory.Create();
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 new LoanSnapshotRepository(settings.ConnectionString),
                 new ClientLoansCalculationRepository(settings.ConnectionString),
                 new ClientTotalLoanRepository(settings.ConnectionString));
 
-            var taskExecutor = TaskExecutorFactory.Create();
-
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
-            var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
-            taskExecutor.Execute(clientLoansCalculationTask);
+            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+            taskExecutor.Execute(task);
         }
     }
 }
