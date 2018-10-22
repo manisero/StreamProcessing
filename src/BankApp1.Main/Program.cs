@@ -5,7 +5,6 @@ using BankApp1.Main.MaxLossCalculationTask;
 using BankApp1.Main.TotalLoanCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
-using DataProcessing.Utils.Settings;
 
 namespace BankApp1.Main
 {
@@ -13,16 +12,13 @@ namespace BankApp1.Main
     {
         static void Main(string[] args)
         {
-            var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetConnectionString();
-            var processingSettings = config.GetProcessingSettings();
-            var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
+            var settings = ConfigUtils.GetAppSettings();
 
-            var datasetRepository = new DatasetRepository(connectionString);
-            var maxLossCalculationRepository = new MaxLossCalculationRepository(connectionString);
-            var totalLoanCalculationRepository = new TotalLoanCalculationRepository(connectionString);
-            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
-            var clientTotalLoanRepository = new ClientTotalLoanRepository(connectionString, processingSettings.UseBulkCopy);
+            var datasetRepository = new DatasetRepository(settings.ConnectionString);
+            var maxLossCalculationRepository = new MaxLossCalculationRepository(settings.ConnectionString);
+            var totalLoanCalculationRepository = new TotalLoanCalculationRepository(settings.ConnectionString);
+            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(settings.ConnectionString);
+            var clientTotalLoanRepository = new ClientTotalLoanRepository(settings.ConnectionString, settings.ProcessingSettings.UseBulkCopy);
             
             var maxLossCalculationTaskFactory = new MaxLossCalculationTaskFactory(
                 datasetRepository,
@@ -41,19 +37,19 @@ namespace BankApp1.Main
 
             var datasetId = datasetRepository.GetMaxId();
 
-            if (tasksToExecuteSettings.MaxLossCalculation)
+            if (settings.TasksToExecuteSettings.MaxLossCalculation)
             {
                 var maxLossCalculationTask = maxLossCalculationTaskFactory.Create(datasetId.Value);
                 taskExecutor.Execute(maxLossCalculationTask);
             }
 
-            if (tasksToExecuteSettings.TotalLoanCalculation)
+            if (settings.TasksToExecuteSettings.TotalLoanCalculation)
             {
                 var totalLoanCalculationTask = totalLoanCalculationTaskFactory.Create(datasetId.Value);
                 taskExecutor.Execute(totalLoanCalculationTask);
             }
 
-            if (tasksToExecuteSettings.ClientLoansCalculation)
+            if (settings.TasksToExecuteSettings.ClientLoansCalculation)
             {
                 var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
                 taskExecutor.Execute(clientLoansCalculationTask);

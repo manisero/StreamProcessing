@@ -3,7 +3,6 @@ using BankApp3.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Navvy;
-using DataProcessing.Utils.Settings;
 
 namespace BankApp3.Init
 {
@@ -11,14 +10,11 @@ namespace BankApp3.Init
     {
         static void Main(string[] args)
         {
-            var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetConnectionString();
-            var dbCreationSettings = config.GetDbCreationSettings();
-            var dataSettings = config.GetDataSettings();
+            var settings = ConfigUtils.GetAppSettings();
 
             var dbCreated = DatabaseManager.TryRecreate(
-                connectionString,
-                dbCreationSettings.ForceRecreation,
+                settings.ConnectionString,
+                settings.DbCreationSettings.ForceRecreation,
                 efContextFactory: x => new EfContext(x));
 
             if (!dbCreated)
@@ -27,7 +23,7 @@ namespace BankApp3.Init
             }
 
             var taskExecutor = TaskExecutorFactory.Create();
-            var seedingTask = new DbSeedingTaskFactory(connectionString).Create(dataSettings);
+            var seedingTask = new DbSeedingTaskFactory(settings.ConnectionString).Create(settings.DataSettings);
 
             taskExecutor.Execute(seedingTask);
         }

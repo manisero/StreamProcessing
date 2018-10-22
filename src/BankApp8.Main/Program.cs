@@ -3,7 +3,6 @@ using BankApp.DataAccess.Partitioned.Tasks;
 using BankApp8.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
-using DataProcessing.Utils.Settings;
 
 namespace BankApp8.Main
 {
@@ -11,13 +10,11 @@ namespace BankApp8.Main
     {
         static void Main(string[] args)
         {
-            var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetConnectionString();
-            var tasksToExecuteSettings = config.GetTasksToExecuteSettings();
+            var settings = ConfigUtils.GetAppSettings();
 
-            var clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
-            var loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
-            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(connectionString);
+            var clientSnapshotRepository = new ClientSnapshotRepository(settings.ConnectionString);
+            var loanSnapshotRepository = new LoanSnapshotRepository(settings.ConnectionString);
+            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(settings.ConnectionString);
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 clientSnapshotRepository,
@@ -26,9 +23,9 @@ namespace BankApp8.Main
 
             var taskExecutor = TaskExecutorFactory.Create();
 
-            var datasetId = new DatasetRepository(connectionString).GetMaxId();
+            var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
-            if (tasksToExecuteSettings.ClientLoansCalculation)
+            if (settings.TasksToExecuteSettings.ClientLoansCalculation)
             {
                 var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
                 taskExecutor.Execute(clientLoansCalculationTask);

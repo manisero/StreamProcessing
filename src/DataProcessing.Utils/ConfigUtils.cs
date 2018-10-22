@@ -1,4 +1,5 @@
 ﻿using System;
+using DataProcessing.Utils.Settings;
 using Microsoft.Extensions.Configuration;
 
 namespace DataProcessing.Utils
@@ -15,12 +16,15 @@ namespace DataProcessing.Utils
             this IConfigurationRoot config)
             => config.GetConnectionString(AppDomainUtils.GetCurrentAppName());
 
-        public static TTarget BindAndReturn<TTarget>(
-            this IConfigurationSection section,
-            TTarget target)
+        public static AppSettings GetAppSettings()
         {
-            section.Bind(target);
-            return target;
+            var config = GetConfig();
+
+            var appSettings = new AppSettings();
+            config.Bind(appSettings);
+            appSettings.ConnectionString = config.GetConnectionString();
+
+            return appSettings;
         }
     }
 }

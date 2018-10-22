@@ -4,7 +4,6 @@ using BankApp.DataAccess.SurrogateKeys;
 using BankApp1.Init.DbSeeding;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
-using DataProcessing.Utils.Settings;
 
 namespace BankApp1.Init
 {
@@ -12,14 +11,11 @@ namespace BankApp1.Init
     {
         static void Main(string[] args)
         {
-            var config = ConfigUtils.GetConfig();
-            var connectionString = config.GetConnectionString();
-            var dbCreationSettings = config.GetDbCreationSettings();
-            var dataSettings = config.GetDataSettings();
+            var settings = ConfigUtils.GetAppSettings();
 
             var dbCreated = DatabaseManager.TryRecreate(
-                connectionString,
-                dbCreationSettings.ForceRecreation,
+                settings.ConnectionString,
+                settings.DbCreationSettings.ForceRecreation,
                 efContextFactory: x => new EfContext(x));
 
             if (!dbCreated)
@@ -27,9 +23,9 @@ namespace BankApp1.Init
                 return;
             }
 
-            Console.WriteLine($"Seeding db ({dataSettings})...");
+            Console.WriteLine($"Seeding db ({settings.DataSettings})...");
             var seedSw = Stopwatch.StartNew();
-            new DbSeeder(connectionString).Seed(dataSettings);
+            new DbSeeder(settings.ConnectionString).Seed(settings.DataSettings);
             Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
         }
     }
