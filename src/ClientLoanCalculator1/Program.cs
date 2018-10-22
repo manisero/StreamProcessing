@@ -15,7 +15,7 @@ namespace ClientLoanCalculator1
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 new LoanSnapshotRepository(settings.ConnectionString),
                 new ClientLoansCalculationRepository(settings.ConnectionString),
-                new ClientTotalLoanRepository(settings.ConnectionString));
+                new ClientTotalLoanRepository(settings.ConnectionString, settings.ProcessingSettings.UseBulkCopy));
 
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
