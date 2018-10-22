@@ -2,6 +2,8 @@
 {
     public class AppSettings
     {
+        public const string ConnectionStringNamesSectionName = "ConnectionStringNames";
+
         public string ConnectionString { get; set; }
         public DbCreationSettings DbCreationSettings { get; set; }
         public DataSettings DataSettings { get; set; }

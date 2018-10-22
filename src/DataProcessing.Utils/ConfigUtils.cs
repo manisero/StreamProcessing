@@ -9,20 +9,15 @@ namespace DataProcessing.Utils
         private static readonly Lazy<IConfigurationRoot> Config = new Lazy<IConfigurationRoot>(
             () => new ConfigurationBuilder().AddJsonFile("appsettings.json").Build());
 
-        public static IConfigurationRoot GetConfig()
-            => Config.Value;
-
-        public static string GetConnectionString(
-            this IConfigurationRoot config)
-            => config.GetConnectionString(AppDomainUtils.GetCurrentAppName());
-
         public static AppSettings GetAppSettings()
         {
-            var config = GetConfig();
+            var config = Config.Value;
 
             var appSettings = new AppSettings();
             config.Bind(appSettings);
-            appSettings.ConnectionString = config.GetConnectionString();
+
+            var connectionStringName = config.GetSection(AppSettings.ConnectionStringNamesSectionName)[AppDomainUtils.GetCurrentAppName()];
+            appSettings.ConnectionString = config.GetConnectionString(connectionStringName);
 
             return appSettings;
         }
