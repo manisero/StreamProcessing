@@ -36,7 +36,8 @@ WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
         {
             var sql = $@"
 SELECT * FROM ""{nameof(ClientSnapshot)}""
-WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
+WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId
+ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}""";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {

@@ -39,6 +39,7 @@ namespace BankApp.Domain.WideKeys.Data
             var depositsCount = clientIds.Count * depositsPerClient;
             var depositIds = random
                 .NextUniqueSet(depositsCount, depositsCount * 2)
+                .OrderBy(x => x)
                 .ToArray();
 
             var depositsCounter = 0;

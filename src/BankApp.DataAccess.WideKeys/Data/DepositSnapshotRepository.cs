@@ -20,8 +20,10 @@ namespace BankApp.DataAccess.WideKeys.Data
             short datasetId)
         {
             var sql = $@"
-SELECT * FROM ""{nameof(DepositSnapshot)}""
-WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId";
+SELECT *
+FROM ""{nameof(DepositSnapshot)}""
+WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId
+ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DepositId)}""";
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {

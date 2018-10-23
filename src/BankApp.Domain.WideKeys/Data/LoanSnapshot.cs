@@ -39,6 +39,7 @@ namespace BankApp.Domain.WideKeys.Data
             var loansCount = clientIds.Count * loansPerClient;
             var loanIds = random
                 .NextUniqueSet(loansCount, loansCount * 2)
+                .OrderBy(x => x)
                 .ToArray();
 
             var loansCounter = 0;

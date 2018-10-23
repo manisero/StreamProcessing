@@ -29,6 +29,7 @@ namespace BankApp.Domain.WideKeys.Data
         {
             var clientIds = new Random()
                 .NextUniqueSet(count, count * 2)
+                .OrderBy(x => x)
                 .ToArray();
 
             for (var i = 0; i < count; i++)
