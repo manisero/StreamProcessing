@@ -15,7 +15,7 @@ namespace DataProcessing.Utils.Navvy
             bool useDataflow = false)
         {
             var appName = AppDomainUtils.GetCurrentAppName();
-            var reportsFolderPath = Path.Combine(Path.GetTempPath(), $"{appName}_reports");
+            var reportsFolderPath = Path.Combine(Path.GetTempPath(), "DataProcessing", $"{appName}_reports");
 
             var builder = new TaskExecutorBuilder()
                 .UseTaskExecutionLogger()
