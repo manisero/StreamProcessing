@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Manisero.Navvy" Version="0.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BankApp.DataAccess.SurrogateKeys\BankApp.DataAccess.SurrogateKeys.csproj" />
     <ProjectReference Include="..\BankApp.Domain.SurrogateKeys\BankApp.Domain.SurrogateKeys.csproj" />
     <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />

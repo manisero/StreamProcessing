@@ -1,17 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using BankApp.DataAccess.SurrogateKeys;
-using BankApp1.Init.DbSeeding;
+﻿using BankApp.DataAccess.SurrogateKeys;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
+using DataProcessing.Utils.Navvy;
 
-namespace BankApp1.Init
+namespace BankApp.DbSeeding.SurrogateKeys
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var settings = ConfigUtils.GetAppSettings();
+            var settings = ConfigUtils.GetAppSettings(nameof(SurrogateKeys));
 
             var dbCreated = DatabaseManager.TryRecreate(
                 settings.ConnectionString,
@@ -23,10 +21,10 @@ namespace BankApp1.Init
                 return;
             }
 
-            Console.WriteLine($"Seeding db ({settings.DataSettings})...");
-            var seedSw = Stopwatch.StartNew();
-            new DbSeeder(settings.ConnectionString).Seed(settings.DataSettings);
-            Console.WriteLine($"Seeding db took {seedSw.Elapsed}.");
+            var taskExecutor = TaskExecutorFactory.Create();
+
+            var task = new DbSeedingTaskFactory(settings.ConnectionString).Create(settings.DataSettings);
+            taskExecutor.Execute(task);
         }
     }
 }
