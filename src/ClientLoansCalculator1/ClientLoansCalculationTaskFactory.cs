@@ -6,7 +6,7 @@ using DataProcessing.Utils;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
 
-namespace ClientLoanCalculator1
+namespace ClientLoansCalculator1
 {
     public class ClientLoansCalculationTaskFactory
     {

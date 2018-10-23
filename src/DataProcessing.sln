@@ -32,13 +32,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess.WideKeys
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DataAccess.Partitioned", "BankApp.DataAccess.Partitioned\BankApp.DataAccess.Partitioned.csproj", "{5339F646-EF55-40A2-85F7-30356EB3DA37}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1. ClientLoanCalculator1", "2.1. ClientLoanCalculator1", "{20FE765C-19D4-4BFC-B89F-C65B91185145}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1. ClientLoansCalculator1", "2.1. ClientLoansCalculator1", "{20FE765C-19D4-4BFC-B89F-C65B91185145}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientLoanCalculator1", "ClientLoanCalculator1\ClientLoanCalculator1.csproj", "{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientLoansCalculator1", "ClientLoansCalculator1\ClientLoansCalculator1.csproj", "{3CEBC61C-A07A-4134-AEA9-DAF0A6BAE97C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2. ClientLoanCalculator2", "2.2. ClientLoanCalculator2", "{FB2CA548-A6AA-4531-A678-5A978751482B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2. ClientLoansCalculator2", "2.2. ClientLoansCalculator2", "{FB2CA548-A6AA-4531-A678-5A978751482B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoanCalculator2", "ClientLoanCalculator2\ClientLoanCalculator2.csproj", "{4110675F-B6A6-489F-8AE7-E745C9BE3CD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoansCalculator2", "ClientLoansCalculator2\ClientLoansCalculator2.csproj", "{4110675F-B6A6-489F-8AE7-E745C9BE3CD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.WideKeys", "BankApp.DbSeeding.WideKeys\BankApp.DbSeeding.WideKeys.csproj", "{55863B72-BC1B-46A3-B062-56AC2736D6E3}"
 EndProject

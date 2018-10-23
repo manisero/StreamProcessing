@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys.Data;
 
-namespace ClientLoanCalculator1
+namespace ClientLoansCalculator1
 {
     public class ClientLoansCalculationState
     {

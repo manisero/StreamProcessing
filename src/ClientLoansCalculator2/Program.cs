@@ -1,10 +1,10 @@
 ﻿using BankApp.DataAccess.WideKeys.Data;
 using BankApp.DataAccess.WideKeys.Tasks;
-using ClientLoanCalculator1;
+using ClientLoansCalculator1;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
 
-namespace ClientLoanCalculator2
+namespace ClientLoansCalculator2
 {
     class Program
     {
