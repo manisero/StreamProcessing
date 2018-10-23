@@ -22,14 +22,10 @@ namespace BankApp8.Main
                 clientLoansCalculationRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
-
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
-            if (settings.TasksToExecuteSettings.ClientLoansCalculation)
-            {
-                var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
-                taskExecutor.Execute(clientLoansCalculationTask);
-            }
+            var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+            taskExecutor.Execute(clientLoansCalculationTask);
         }
     }
 }

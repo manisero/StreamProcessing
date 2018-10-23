@@ -20,9 +20,9 @@ namespace BankApp3.Main
             var totalLoanCalculationRepository = new TotalLoanCalculationRepository(settings.ConnectionString);
             var clientLoansCalculationRepository = new ClientLoansCalculationRepository(settings.ConnectionString);
             var clientTotalLoanRepository = new ClientTotalLoanRepository(settings.ConnectionString);
-            
+
             var maxLossCalculationTaskFactory = new MaxLossCalculationTaskFactory(
-                depositSnapshotRepository, 
+                depositSnapshotRepository,
                 loanSnapshotRepository,
                 maxLossCalculationRepository);
 
@@ -36,26 +36,16 @@ namespace BankApp3.Main
                 clientTotalLoanRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
-
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
-            if (settings.TasksToExecuteSettings.MaxLossCalculation)
-            {
-                var maxLossCalculationTask = maxLossCalculationTaskFactory.Create(datasetId.Value);
-                taskExecutor.Execute(maxLossCalculationTask);
-            }
+            var maxLossCalculationTask = maxLossCalculationTaskFactory.Create(datasetId.Value);
+            taskExecutor.Execute(maxLossCalculationTask);
 
-            if (settings.TasksToExecuteSettings.TotalLoanCalculation)
-            {
-                var totalLoanCalculationTask = totalLoanCalculationTaskFactory.Create(datasetId.Value);
-                taskExecutor.Execute(totalLoanCalculationTask);
-            }
+            var totalLoanCalculationTask = totalLoanCalculationTaskFactory.Create(datasetId.Value);
+            taskExecutor.Execute(totalLoanCalculationTask);
 
-            if (settings.TasksToExecuteSettings.ClientLoansCalculation)
-            {
-                var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
-                taskExecutor.Execute(clientLoansCalculationTask);
-            }
+            var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+            taskExecutor.Execute(clientLoansCalculationTask);
         }
     }
 }
