@@ -43,7 +43,7 @@ namespace BankApp1.Main.ClientLoansCalculationTask
                         state.Dataset = _datasetRepository.Get(datasetId);
                     }),
                 new BasicTaskStep(
-                    "CalculateTotalLoans",
+                    "CalculateClientLoans",
                     () =>
                     {
                         foreach (var client in state.Dataset.Clients)

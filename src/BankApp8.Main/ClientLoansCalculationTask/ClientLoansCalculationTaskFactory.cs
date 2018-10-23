@@ -68,7 +68,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                             }
                         })
                     .WithBlock(
-                        "CalculateTotalLoans",
+                        "CalculateClientLoans",
                         x =>
                         {
                             foreach (var client in x.Clients.Values)

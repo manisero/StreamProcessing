@@ -38,9 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientLoansCalculator1", "C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2. ClientLoansCalculator2", "2.2. ClientLoansCalculator2", "{FB2CA548-A6AA-4531-A678-5A978751482B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoansCalculator2", "ClientLoansCalculator2\ClientLoansCalculator2.csproj", "{4110675F-B6A6-489F-8AE7-E745C9BE3CD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientLoansCalculator2", "ClientLoansCalculator2\ClientLoansCalculator2.csproj", "{4110675F-B6A6-489F-8AE7-E745C9BE3CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.WideKeys", "BankApp.DbSeeding.WideKeys\BankApp.DbSeeding.WideKeys.csproj", "{55863B72-BC1B-46A3-B062-56AC2736D6E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DbSeeding.WideKeys", "BankApp.DbSeeding.WideKeys\BankApp.DbSeeding.WideKeys.csproj", "{55863B72-BC1B-46A3-B062-56AC2736D6E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.2 SurrogateKeys", "0.2 SurrogateKeys", "{0023FB36-8D5E-45C6-89FF-F65331515EA2}"
 EndProject
@@ -48,9 +48,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.3 WideKeys", "0.3 WideKey
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.4 Partitioned", "0.4 Partitioned", "{A50B50A3-F4DC-458A-A73B-02ABA4F916AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.SurrogateKeys", "BankApp.DbSeeding.SurrogateKeys\BankApp.DbSeeding.SurrogateKeys.csproj", "{E943C5B9-55A4-49B1-B52B-D74245142824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DbSeeding.SurrogateKeys", "BankApp.DbSeeding.SurrogateKeys\BankApp.DbSeeding.SurrogateKeys.csproj", "{E943C5B9-55A4-49B1-B52B-D74245142824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.Partitioned", "BankApp.DbSeeding.Partitioned\BankApp.DbSeeding.Partitioned.csproj", "{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DbSeeding.Partitioned", "BankApp.DbSeeding.Partitioned\BankApp.DbSeeding.Partitioned.csproj", "{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1. TotalLoanCalculator1", "1.1. TotalLoanCalculator1", "{E9499713-7475-4B64-9706-156DA5F6F5C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator1", "TotalLoanCalculator1\TotalLoanCalculator1.csproj", "{4B1228E4-C90E-404F-93E5-F999AF516F18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +118,10 @@ Global
 		{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B1228E4-C90E-404F-93E5-F999AF516F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B1228E4-C90E-404F-93E5-F999AF516F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B1228E4-C90E-404F-93E5-F999AF516F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B1228E4-C90E-404F-93E5-F999AF516F18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +141,7 @@ Global
 		{55863B72-BC1B-46A3-B062-56AC2736D6E3} = {777FE53D-1DB6-4E7D-9FBC-61AE72D0B712}
 		{E943C5B9-55A4-49B1-B52B-D74245142824} = {0023FB36-8D5E-45C6-89FF-F65331515EA2}
 		{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD} = {A50B50A3-F4DC-458A-A73B-02ABA4F916AA}
+		{4B1228E4-C90E-404F-93E5-F999AF516F18} = {E9499713-7475-4B64-9706-156DA5F6F5C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}

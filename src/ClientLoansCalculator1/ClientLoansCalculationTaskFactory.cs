@@ -44,7 +44,7 @@ namespace ClientLoansCalculator1
                         state.Loans = _loanSnapshotRepository.GetForDataset(datasetId);
                     }),
                 new BasicTaskStep(
-                    "CalculateTotalLoans",
+                    "CalculateClientLoans",
                     () =>
                     {
                         foreach (var loan in state.Loans)
