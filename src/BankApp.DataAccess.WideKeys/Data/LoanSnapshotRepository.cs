@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
@@ -9,14 +10,25 @@ namespace BankApp.DataAccess.WideKeys.Data
     public class LoanSnapshotRepository
     {
         private readonly string _connectionString;
+        private readonly bool _readUsingDapper;
 
         public LoanSnapshotRepository(
-            string connectionString)
+            string connectionString,
+            bool readUsingDapper = true)
         {
             _connectionString = connectionString;
+            _readUsingDapper = readUsingDapper;
         }
 
         public ICollection<LoanSnapshot> GetForDataset(
+            short datasetId)
+        {
+            return _readUsingDapper
+                ? GetForDataset_Dapper(datasetId)
+                : GetForDataset_Ef(datasetId);
+        }
+
+        public ICollection<LoanSnapshot> GetForDataset_Dapper(
             short datasetId)
         {
             var sql = $@"
@@ -29,6 +41,18 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
                 return connection
                     .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
                     .AsList();
+            }
+        }
+
+        public ICollection<LoanSnapshot> GetForDataset_Ef(
+            short datasetId)
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context
+                    .Set<LoanSnapshot>()
+                    .Where(x => x.DatasetId == datasetId)
+                    .ToArray();
             }
         }
 

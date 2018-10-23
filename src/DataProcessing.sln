@@ -56,6 +56,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3. TotalLoanCalculator3",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator2", "TotalLoanCalculator2\TotalLoanCalculator2.csproj", "{55888899-756F-405F-807F-53349E3D7005}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator3", "TotalLoanCalculator3\TotalLoanCalculator3.csproj", "{EA85C729-76F5-48CA-BCDB-14F10E24F092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,10 @@ Global
 		{55888899-756F-405F-807F-53349E3D7005}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55888899-756F-405F-807F-53349E3D7005}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55888899-756F-405F-807F-53349E3D7005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA85C729-76F5-48CA-BCDB-14F10E24F092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA85C729-76F5-48CA-BCDB-14F10E24F092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA85C729-76F5-48CA-BCDB-14F10E24F092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA85C729-76F5-48CA-BCDB-14F10E24F092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +148,7 @@ Global
 		{F9C4DC01-8E4D-4EF5-B802-BC63F331F7CD} = {A50B50A3-F4DC-458A-A73B-02ABA4F916AA}
 		{4B1228E4-C90E-404F-93E5-F999AF516F18} = {E9499713-7475-4B64-9706-156DA5F6F5C6}
 		{55888899-756F-405F-807F-53349E3D7005} = {25BCEE77-4F93-490E-B7CF-FD3F72521BEB}
+		{EA85C729-76F5-48CA-BCDB-14F10E24F092} = {1821BB97-8F6B-4450-9E07-6FF1B932AA4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}
