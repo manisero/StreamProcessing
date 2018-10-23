@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.Partitioned.Data;
 using BankApp.Domain.WideKeys.Data;
 using DataProcessing.Utils.Settings;
+using Manisero.Navvy;
+using Manisero.Navvy.BasicProcessing;
+using Manisero.Navvy.PipelineProcessing;
 
-namespace BankApp8.Init.DbSeeding
+namespace BankApp.DbSeeding.Partitioned
 {
-    public class DbSeeder
+    public class DbSeedingTaskFactory
     {
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly DepositSnapshotRepository _depositSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
-        public DbSeeder(
+        public DbSeedingTaskFactory(
             string connectionString)
         {
             _datasetRepository = new DatasetRepository(connectionString);
@@ -22,17 +26,33 @@ namespace BankApp8.Init.DbSeeding
             _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
         }
 
-        public void Seed(
+        public TaskDefinition Create(
             DataSettings settings)
         {
-            var datasetIds = CreateDatasets(settings.DatasetsCount);
+            var state = new DbSeedingState();
 
-            foreach (var datasetId in datasetIds)
-            {
-                var clientIds = CreateClients(datasetId, settings.ClientsPerDataset);
-                CreateDeposits(datasetId, clientIds, settings.DepositsPerClient);
-                CreateLoans(datasetId, clientIds, settings.LoansPerClient);
-            }
+            return new TaskDefinition(
+                $"{nameof(DbSeeding)}",
+                new BasicTaskStep(
+                    "PrintSettings",
+                    () => Console.WriteLine(settings)),
+                new BasicTaskStep(
+                    "CreateDatasets",
+                    () => state.DatasetIds = CreateDatasets(settings.DatasetsCount)),
+                PipelineTaskStep.Builder<DatasetToPopulate>("PopulateDatasets")
+                    .WithInput(
+                        () => state.DatasetIds.Select(x => new DatasetToPopulate { DatasetId = x }),
+                        () => state.DatasetIds.Count)
+                    .WithBlock(
+                        "CreateClients",
+                        x => x.ClientIds = CreateClients(x.DatasetId, settings.ClientsPerDataset))
+                    .WithBlock(
+                        "CreateDeposits",
+                        x => CreateDeposits(x.DatasetId, x.ClientIds, settings.DepositsPerClient))
+                    .WithBlock(
+                        "CreateLoans",
+                        x => CreateLoans(x.DatasetId, x.ClientIds, settings.LoansPerClient))
+                    .Build());
         }
 
         private ICollection<short> CreateDatasets(

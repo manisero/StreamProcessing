@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.WideKeys.Data;
 using BankApp.Domain.WideKeys.Data;
@@ -32,6 +33,9 @@ namespace BankApp.DbSeeding.WideKeys
 
             return new TaskDefinition(
                 $"{nameof(DbSeeding)}",
+                new BasicTaskStep(
+                    "PrintSettings",
+                    () => Console.WriteLine(settings)),
                 new BasicTaskStep(
                     "DropConstraints",
                     () =>

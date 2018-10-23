@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Migrations\001.sql" />
+    <None Remove="Migrations\002.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -17,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dbup-postgresql" Version="4.1.0" />
+    <PackageReference Include="Manisero.Navvy" Version="0.17.0" />
   </ItemGroup>
 
   <ItemGroup>

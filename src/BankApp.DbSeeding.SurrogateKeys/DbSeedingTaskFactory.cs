@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.SurrogateKeys.Data;
 using BankApp.Domain.SurrogateKeys.Data;
@@ -32,6 +33,9 @@ namespace BankApp.DbSeeding.SurrogateKeys
 
             return new TaskDefinition(
                 $"{nameof(DbSeeding)}",
+                new BasicTaskStep(
+                    "PrintSettings",
+                    () => Console.WriteLine(settings)),
                 new BasicTaskStep(
                     "CreateDatasets",
                     () => state.DatasetIds = CreateDatasets(settings.DatasetsCount)),
