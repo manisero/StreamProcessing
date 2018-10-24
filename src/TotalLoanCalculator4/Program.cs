@@ -2,8 +2,9 @@
 using BankApp.DataAccess.WideKeys.Tasks;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
+using TotalLoanCalculator2;
 
-namespace TotalLoanCalculator2
+namespace TotalLoanCalculator3
 {
     class Program
     {
@@ -15,7 +16,7 @@ namespace TotalLoanCalculator2
             var clientLoansCalculationTaskFactory = new TotalLoanCalculationTaskFactory(
                 new LoanSnapshotRepository(
                     settings.ConnectionString,
-                    readUsingDapper: false),
+                    readUsingDapper: true),
                 new TotalLoanCalculationRepository(settings.ConnectionString));
 
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();

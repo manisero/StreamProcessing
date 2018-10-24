@@ -46,17 +46,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.DbSeeding.Partition
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1. TotalLoanCalculator1", "1.1. TotalLoanCalculator1", "{E9499713-7475-4B64-9706-156DA5F6F5C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator1", "TotalLoanCalculator1\TotalLoanCalculator1.csproj", "{4B1228E4-C90E-404F-93E5-F999AF516F18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TotalLoanCalculator1", "TotalLoanCalculator1\TotalLoanCalculator1.csproj", "{4B1228E4-C90E-404F-93E5-F999AF516F18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Obsolete", "3. Obsolete", "{AA045E39-06DD-4A75-8224-A9D98A7FFFA6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2. TotalLoanCalculator2", "1.2. TotalLoanCalculator2", "{25BCEE77-4F93-490E-B7CF-FD3F72521BEB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3. TotalLoanCalculator3", "1.3. TotalLoanCalculator3", "{25BCEE77-4F93-490E-B7CF-FD3F72521BEB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3. TotalLoanCalculator3", "1.3. TotalLoanCalculator3", "{1821BB97-8F6B-4450-9E07-6FF1B932AA4C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.4. TotalLoanCalculator4", "1.4. TotalLoanCalculator4", "{1821BB97-8F6B-4450-9E07-6FF1B932AA4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator2", "TotalLoanCalculator2\TotalLoanCalculator2.csproj", "{55888899-756F-405F-807F-53349E3D7005}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TotalLoanCalculator3", "TotalLoanCalculator3\TotalLoanCalculator3.csproj", "{55888899-756F-405F-807F-53349E3D7005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalLoanCalculator3", "TotalLoanCalculator3\TotalLoanCalculator3.csproj", "{EA85C729-76F5-48CA-BCDB-14F10E24F092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TotalLoanCalculator4", "TotalLoanCalculator4\TotalLoanCalculator4.csproj", "{EA85C729-76F5-48CA-BCDB-14F10E24F092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
