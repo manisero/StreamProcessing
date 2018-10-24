@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
@@ -13,6 +14,18 @@ namespace BankApp.DataAccess.SurrogateKeys.Data
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public ICollection<LoanSnapshot> GetForDataset(
+            int datasetId)
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context
+                    .Set<LoanSnapshot>()
+                    .Where(x => x.Client.DatasetId == datasetId)
+                    .ToArray();
+            }
         }
 
         public void CreateMany(
