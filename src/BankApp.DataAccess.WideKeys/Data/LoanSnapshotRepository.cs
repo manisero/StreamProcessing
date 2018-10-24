@@ -62,6 +62,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
                 return context
                     .Set<LoanSnapshot>()
                     .Where(x => x.DatasetId == datasetId)
+                    .OrderBy(x => x.DatasetId).ThenBy(x => x.ClientId).ThenBy(x => x.LoanId)
                     .ToArray();
             }
         }
