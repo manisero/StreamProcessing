@@ -5,7 +5,7 @@ using BankApp.Domain.WideKeys.Tasks;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
 
-namespace TotalLoanCalculator2
+namespace TotalLoanCalculator3
 {
     public class TotalLoanCalculationTaskFactory
     {

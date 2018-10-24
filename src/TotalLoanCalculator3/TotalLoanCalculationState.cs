@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys.Data;
 
-namespace TotalLoanCalculator2
+namespace TotalLoanCalculator3
 {
     public class TotalLoanCalculationState
     {

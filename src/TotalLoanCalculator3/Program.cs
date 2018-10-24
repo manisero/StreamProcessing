@@ -3,7 +3,7 @@ using BankApp.DataAccess.WideKeys.Tasks;
 using DataProcessing.Utils;
 using DataProcessing.Utils.Navvy;
 
-namespace TotalLoanCalculator2
+namespace TotalLoanCalculator3
 {
     class Program
     {
