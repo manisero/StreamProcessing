@@ -38,7 +38,7 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                PostgresCopyExecutor.Execute(
+                PostgresCopyExecutor.ExecuteWrite(
                     connection,
                     items,
                     DepositSnapshot.ColumnMapping);

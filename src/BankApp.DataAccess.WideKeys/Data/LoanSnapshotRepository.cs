@@ -20,6 +20,16 @@ namespace BankApp.DataAccess.WideKeys.Data
             _readUsingDapper = readUsingDapper;
         }
 
+        public ICollection<LoanSnapshot> GetAll()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return PostgresCopyExecutor.ExecuteRead(
+                    connection,
+                    LoanSnapshot.RowReader);
+            }
+        }
+
         public ICollection<LoanSnapshot> GetForDataset(
             short datasetId)
         {
@@ -28,7 +38,7 @@ namespace BankApp.DataAccess.WideKeys.Data
                 : GetForDataset_Ef(datasetId);
         }
 
-        public ICollection<LoanSnapshot> GetForDataset_Dapper(
+        private ICollection<LoanSnapshot> GetForDataset_Dapper(
             short datasetId)
         {
             var sql = $@"
@@ -44,7 +54,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             }
         }
 
-        public ICollection<LoanSnapshot> GetForDataset_Ef(
+        private ICollection<LoanSnapshot> GetForDataset_Ef(
             short datasetId)
         {
             using (var context = new EfContext(_connectionString))
@@ -61,7 +71,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                PostgresCopyExecutor.Execute(
+                PostgresCopyExecutor.ExecuteWrite(
                     connection,
                     items,
                     LoanSnapshot.ColumnMapping);

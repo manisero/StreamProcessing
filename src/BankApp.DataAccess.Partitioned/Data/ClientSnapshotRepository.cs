@@ -64,7 +64,7 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                PostgresCopyExecutor.Execute(
+                PostgresCopyExecutor.ExecuteWrite(
                     connection,
                     items,
                     ClientSnapshot.ColumnMapping);

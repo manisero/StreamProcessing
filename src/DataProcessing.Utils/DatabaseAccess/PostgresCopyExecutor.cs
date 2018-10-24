@@ -7,14 +7,15 @@ namespace DataProcessing.Utils.DatabaseAccess
 {
     public static class PostgresCopyExecutor
     {
-        public static void Execute<TRow>(
+        public static void ExecuteWrite<TRow>(
             NpgsqlConnection connection,
             IEnumerable<TRow> rows,
             IDictionary<string, Action<NpgsqlBinaryImporter, TRow>> columnMapping)
         {
-            var copyCommand = GetCopyCommand(typeof(TRow).Name, columnMapping.Keys);
+            var columnsString = columnMapping.Keys.Select(x => $"\"{x}\"").JoinWithSeparator(", ");
+            var command = $"COPY \"{typeof(TRow).Name}\" ({columnsString}) FROM STDIN BINARY;";
 
-            using (var writer = connection.OpenIfClosed().BeginBinaryImport(copyCommand))
+            using (var writer = connection.OpenIfClosed().BeginBinaryImport(command))
             {
                 foreach (var row in rows)
                 {
@@ -30,13 +31,30 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
         }
 
-        private static string GetCopyCommand(
-            string tableName,
-            ICollection<string> columnNames)
+        public static ICollection<TRow> ExecuteRead<TRow>(
+            NpgsqlConnection connection,
+            Func<NpgsqlBinaryExporter, TRow> rowReader)
         {
-            var columnsString = string.Join(", ", columnNames.Select(x => $"\"{x}\""));
+            var columnsString = typeof(TRow)
+                .GetProperties()
+                .Where(x => x.PropertyType.Namespace.StartsWith("System"))
+                .Select(x => $"\"{x}\"")
+                .JoinWithSeparator(", ");
 
-            return $"COPY \"{tableName}\" ({columnsString}) FROM STDIN BINARY;";
+            var command = $"COPY \"{typeof(TRow).Name}\" ({columnsString}) TO STDOUT BINARY;";
+
+            using (var reader = connection.OpenIfClosed().BeginBinaryExport(command))
+            {
+                var rows = new List<TRow>();
+
+                while (reader.StartRow() != -1)
+                {
+                    var row = rowReader(reader);
+                    rows.Add(row);
+                }
+
+                return rows;
+            }
         }
     }
 }

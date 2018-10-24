@@ -29,6 +29,15 @@ namespace BankApp.Domain.WideKeys.Data
                 [nameof(Value)] = (writer, x) => writer.Write(x.Value)
             };
 
+        public static readonly Func<NpgsqlBinaryExporter, LoanSnapshot> RowReader =
+            x => new LoanSnapshot
+            {
+                DatasetId = x.Read<short>(),
+                ClientId = x.Read<int>(),
+                LoanId = x.Read<int>(),
+                Value = x.Read<decimal>()
+            };
+
         public static IEnumerable<LoanSnapshot> GetRandom(
             short datasetId,
             ICollection<int> clientIds,

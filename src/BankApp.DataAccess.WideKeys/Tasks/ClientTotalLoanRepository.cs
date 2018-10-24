@@ -36,7 +36,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                PostgresCopyExecutor.Execute(
+                PostgresCopyExecutor.ExecuteWrite(
                     connection,
                     items,
                     ClientTotalLoan.ColumnMapping);

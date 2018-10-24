@@ -40,7 +40,7 @@ namespace BankApp.DataAccess.WideKeys.Data
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
-                PostgresCopyExecutor.Execute(
+                PostgresCopyExecutor.ExecuteWrite(
                     connection,
                     items,
                     Dataset.ColumnMapping);
