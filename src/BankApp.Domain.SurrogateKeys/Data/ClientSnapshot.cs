@@ -16,8 +16,6 @@ namespace BankApp.Domain.SurrogateKeys.Data
 
         public Dataset Dataset { get; set; }
 
-        public IList<DepositSnapshot> Deposits { get; set; }
-
         public IList<LoanSnapshot> Loans { get; set; }
 
         public static readonly Dictionary<string, Action<NpgsqlBinaryImporter, ClientSnapshot>> ColumnMapping =

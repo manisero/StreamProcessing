@@ -14,7 +14,7 @@ namespace BankApp.DataAccess.WideKeys.Data
 
         public LoanSnapshotRepository(
             string connectionString,
-            bool readUsingDapper = true)
+            bool readUsingDapper = false)
         {
             _connectionString = connectionString;
             _readUsingDapper = readUsingDapper;

@@ -14,7 +14,6 @@ namespace BankApp.DbSeeding.SurrogateKeys
     {
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
-        private readonly DepositSnapshotRepository _depositSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeedingTaskFactory(
@@ -22,7 +21,6 @@ namespace BankApp.DbSeeding.SurrogateKeys
         {
             _datasetRepository = new DatasetRepository(connectionString);
             _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
-            _depositSnapshotRepository = new DepositSnapshotRepository(connectionString);
             _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
         }
 
@@ -46,9 +44,6 @@ namespace BankApp.DbSeeding.SurrogateKeys
                     .WithBlock(
                         "CreateClients",
                         x => x.ClientSnapshotIds = CreateClients(x.DatasetId, settings.ClientsPerDataset))
-                    .WithBlock(
-                        "CreateDeposits",
-                        x => CreateDeposits(x.ClientSnapshotIds, settings.DepositsPerClient))
                     .WithBlock(
                         "CreateLoans",
                         x => CreateLoans(x.ClientSnapshotIds, settings.LoansPerClient))
@@ -78,14 +73,6 @@ namespace BankApp.DbSeeding.SurrogateKeys
                 .GetForDataset(datasetId)
                 .Select(x => x.ClientSnapshotId)
                 .ToArray();
-        }
-
-        private void CreateDeposits(
-            ICollection<long> clientSnapshotIds,
-            int depositsPerClient)
-        {
-            var deposits = DepositSnapshot.GetRandom(clientSnapshotIds, depositsPerClient);
-            _depositSnapshotRepository.CreateMany(deposits);
         }
 
         private void CreateLoans(

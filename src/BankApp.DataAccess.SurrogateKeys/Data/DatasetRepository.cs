@@ -32,7 +32,6 @@ namespace BankApp.DataAccess.SurrogateKeys.Data
             {
                 return context
                     .Set<Dataset>()
-                    .Include(x => x.Clients).ThenInclude(x => x.Deposits)
                     .Include(x => x.Clients).ThenInclude(x => x.Loans)
                     .Single(x => x.DatasetId == datasetId);
             }
