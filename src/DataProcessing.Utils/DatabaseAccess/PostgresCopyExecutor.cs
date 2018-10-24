@@ -38,7 +38,7 @@ namespace DataProcessing.Utils.DatabaseAccess
             var columnsString = typeof(TRow)
                 .GetProperties()
                 .Where(x => x.PropertyType.Namespace.StartsWith("System"))
-                .Select(x => $"\"{x}\"")
+                .Select(x => $"\"{x.Name}\"")
                 .JoinWithSeparator(", ");
 
             var command = $"COPY \"{typeof(TRow).Name}\" ({columnsString}) TO STDOUT BINARY;";
