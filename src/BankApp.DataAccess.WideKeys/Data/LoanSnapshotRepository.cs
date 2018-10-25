@@ -30,6 +30,17 @@ namespace BankApp.DataAccess.WideKeys.Data
             }
         }
 
+        public int CountInDataset(
+            short datasetId)
+        {
+            using (var context = new EfContext(ConnectionString))
+            {
+                return context
+                    .Set<LoanSnapshot>()
+                    .Count(x => x.DatasetId == datasetId);
+            }
+        }
+
         public ICollection<LoanSnapshot> GetForDataset(
             short datasetId)
         {
@@ -63,6 +74,22 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
                     .Set<LoanSnapshot>()
                     .Where(x => x.DatasetId == datasetId)
                     .OrderBy(x => x.DatasetId).ThenBy(x => x.ClientId).ThenBy(x => x.LoanId)
+                    .ToArray();
+            }
+        }
+
+        public ICollection<LoanSnapshot> GetBatchForDataset(
+            short datasetId,
+            int skip,
+            int take)
+        {
+            using (var context = new EfContext(ConnectionString))
+            {
+                return context
+                    .Set<LoanSnapshot>()
+                    .Where(x => x.DatasetId == datasetId)
+                    .OrderBy(x => x.DatasetId).ThenBy(x => x.ClientId).ThenBy(x => x.LoanId)
+                    .Skip(skip).Take(skip)
                     .ToArray();
             }
         }
