@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper;
 using DbUp;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -118,6 +119,78 @@ namespace DataProcessing.Utils.DatabaseAccess
                 throw new InvalidOperationException(
                     "Error while updating database schema. See inner exception for details.",
                     result.Error);
+            }
+        }
+
+        public static void CreatePk<TTable>(
+            string connectionString,
+            params string[] columns)
+        {
+            var tableName = typeof(TTable).Name;
+            var columnsString = columns.ToQuotedCommaSeparatedString();
+
+            var sql = $@"
+ALTER TABLE ""{tableName}""
+ADD CONSTRAINT ""PK_{tableName}""
+PRIMARY KEY ({columnsString})";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public static void DropPk<TTable>(
+            string connectionString)
+        {
+            var tableName = typeof(TTable).Name;
+
+            var sql = $@"
+ALTER TABLE ""{tableName}""
+DROP CONSTRAINT ""PK_{tableName}""";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public static void CreateFk<TFromTable, TToTable>(
+            string connectionString,
+            params string[] columns)
+        {
+            var fromTableName = typeof(TFromTable).Name;
+            var toTableName = typeof(TToTable).Name;
+            var columnsNamePart = columns.JoinWithSeparator("_");
+            var columnsString = columns.ToQuotedCommaSeparatedString();
+
+            var sql = $@"
+ALTER TABLE ""{fromTableName}""
+ADD CONSTRAINT ""FK_{fromTableName}_{toTableName}_{columnsNamePart}""
+FOREIGN KEY ({columnsString})
+REFERENCES ""{toTableName}"" ({columnsString})";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
+        public static void DropFk<TFromTable, TToTable>(
+            string connectionString,
+            params string[] columns)
+        {
+            var fromTableName = typeof(TFromTable).Name;
+            var toTableName = typeof(TToTable).Name;
+            var columnsNamePart = columns.JoinWithSeparator("_");
+
+            var sql = $@"
+ALTER TABLE ""{fromTableName}""
+DROP CONSTRAINT ""FK_{fromTableName}_{toTableName}_{columnsNamePart}""";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Execute(sql);
             }
         }
     }
