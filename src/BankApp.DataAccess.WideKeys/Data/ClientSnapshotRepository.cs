@@ -9,17 +9,17 @@ namespace BankApp.DataAccess.WideKeys.Data
     public class ClientSnapshotRepository
     {
         private readonly string _connectionString;
-        private readonly bool _hasFk;
         private readonly bool _hasPk;
+        private readonly bool _hasFk;
 
         public ClientSnapshotRepository(
             string connectionString,
-            bool hasFk = true,
-            bool hasPk = true)
+            bool hasPk = true,
+            bool hasFk = true)
         {
             _connectionString = connectionString;
-            _hasFk = hasFk;
             _hasPk = hasPk;
+            _hasFk = hasFk;
         }
 
         public ICollection<ClientSnapshot> GetForDataset(
