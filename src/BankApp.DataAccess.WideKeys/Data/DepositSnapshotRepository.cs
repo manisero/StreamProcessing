@@ -11,7 +11,9 @@ namespace BankApp.DataAccess.WideKeys.Data
         private readonly string _connectionString;
 
         public DepositSnapshotRepository(
-            string connectionString)
+            string connectionString,
+            bool hasFk = true,
+            bool hasPk = true)
         {
             _connectionString = connectionString;
         }

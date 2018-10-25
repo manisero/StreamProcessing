@@ -18,12 +18,15 @@ namespace BankApp.DbSeeding.WideKeys
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeedingTaskFactory(
-            string connectionString)
+            DatasetRepository datasetRepository,
+            ClientSnapshotRepository clientSnapshotRepository,
+            DepositSnapshotRepository depositSnapshotRepository,
+            LoanSnapshotRepository loanSnapshotRepository)
         {
-            _datasetRepository = new DatasetRepository(connectionString);
-            _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
-            _depositSnapshotRepository = new DepositSnapshotRepository(connectionString);
-            _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
+            _datasetRepository = datasetRepository;
+            _clientSnapshotRepository = clientSnapshotRepository;
+            _depositSnapshotRepository = depositSnapshotRepository;
+            _loanSnapshotRepository = loanSnapshotRepository;
         }
 
         public TaskDefinition Create(

@@ -17,7 +17,9 @@ namespace BankApp.DataAccess.WideKeys.Data
         }
 
         public ICollection<ClientSnapshot> GetForDataset(
-            short datasetId)
+            short datasetId,
+            bool hasFk = true,
+            bool hasPk = true)
         {
             var sql = $@"
 SELECT *

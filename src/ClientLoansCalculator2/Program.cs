@@ -13,7 +13,7 @@ namespace ClientLoansCalculator2
             var settings = ConfigUtils.GetAppSettings();
             var taskExecutor = TaskExecutorFactory.Create();
 
-            var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
+            var taskFactory = new ClientLoansCalculationTaskFactory(
                 new LoanSnapshotRepository(settings.ConnectionString),
                 new ClientLoansCalculationRepository(settings.ConnectionString),
                 new ClientTotalLoanRepository(
@@ -22,7 +22,7 @@ namespace ClientLoansCalculator2
 
             var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
 
-            var task = clientLoansCalculationTaskFactory.Create(datasetId.Value);
+            var task = taskFactory.Create(datasetId.Value);
             taskExecutor.Execute(task);
         }
     }
