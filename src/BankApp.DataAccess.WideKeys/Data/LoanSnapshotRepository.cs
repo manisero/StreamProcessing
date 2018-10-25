@@ -9,26 +9,20 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class LoanSnapshotRepository
     {
-        private readonly string _connectionString;
-        private readonly bool _readUsingDapper;
-        private readonly bool _hasPk;
-        private readonly bool _hasFk;
+        protected readonly string ConnectionString;
+        protected readonly bool ReadUsingDapper;
 
         public LoanSnapshotRepository(
             string connectionString,
-            bool readUsingDapper = false,
-            bool hasPk = true,
-            bool hasFk = true)
+            bool readUsingDapper = false)
         {
-            _connectionString = connectionString;
-            _readUsingDapper = readUsingDapper;
-            _hasPk = hasPk;
-            _hasFk = hasFk;
+            ConnectionString = connectionString;
+            ReadUsingDapper = readUsingDapper;
         }
 
         public ICollection<LoanSnapshot> GetAll()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 return PostgresCopyExecutor.ExecuteRead(
                     connection,
@@ -39,7 +33,7 @@ namespace BankApp.DataAccess.WideKeys.Data
         public ICollection<LoanSnapshot> GetForDataset(
             short datasetId)
         {
-            return _readUsingDapper
+            return ReadUsingDapper
                 ? GetForDataset_Dapper(datasetId)
                 : GetForDataset_Ef(datasetId);
         }
@@ -52,7 +46,7 @@ SELECT * FROM ""{nameof(LoanSnapshot)}""
 WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}""";
 
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 return connection
                     .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
@@ -63,7 +57,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
         private ICollection<LoanSnapshot> GetForDataset_Ef(
             short datasetId)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context
                     .Set<LoanSnapshot>()
@@ -76,7 +70,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
         public void CreateMany(
             IEnumerable<LoanSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,
@@ -84,20 +78,37 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
                     LoanSnapshot.ColumnMapping);
             }
         }
+    }
+
+    public class LoanSnapshotRepositoryWithSchema : LoanSnapshotRepository
+    {
+        private readonly bool _hasPk;
+        private readonly bool _hasFk;
+
+        public LoanSnapshotRepositoryWithSchema(
+            string connectionString,
+            bool readUsingDapper = false,
+            bool hasPk = true,
+            bool hasFk = true)
+            : base(connectionString, readUsingDapper)
+        {
+            _hasPk = hasPk;
+            _hasFk = hasFk;
+        }
 
         public void DropConstraints()
         {
             if (_hasFk)
             {
                 DatabaseManager.DropFk<LoanSnapshot, ClientSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
             }
 
             if (_hasPk)
             {
                 DatabaseManager.DropPk<LoanSnapshot>(
-                    _connectionString);
+                    ConnectionString);
             }
         }
 
@@ -106,14 +117,14 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             if (_hasPk)
             {
                 DatabaseManager.CreatePk<LoanSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId), nameof(LoanSnapshot.LoanId));
             }
 
             if (_hasFk)
             {
                 DatabaseManager.CreateFk<LoanSnapshot, ClientSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
             }
         }

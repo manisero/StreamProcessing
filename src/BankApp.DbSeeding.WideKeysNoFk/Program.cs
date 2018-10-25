@@ -28,13 +28,13 @@ namespace BankApp.DbSeeding.WideKeysNoFk
 
             var taskFactory = new DbSeedingTaskFactory(
                 new DatasetRepository(settings.ConnectionString),
-                new ClientSnapshotRepository(
+                new ClientSnapshotRepositoryWithSchema(
                     settings.ConnectionString,
                     hasFk: false),
-                new DepositSnapshotRepository(
+                new DepositSnapshotRepositoryWithSchema(
                     settings.ConnectionString,
                     hasFk: false),
-                new LoanSnapshotRepository(
+                new LoanSnapshotRepositoryWithSchema(
                     settings.ConnectionString,
                     hasFk: false));
 

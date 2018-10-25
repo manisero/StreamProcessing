@@ -8,18 +8,12 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class ClientSnapshotRepository
     {
-        private readonly string _connectionString;
-        private readonly bool _hasPk;
-        private readonly bool _hasFk;
+        protected readonly string ConnectionString;
 
         public ClientSnapshotRepository(
-            string connectionString,
-            bool hasPk = true,
-            bool hasFk = true)
+            string connectionString)
         {
-            _connectionString = connectionString;
-            _hasPk = hasPk;
-            _hasFk = hasFk;
+            ConnectionString = connectionString;
         }
 
         public ICollection<ClientSnapshot> GetForDataset(
@@ -31,7 +25,7 @@ FROM ""{nameof(ClientSnapshot)}""
 WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}""";
 
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 return connection
                     .Query<ClientSnapshot>(sql, new { DatasetId = datasetId })
@@ -42,7 +36,7 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
         public void CreateMany(
             IEnumerable<ClientSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,
@@ -50,20 +44,36 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
                     ClientSnapshot.ColumnMapping);
             }
         }
+    }
+
+    public class ClientSnapshotRepositoryWithSchema : ClientSnapshotRepository
+    {
+        private readonly bool _hasPk;
+        private readonly bool _hasFk;
+
+        public ClientSnapshotRepositoryWithSchema(
+            string connectionString,
+            bool hasPk = true,
+            bool hasFk = true)
+            : base(connectionString)
+        {
+            _hasPk = hasPk;
+            _hasFk = hasFk;
+        }
 
         public void DropConstraints()
         {
             if (_hasFk)
             {
                 DatabaseManager.DropFk<ClientSnapshot, Dataset>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(ClientSnapshot.DatasetId));
             }
 
             if (_hasPk)
             {
                 DatabaseManager.DropPk<ClientSnapshot>(
-                    _connectionString);
+                    ConnectionString);
             }
         }
 
@@ -72,14 +82,14 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
             if (_hasPk)
             {
                 DatabaseManager.CreatePk<ClientSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(ClientSnapshot.DatasetId), nameof(ClientSnapshot.ClientId));
             }
 
             if (_hasFk)
             {
                 DatabaseManager.CreateFk<ClientSnapshot, Dataset>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(ClientSnapshot.DatasetId));
             }
         }

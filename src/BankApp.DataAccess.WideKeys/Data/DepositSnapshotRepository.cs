@@ -8,18 +8,12 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class DepositSnapshotRepository
     {
-        private readonly string _connectionString;
-        private readonly bool _hasPk;
-        private readonly bool _hasFk;
+        protected readonly string ConnectionString;
 
         public DepositSnapshotRepository(
-            string connectionString,
-            bool hasPk = true,
-            bool hasFk = true)
+            string connectionString)
         {
-            _connectionString = connectionString;
-            _hasPk = hasPk;
-            _hasFk = hasFk;
+            ConnectionString = connectionString;
         }
 
         public ICollection<DepositSnapshot> GetForDataset(
@@ -31,7 +25,7 @@ FROM ""{nameof(DepositSnapshot)}""
 WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DepositId)}""";
 
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 return connection
                     .Query<DepositSnapshot>(sql, new { DatasetId = datasetId })
@@ -42,7 +36,7 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
         public void CreateMany(
             IEnumerable<DepositSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,
@@ -50,20 +44,36 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
                     DepositSnapshot.ColumnMapping);
             }
         }
+    }
+
+    public class DepositSnapshotRepositoryWithSchema : DepositSnapshotRepository
+    {
+        private readonly bool _hasPk;
+        private readonly bool _hasFk;
+
+        public DepositSnapshotRepositoryWithSchema(
+            string connectionString,
+            bool hasPk = true,
+            bool hasFk = true)
+            : base(connectionString)
+        {
+            _hasPk = hasPk;
+            _hasFk = hasFk;
+        }
 
         public void DropConstraints()
         {
             if (_hasFk)
             {
                 DatabaseManager.DropFk<DepositSnapshot, ClientSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
             }
 
             if (_hasPk)
             {
                 DatabaseManager.DropPk<DepositSnapshot>(
-                    _connectionString);
+                    ConnectionString);
             }
         }
 
@@ -72,14 +82,14 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
             if (_hasPk)
             {
                 DatabaseManager.CreatePk<DepositSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId), nameof(DepositSnapshot.DepositId));
             }
 
             if (_hasFk)
             {
                 DatabaseManager.CreateFk<DepositSnapshot, ClientSnapshot>(
-                    _connectionString,
+                    ConnectionString,
                     nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
             }
         }
