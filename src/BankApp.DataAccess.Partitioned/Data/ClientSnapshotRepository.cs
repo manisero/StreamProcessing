@@ -35,7 +35,8 @@ WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
             short datasetId)
         {
             var sql = $@"
-SELECT * FROM ""{nameof(ClientSnapshot)}""
+SELECT *
+FROM ""{nameof(ClientSnapshot)}""
 WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}""";
 

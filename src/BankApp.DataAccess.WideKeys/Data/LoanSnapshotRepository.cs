@@ -53,7 +53,8 @@ namespace BankApp.DataAccess.WideKeys.Data
             short datasetId)
         {
             var sql = $@"
-SELECT * FROM ""{nameof(LoanSnapshot)}""
+SELECT *
+FROM ""{nameof(LoanSnapshot)}""
 WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}""";
 
@@ -83,13 +84,43 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             int skip,
             int take)
         {
+            return ReadUsingDapper
+                ? GetBatchForDataset_Dapper(datasetId, skip, take)
+                : GetBatchForDataset_Ef(datasetId, skip, take);
+        }
+
+        private ICollection<LoanSnapshot> GetBatchForDataset_Dapper(
+            short datasetId,
+            int skip,
+            int take)
+        {
+            var sql = $@"
+SELECT *
+FROM ""{nameof(LoanSnapshot)}""
+WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId
+ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}""
+OFFSET @Skip ROWS LIMIT @Take";
+
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                return connection
+                    .Query<LoanSnapshot>(sql, new { DatasetId = datasetId, Skip = skip, Take = take })
+                    .AsList();
+            }
+        }
+
+        private ICollection<LoanSnapshot> GetBatchForDataset_Ef(
+            short datasetId,
+            int skip,
+            int take)
+        {
             using (var context = new EfContext(ConnectionString))
             {
                 return context
                     .Set<LoanSnapshot>()
                     .Where(x => x.DatasetId == datasetId)
                     .OrderBy(x => x.DatasetId).ThenBy(x => x.ClientId).ThenBy(x => x.LoanId)
-                    .Skip(skip).Take(skip)
+                    .Skip(skip).Take(take)
                     .ToArray();
             }
         }
