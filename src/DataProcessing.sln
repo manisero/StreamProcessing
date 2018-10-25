@@ -66,6 +66,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.WideKeysN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.DbSeeding.WideKeysNoPkFk", "BankApp.DbSeeding.WideKeysNoPkFk\BankApp.DbSeeding.WideKeysNoPkFk.csproj", "{1555FDBA-A622-45C0-BF4F-E876CCD7A88C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.3. ClientLoansCalculator3", "2.3. ClientLoansCalculator3", "{FC4FC498-5589-4E8D-8B58-D10CFCB5F829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoansCalculator3", "ClientLoansCalculator3\ClientLoansCalculator3.csproj", "{EC711504-03DE-4D15-A499-A9E04B27B0D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,6 +152,10 @@ Global
 		{1555FDBA-A622-45C0-BF4F-E876CCD7A88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1555FDBA-A622-45C0-BF4F-E876CCD7A88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1555FDBA-A622-45C0-BF4F-E876CCD7A88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC711504-03DE-4D15-A499-A9E04B27B0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC711504-03DE-4D15-A499-A9E04B27B0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC711504-03DE-4D15-A499-A9E04B27B0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC711504-03DE-4D15-A499-A9E04B27B0D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +180,7 @@ Global
 		{ACCFB0CD-C03B-4C26-B731-1DA54D154787} = {75D8500D-9623-40C4-AD39-99C2DC03A89F}
 		{E20B1323-D8E2-45C5-8946-1A19B126C2DB} = {777FE53D-1DB6-4E7D-9FBC-61AE72D0B712}
 		{1555FDBA-A622-45C0-BF4F-E876CCD7A88C} = {777FE53D-1DB6-4E7D-9FBC-61AE72D0B712}
+		{EC711504-03DE-4D15-A499-A9E04B27B0D6} = {FC4FC498-5589-4E8D-8B58-D10CFCB5F829}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}
