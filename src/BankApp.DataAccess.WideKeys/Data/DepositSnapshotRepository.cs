@@ -9,6 +9,8 @@ namespace BankApp.DataAccess.WideKeys.Data
     public class DepositSnapshotRepository
     {
         private readonly string _connectionString;
+        private readonly bool _hasFk;
+        private readonly bool _hasPk;
 
         public DepositSnapshotRepository(
             string connectionString,
@@ -16,6 +18,8 @@ namespace BankApp.DataAccess.WideKeys.Data
             bool hasPk = true)
         {
             _connectionString = connectionString;
+            _hasFk = hasFk;
+            _hasPk = hasPk;
         }
 
         public ICollection<DepositSnapshot> GetForDataset(
@@ -49,34 +53,34 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
 
         public void DropConstraints()
         {
-            var sql = $@"
-ALTER TABLE ""{nameof(DepositSnapshot)}""
-DROP CONSTRAINT ""FK_{nameof(DepositSnapshot)}_{nameof(ClientSnapshot)}_{nameof(DepositSnapshot.DatasetId)}_{nameof(DepositSnapshot.ClientId)}"";
-
-ALTER TABLE ""{nameof(DepositSnapshot)}""
-DROP CONSTRAINT ""PK_{nameof(DepositSnapshot)}"";";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
+            if (_hasFk)
             {
-                connection.Execute(sql);
+                DatabaseManager.DropFk<DepositSnapshot, ClientSnapshot>(
+                    _connectionString,
+                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
+            }
+
+            if (_hasPk)
+            {
+                DatabaseManager.DropPk<DepositSnapshot>(
+                    _connectionString);
             }
         }
 
         public void RestoreConstraints()
         {
-            var sql = $@"
-ALTER TABLE ""{nameof(DepositSnapshot)}""
-ADD CONSTRAINT ""PK_{nameof(DepositSnapshot)}""
-PRIMARY KEY (""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DepositId)}"");
-
-ALTER TABLE ""{nameof(DepositSnapshot)}""
-ADD CONSTRAINT ""FK_{nameof(DepositSnapshot)}_{nameof(ClientSnapshot)}_{nameof(DepositSnapshot.DatasetId)}_{nameof(DepositSnapshot.ClientId)}""
-FOREIGN KEY (""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DatasetId)}"")
-REFERENCES ""{nameof(ClientSnapshot)}"" (""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DatasetId)}"");";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
+            if (_hasPk)
             {
-                connection.Execute(sql);
+                DatabaseManager.CreatePk<DepositSnapshot>(
+                    _connectionString,
+                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId), nameof(DepositSnapshot.DepositId));
+            }
+
+            if (_hasFk)
+            {
+                DatabaseManager.CreateFk<DepositSnapshot, ClientSnapshot>(
+                    _connectionString,
+                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
             }
         }
     }

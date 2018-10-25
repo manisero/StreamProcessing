@@ -11,6 +11,8 @@ namespace BankApp.DataAccess.WideKeys.Data
     {
         private readonly string _connectionString;
         private readonly bool _readUsingDapper;
+        private readonly bool _hasFk;
+        private readonly bool _hasPk;
 
         public LoanSnapshotRepository(
             string connectionString,
@@ -20,6 +22,8 @@ namespace BankApp.DataAccess.WideKeys.Data
         {
             _connectionString = connectionString;
             _readUsingDapper = readUsingDapper;
+            _hasFk = hasFk;
+            _hasPk = hasPk;
         }
 
         public ICollection<LoanSnapshot> GetAll()
@@ -83,34 +87,34 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
 
         public void DropConstraints()
         {
-            var sql = $@"
-ALTER TABLE ""{nameof(LoanSnapshot)}""
-DROP CONSTRAINT ""FK_{nameof(LoanSnapshot)}_{nameof(ClientSnapshot)}_{nameof(LoanSnapshot.DatasetId)}_{nameof(LoanSnapshot.ClientId)}"";
-
-ALTER TABLE ""{nameof(LoanSnapshot)}""
-DROP CONSTRAINT ""PK_{nameof(LoanSnapshot)}"";";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
+            if (_hasFk)
             {
-                connection.Execute(sql);
+                DatabaseManager.DropFk<LoanSnapshot, ClientSnapshot>(
+                    _connectionString,
+                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
+            }
+
+            if (_hasPk)
+            {
+                DatabaseManager.DropPk<LoanSnapshot>(
+                    _connectionString);
             }
         }
 
         public void RestoreConstraints()
         {
-            var sql = $@"
-ALTER TABLE ""{nameof(LoanSnapshot)}""
-ADD CONSTRAINT ""PK_{nameof(LoanSnapshot)}""
-PRIMARY KEY (""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}"");
-
-ALTER TABLE ""{nameof(LoanSnapshot)}""
-ADD CONSTRAINT ""FK_{nameof(LoanSnapshot)}_{nameof(ClientSnapshot)}_{nameof(LoanSnapshot.DatasetId)}_{nameof(LoanSnapshot.ClientId)}""
-FOREIGN KEY (""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.DatasetId)}"")
-REFERENCES ""{nameof(ClientSnapshot)}"" (""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.DatasetId)}"");";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
+            if (_hasPk)
             {
-                connection.Execute(sql);
+                DatabaseManager.CreatePk<LoanSnapshot>(
+                    _connectionString,
+                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId), nameof(LoanSnapshot.LoanId));
+            }
+
+            if (_hasFk)
+            {
+                DatabaseManager.CreateFk<LoanSnapshot, ClientSnapshot>(
+                    _connectionString,
+                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
             }
         }
     }
