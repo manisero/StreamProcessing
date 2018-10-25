@@ -89,7 +89,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             string connectionString,
             bool readUsingDapper = false,
             bool hasPk = true,
-            bool hasFk = true)
+            bool hasFk = false)
             : base(connectionString, readUsingDapper)
         {
             _hasPk = hasPk;

@@ -54,7 +54,7 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
         public ClientSnapshotRepositoryWithSchema(
             string connectionString,
             bool hasPk = true,
-            bool hasFk = true)
+            bool hasFk = false)
             : base(connectionString)
         {
             _hasPk = hasPk;

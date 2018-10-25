@@ -28,15 +28,9 @@ namespace BankApp.DbSeeding.WideKeysNoFk
 
             var taskFactory = new DbSeedingTaskFactory(
                 new DatasetRepository(settings.ConnectionString),
-                new ClientSnapshotRepositoryWithSchema(
-                    settings.ConnectionString,
-                    hasFk: false),
-                new DepositSnapshotRepositoryWithSchema(
-                    settings.ConnectionString,
-                    hasFk: false),
-                new LoanSnapshotRepositoryWithSchema(
-                    settings.ConnectionString,
-                    hasFk: false));
+                new ClientSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: false),
+                new DepositSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: false),
+                new LoanSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: false));
 
             var task = taskFactory.Create(settings.DataSettings);
             taskExecutor.Execute(task);

@@ -54,7 +54,7 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
         public DepositSnapshotRepositoryWithSchema(
             string connectionString,
             bool hasPk = true,
-            bool hasFk = true)
+            bool hasFk = false)
             : base(connectionString)
         {
             _hasPk = hasPk;
