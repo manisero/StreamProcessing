@@ -122,6 +122,15 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
         }
 
+        public static void ShrinkAndUpdateStats(
+            string connectionString)
+        {
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Execute("VACUUM ANALYZE");
+            }
+        }
+
         public static void CreatePk<TTable>(
             string connectionString,
             params string[] columns)
