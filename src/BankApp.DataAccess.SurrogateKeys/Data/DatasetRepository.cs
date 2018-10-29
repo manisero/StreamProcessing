@@ -41,7 +41,7 @@ namespace BankApp.DataAccess.SurrogateKeys.Data
         {
             using (var context = new EfContext(_connectionString))
             {
-                return context.Set<Dataset>().Select(x => x.DatasetId).Max();
+                return context.Set<Dataset>().Max(x => (int?)x.DatasetId);
             }
         }
 

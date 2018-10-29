@@ -1,4 +1,5 @@
-﻿using BankApp.Domain.WideKeys.Tasks;
+﻿using System.Linq;
+using BankApp.Domain.WideKeys.Tasks;
 
 namespace BankApp.DataAccess.WideKeys.Tasks
 {
@@ -10,6 +11,14 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public short? GetMaxId()
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context.Set<ClientLoansCalculation>().Max(x => (short?)x.DatasetId);
+            }
         }
 
         public ClientLoansCalculation Create(
