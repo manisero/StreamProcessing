@@ -140,16 +140,19 @@ OFFSET @Skip ROWS LIMIT @Take";
 
     public class LoanSnapshotRepositoryWithSchema : LoanSnapshotRepository
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly bool _hasPk;
         private readonly bool _hasFk;
 
         public LoanSnapshotRepositoryWithSchema(
             string connectionString,
+            DatabaseManager databaseManager,
             bool readUsingDapper = false,
             bool hasPk = true,
             bool hasFk = false)
             : base(connectionString, readUsingDapper)
         {
+            _databaseManager = databaseManager;
             _hasPk = hasPk;
             _hasFk = hasFk;
         }
@@ -157,34 +160,26 @@ OFFSET @Skip ROWS LIMIT @Take";
         public void DropConstraints()
         {
             if (_hasFk)
-            {
-                DatabaseManager.DropFk<LoanSnapshot, ClientSnapshot>(
-                    ConnectionString,
-                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
-            }
+                _databaseManager.DropFk<LoanSnapshot, ClientSnapshot>(
+                    nameof(LoanSnapshot.DatasetId),
+                    nameof(LoanSnapshot.ClientId));
 
             if (_hasPk)
-            {
-                DatabaseManager.DropPk<LoanSnapshot>(
-                    ConnectionString);
-            }
+                _databaseManager.DropPk<LoanSnapshot>();
         }
 
         public void RestoreConstraints()
         {
             if (_hasPk)
-            {
-                DatabaseManager.CreatePk<LoanSnapshot>(
-                    ConnectionString,
-                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId), nameof(LoanSnapshot.LoanId));
-            }
+                _databaseManager.CreatePk<LoanSnapshot>(
+                    nameof(LoanSnapshot.DatasetId),
+                    nameof(LoanSnapshot.ClientId),
+                    nameof(LoanSnapshot.LoanId));
 
             if (_hasFk)
-            {
-                DatabaseManager.CreateFk<LoanSnapshot, ClientSnapshot>(
-                    ConnectionString,
-                    nameof(LoanSnapshot.DatasetId), nameof(LoanSnapshot.ClientId));
-            }
+                _databaseManager.CreateFk<LoanSnapshot, ClientSnapshot>(
+                    nameof(LoanSnapshot.DatasetId),
+                    nameof(LoanSnapshot.ClientId));
         }
     }
 }

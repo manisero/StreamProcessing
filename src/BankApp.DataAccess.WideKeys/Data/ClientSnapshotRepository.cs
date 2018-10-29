@@ -48,15 +48,18 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
 
     public class ClientSnapshotRepositoryWithSchema : ClientSnapshotRepository
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly bool _hasPk;
         private readonly bool _hasFk;
 
         public ClientSnapshotRepositoryWithSchema(
             string connectionString,
+            DatabaseManager databaseManager,
             bool hasPk = true,
             bool hasFk = false)
             : base(connectionString)
         {
+            _databaseManager = databaseManager;
             _hasPk = hasPk;
             _hasFk = hasFk;
         }
@@ -64,34 +67,23 @@ ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.Client
         public void DropConstraints()
         {
             if (_hasFk)
-            {
-                DatabaseManager.DropFk<ClientSnapshot, Dataset>(
-                    ConnectionString,
+                _databaseManager.DropFk<ClientSnapshot, Dataset>(
                     nameof(ClientSnapshot.DatasetId));
-            }
 
             if (_hasPk)
-            {
-                DatabaseManager.DropPk<ClientSnapshot>(
-                    ConnectionString);
-            }
+                _databaseManager.DropPk<ClientSnapshot>();
         }
 
         public void RestoreConstraints()
         {
             if (_hasPk)
-            {
-                DatabaseManager.CreatePk<ClientSnapshot>(
-                    ConnectionString,
-                    nameof(ClientSnapshot.DatasetId), nameof(ClientSnapshot.ClientId));
-            }
+                _databaseManager.CreatePk<ClientSnapshot>(
+                    nameof(ClientSnapshot.DatasetId),
+                    nameof(ClientSnapshot.ClientId));
 
             if (_hasFk)
-            {
-                DatabaseManager.CreateFk<ClientSnapshot, Dataset>(
-                    ConnectionString,
+                _databaseManager.CreateFk<ClientSnapshot, Dataset>(
                     nameof(ClientSnapshot.DatasetId));
-            }
         }
     }
 }

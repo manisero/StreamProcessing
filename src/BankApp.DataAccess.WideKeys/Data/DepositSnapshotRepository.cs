@@ -48,15 +48,18 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
 
     public class DepositSnapshotRepositoryWithSchema : DepositSnapshotRepository
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly bool _hasPk;
         private readonly bool _hasFk;
 
         public DepositSnapshotRepositoryWithSchema(
             string connectionString,
+            DatabaseManager databaseManager,
             bool hasPk = true,
             bool hasFk = false)
             : base(connectionString)
         {
+            _databaseManager = databaseManager;
             _hasPk = hasPk;
             _hasFk = hasFk;
         }
@@ -64,34 +67,26 @@ ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.Clie
         public void DropConstraints()
         {
             if (_hasFk)
-            {
-                DatabaseManager.DropFk<DepositSnapshot, ClientSnapshot>(
-                    ConnectionString,
-                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
-            }
+                _databaseManager.DropFk<DepositSnapshot, ClientSnapshot>(
+                    nameof(DepositSnapshot.DatasetId),
+                    nameof(DepositSnapshot.ClientId));
 
             if (_hasPk)
-            {
-                DatabaseManager.DropPk<DepositSnapshot>(
-                    ConnectionString);
-            }
+                _databaseManager.DropPk<DepositSnapshot>();
         }
 
         public void RestoreConstraints()
         {
             if (_hasPk)
-            {
-                DatabaseManager.CreatePk<DepositSnapshot>(
-                    ConnectionString,
-                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId), nameof(DepositSnapshot.DepositId));
-            }
+                _databaseManager.CreatePk<DepositSnapshot>(
+                    nameof(DepositSnapshot.DatasetId),
+                    nameof(DepositSnapshot.ClientId),
+                    nameof(DepositSnapshot.DepositId));
 
             if (_hasFk)
-            {
-                DatabaseManager.CreateFk<DepositSnapshot, ClientSnapshot>(
-                    ConnectionString,
-                    nameof(DepositSnapshot.DatasetId), nameof(DepositSnapshot.ClientId));
-            }
+                _databaseManager.CreateFk<DepositSnapshot, ClientSnapshot>(
+                    nameof(DepositSnapshot.DatasetId),
+                    nameof(DepositSnapshot.ClientId));
         }
     }
 }

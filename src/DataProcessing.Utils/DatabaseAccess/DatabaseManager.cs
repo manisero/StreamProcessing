@@ -6,8 +6,16 @@ using Npgsql;
 
 namespace DataProcessing.Utils.DatabaseAccess
 {
-    public static class DatabaseManager
+    public class DatabaseManager
     {
+        private readonly string _connectionString;
+
+        public DatabaseManager(
+            string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         private class EmptyEfContext : DbContext
         {
             private readonly string _connectionString;
@@ -23,13 +31,12 @@ namespace DataProcessing.Utils.DatabaseAccess
                 => optionsBuilder.UseNpgsql(_connectionString);
         }
 
-        public static bool TryRecreate(
-            string connectionString,
+        public bool TryRecreate(
             bool force = false,
             Func<string, DbContext> efContextFactory = null,
             Type migrationScriptsAssemblySampleType = null)
         {
-            var created = TryRecreateDb(connectionString, force, efContextFactory);
+            var created = TryRecreateDb(force, efContextFactory);
 
             if (!created)
             {
@@ -38,21 +45,20 @@ namespace DataProcessing.Utils.DatabaseAccess
 
             if (migrationScriptsAssemblySampleType != null)
             {
-                Upgrade(connectionString, migrationScriptsAssemblySampleType);
+                Upgrade(migrationScriptsAssemblySampleType);
             }
 
             return true;
         }
 
-        private static bool TryRecreateDb(
-            string connectionString,
+        private bool TryRecreateDb(
             bool force = false,
             Func<string, DbContext> efContextFactory = null)
         {
-            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(_connectionString);
 
             Console.WriteLine($"Creating db '{connectionStringBuilder.Database}'...");
-            var isNewDb = EnsureCreated(connectionString, efContextFactory);
+            var isNewDb = EnsureCreated(efContextFactory);
 
             if (isNewDb)
             {
@@ -71,41 +77,38 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
             
             Console.WriteLine("Dropping existing db...");
-            EnsureDeleted(connectionString);
+            EnsureDeleted();
 
             Console.WriteLine("Recreating db...");
-            EnsureCreated(connectionString, efContextFactory);
+            EnsureCreated(efContextFactory);
 
             return true;
         }
 
-        public static bool EnsureCreated(
-            string connectionString,
+        public bool EnsureCreated(
             Func<string, DbContext> efContextFactory = null)
         {
             using (var efContext = efContextFactory != null
-                ? efContextFactory(connectionString)
-                : new EmptyEfContext(connectionString))
+                ? efContextFactory(_connectionString)
+                : new EmptyEfContext(_connectionString))
             {
                 return efContext.Database.EnsureCreated();
             }
         }
 
-        public static bool EnsureDeleted(
-            string connectionString)
+        public bool EnsureDeleted()
         {
-            using (var efContext = new EmptyEfContext(connectionString))
+            using (var efContext = new EmptyEfContext(_connectionString))
             {
                 return efContext.Database.EnsureDeleted();
             }
         }
 
-        public static void Upgrade(
-            string connectionString,
+        public void Upgrade(
             Type migrationScriptsAssemblySampleType)
         {
             var upgrader = DeployChanges
-                .To.PostgresqlDatabase(connectionString)
+                .To.PostgresqlDatabase(_connectionString)
                 .WithScriptsEmbeddedInAssembly(migrationScriptsAssemblySampleType.Assembly)
                 .WithTransaction()
                 .LogToConsole()
@@ -122,17 +125,15 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
         }
 
-        public static void ShrinkAndUpdateStats(
-            string connectionString)
+        public void ShrinkAndUpdateStats()
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Execute("VACUUM ANALYZE");
             }
         }
 
-        public static void CreatePk<TTable>(
-            string connectionString,
+        public void CreatePk<TTable>(
             params string[] columns)
         {
             var tableName = typeof(TTable).Name;
@@ -143,14 +144,13 @@ ALTER TABLE ""{tableName}""
 ADD CONSTRAINT ""PK_{tableName}""
 PRIMARY KEY ({columnsString})";
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Execute(sql);
             }
         }
 
-        public static void DropPk<TTable>(
-            string connectionString)
+        public void DropPk<TTable>()
         {
             var tableName = typeof(TTable).Name;
 
@@ -158,14 +158,13 @@ PRIMARY KEY ({columnsString})";
 ALTER TABLE ""{tableName}""
 DROP CONSTRAINT ""PK_{tableName}""";
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Execute(sql);
             }
         }
 
-        public static void CreateFk<TFromTable, TToTable>(
-            string connectionString,
+        public void CreateFk<TFromTable, TToTable>(
             params string[] columns)
         {
             var fromTableName = typeof(TFromTable).Name;
@@ -179,14 +178,13 @@ ADD CONSTRAINT ""FK_{fromTableName}_{toTableName}_{columnsNamePart}""
 FOREIGN KEY ({columnsString})
 REFERENCES ""{toTableName}"" ({columnsString})";
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Execute(sql);
             }
         }
 
-        public static void DropFk<TFromTable, TToTable>(
-            string connectionString,
+        public void DropFk<TFromTable, TToTable>(
             params string[] columns)
         {
             var fromTableName = typeof(TFromTable).Name;
@@ -197,7 +195,7 @@ REFERENCES ""{toTableName}"" ({columnsString})";
 ALTER TABLE ""{fromTableName}""
 DROP CONSTRAINT ""FK_{fromTableName}_{toTableName}_{columnsNamePart}""";
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Execute(sql);
             }

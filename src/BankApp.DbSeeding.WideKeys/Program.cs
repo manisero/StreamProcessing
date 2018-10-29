@@ -11,9 +11,9 @@ namespace BankApp.DbSeeding.WideKeys
         static void Main(string[] args)
         {
             var settings = ConfigUtils.GetAppSettings(nameof(WideKeys));
+            var databaseManager = new DatabaseManager(settings.ConnectionString);
 
-            var dbCreated = DatabaseManager.TryRecreate(
-                settings.ConnectionString,
+            var dbCreated = databaseManager.TryRecreate(
                 settings.DbCreationSettings.ForceRecreation,
                 efContextFactory: x => new EfContext(x));
 
@@ -23,12 +23,12 @@ namespace BankApp.DbSeeding.WideKeys
             }
 
             var taskExecutor = TaskExecutorFactory.Create();
-
+            
             var taskFactory = new DbSeedingTaskFactory(
                 new DatasetRepository(settings.ConnectionString),
-                new ClientSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: true),
-                new DepositSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: true),
-                new LoanSnapshotRepositoryWithSchema(settings.ConnectionString, hasPk: true, hasFk: true));
+                new ClientSnapshotRepositoryWithSchema(settings.ConnectionString, databaseManager, hasPk: true, hasFk: true),
+                new DepositSnapshotRepositoryWithSchema(settings.ConnectionString, databaseManager, hasPk: true, hasFk: true),
+                new LoanSnapshotRepositoryWithSchema(settings.ConnectionString, databaseManager, hasPk: true, hasFk: true));
 
             var task = taskFactory.Create(settings.DataSettings);
             taskExecutor.Execute(task);

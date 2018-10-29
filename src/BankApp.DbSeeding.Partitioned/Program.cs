@@ -10,10 +10,10 @@ namespace BankApp.DbSeeding.Partitioned
         {
             var settings = ConfigUtils.GetAppSettings(nameof(Partitioned));
 
-            var dbCreated = DatabaseManager.TryRecreate(
-                settings.ConnectionString,
-                settings.DbCreationSettings.ForceRecreation,
-                migrationScriptsAssemblySampleType: typeof(Program));
+            var dbCreated = new DatabaseManager(settings.ConnectionString)
+                .TryRecreate(
+                    settings.DbCreationSettings.ForceRecreation,
+                    migrationScriptsAssemblySampleType: typeof(Program));
 
             if (!dbCreated)
             {

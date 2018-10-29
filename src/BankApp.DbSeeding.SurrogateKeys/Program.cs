@@ -11,10 +11,10 @@ namespace BankApp.DbSeeding.SurrogateKeys
         {
             var settings = ConfigUtils.GetAppSettings(nameof(SurrogateKeys));
 
-            var dbCreated = DatabaseManager.TryRecreate(
-                settings.ConnectionString,
-                settings.DbCreationSettings.ForceRecreation,
-                efContextFactory: x => new EfContext(x));
+            var dbCreated = new DatabaseManager(settings.ConnectionString)
+                .TryRecreate(
+                    settings.DbCreationSettings.ForceRecreation,
+                    efContextFactory: x => new EfContext(x));
 
             if (!dbCreated)
             {
