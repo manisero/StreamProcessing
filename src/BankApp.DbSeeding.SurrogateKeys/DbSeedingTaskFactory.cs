@@ -4,6 +4,7 @@ using System.Linq;
 using BankApp.DataAccess.SurrogateKeys.Data;
 using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
+using DataProcessing.Utils.Navvy;
 using DataProcessing.Utils.Settings;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
@@ -36,7 +37,7 @@ namespace BankApp.DbSeeding.SurrogateKeys
             var state = new DbSeedingState();
 
             return new TaskDefinition(
-                $"{nameof(DbSeeding)}",
+                $"{nameof(DbSeeding)}_{NavvyUtils.GetTaskTimestampString()}",
                 new BasicTaskStep(
                     "PrintSettings",
                     () => Console.WriteLine(settings)),

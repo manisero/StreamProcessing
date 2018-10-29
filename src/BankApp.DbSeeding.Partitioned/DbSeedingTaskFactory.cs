@@ -4,6 +4,7 @@ using System.Linq;
 using BankApp.DataAccess.Partitioned.Data;
 using BankApp.Domain.WideKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
+using DataProcessing.Utils.Navvy;
 using DataProcessing.Utils.Settings;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
@@ -39,7 +40,7 @@ namespace BankApp.DbSeeding.Partitioned
             var state = new DbSeedingState();
 
             return new TaskDefinition(
-                $"{nameof(DbSeeding)}",
+                $"{nameof(DbSeeding)}_{NavvyUtils.GetTaskTimestampString()}",
                 new BasicTaskStep(
                     "PrintSettings",
                     () => Console.WriteLine(settings)),
