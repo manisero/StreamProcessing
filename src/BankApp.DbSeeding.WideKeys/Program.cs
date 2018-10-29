@@ -25,6 +25,7 @@ namespace BankApp.DbSeeding.WideKeys
             var taskExecutor = TaskExecutorFactory.Create();
             
             var taskFactory = new DbSeedingTaskFactory(
+                new DatabaseManager(settings.ConnectionString),
                 new DatasetRepository(settings.ConnectionString),
                 new ClientSnapshotRepositoryWithSchema(settings.ConnectionString, databaseManager, hasPk: true, hasFk: true),
                 new DepositSnapshotRepositoryWithSchema(settings.ConnectionString, databaseManager, hasPk: true, hasFk: true),

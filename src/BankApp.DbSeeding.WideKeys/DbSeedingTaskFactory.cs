@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.WideKeys.Data;
 using BankApp.Domain.WideKeys.Data;
+using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Settings;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
@@ -12,17 +13,20 @@ namespace BankApp.DbSeeding.WideKeys
 {
     public class DbSeedingTaskFactory
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepositoryWithSchema _clientSnapshotRepository;
         private readonly DepositSnapshotRepositoryWithSchema _depositSnapshotRepository;
         private readonly LoanSnapshotRepositoryWithSchema _loanSnapshotRepository;
 
         public DbSeedingTaskFactory(
+            DatabaseManager databaseManager,
             DatasetRepository datasetRepository,
             ClientSnapshotRepositoryWithSchema clientSnapshotRepository,
             DepositSnapshotRepositoryWithSchema depositSnapshotRepository,
             LoanSnapshotRepositoryWithSchema loanSnapshotRepository)
         {
+            _databaseManager = databaseManager;
             _datasetRepository = datasetRepository;
             _clientSnapshotRepository = clientSnapshotRepository;
             _depositSnapshotRepository = depositSnapshotRepository;
@@ -66,22 +70,16 @@ namespace BankApp.DbSeeding.WideKeys
                     .Build(),
                 new BasicTaskStep(
                     "RecreateConstraints_Client",
-                    () =>
-                    {
-                        _clientSnapshotRepository.RestoreConstraints();
-                    }),
+                    () => _clientSnapshotRepository.RestoreConstraints()),
                 new BasicTaskStep(
                     "RecreateConstraints_Deposit",
-                    () =>
-                    {
-                        _depositSnapshotRepository.RestoreConstraints();
-                    }),
+                    () => _depositSnapshotRepository.RestoreConstraints()),
                 new BasicTaskStep(
                     "RecreateConstraints_Loan",
-                    () =>
-                    {
-                        _loanSnapshotRepository.RestoreConstraints();
-                    }));
+                    () => _loanSnapshotRepository.RestoreConstraints()),
+                new BasicTaskStep(
+                    "ShrinkAndUpdateStats",
+                    () => _databaseManager.ShrinkAndUpdateStats()));
         }
 
         private ICollection<short> CreateDatasets(
