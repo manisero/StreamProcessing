@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.SurrogateKeys.Data;
 using BankApp.Domain.SurrogateKeys.Data;
+using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Settings;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
@@ -12,16 +13,21 @@ namespace BankApp.DbSeeding.SurrogateKeys
 {
     public class DbSeedingTaskFactory
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeedingTaskFactory(
-            string connectionString)
+            DatabaseManager databaseManager,
+            DatasetRepository datasetRepository,
+            ClientSnapshotRepository clientSnapshotRepository,
+            LoanSnapshotRepository loanSnapshotRepository)
         {
-            _datasetRepository = new DatasetRepository(connectionString);
-            _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
-            _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
+            _databaseManager = databaseManager;
+            _datasetRepository = datasetRepository;
+            _clientSnapshotRepository = clientSnapshotRepository;
+            _loanSnapshotRepository = loanSnapshotRepository;
         }
 
         public TaskDefinition Create(
@@ -47,7 +53,10 @@ namespace BankApp.DbSeeding.SurrogateKeys
                     .WithBlock(
                         "CreateLoans",
                         x => CreateLoans(x.ClientSnapshotIds, settings.LoansPerClient))
-                    .Build());
+                    .Build(),
+                new BasicTaskStep(
+                    "ShrinkAndUpdateStats",
+                    () => _databaseManager.ShrinkAndUpdateStats()));
         }
 
         private ICollection<int> CreateDatasets(

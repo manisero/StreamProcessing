@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.DataAccess.Partitioned.Data;
 using BankApp.Domain.WideKeys.Data;
+using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Settings;
 using Manisero.Navvy;
 using Manisero.Navvy.BasicProcessing;
@@ -12,18 +13,24 @@ namespace BankApp.DbSeeding.Partitioned
 {
     public class DbSeedingTaskFactory
     {
+        private readonly DatabaseManager _databaseManager;
         private readonly DatasetRepository _datasetRepository;
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly DepositSnapshotRepository _depositSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
 
         public DbSeedingTaskFactory(
-            string connectionString)
+            DatabaseManager databaseManager,
+            DatasetRepository datasetRepository,
+            ClientSnapshotRepository clientSnapshotRepository,
+            DepositSnapshotRepository depositSnapshotRepository,
+            LoanSnapshotRepository loanSnapshotRepository)
         {
-            _datasetRepository = new DatasetRepository(connectionString);
-            _clientSnapshotRepository = new ClientSnapshotRepository(connectionString);
-            _depositSnapshotRepository = new DepositSnapshotRepository(connectionString);
-            _loanSnapshotRepository = new LoanSnapshotRepository(connectionString);
+            _databaseManager = databaseManager;
+            _datasetRepository = datasetRepository;
+            _clientSnapshotRepository = clientSnapshotRepository;
+            _depositSnapshotRepository = depositSnapshotRepository;
+            _loanSnapshotRepository = loanSnapshotRepository;
         }
 
         public TaskDefinition Create(
@@ -52,7 +59,10 @@ namespace BankApp.DbSeeding.Partitioned
                     .WithBlock(
                         "CreateLoans",
                         x => CreateLoans(x.DatasetId, x.ClientIds, settings.LoansPerClient))
-                    .Build());
+                    .Build(),
+                new BasicTaskStep(
+                    "ShrinkAndUpdateStats",
+                    () => _databaseManager.ShrinkAndUpdateStats()));
         }
 
         private ICollection<short> CreateDatasets(

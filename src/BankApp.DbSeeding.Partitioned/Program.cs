@@ -1,4 +1,5 @@
-﻿using DataProcessing.Utils;
+﻿using BankApp.DataAccess.Partitioned.Data;
+using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Navvy;
 
@@ -22,7 +23,14 @@ namespace BankApp.DbSeeding.Partitioned
 
             var taskExecutor = TaskExecutorFactory.Create();
 
-            var task = new DbSeedingTaskFactory(settings.ConnectionString).Create(settings.DataSettings);
+            var taskFactory = new DbSeedingTaskFactory(
+                new DatabaseManager(settings.ConnectionString),
+                new DatasetRepository(settings.ConnectionString),
+                new ClientSnapshotRepository(settings.ConnectionString),
+                new DepositSnapshotRepository(settings.ConnectionString),
+                new LoanSnapshotRepository(settings.ConnectionString));
+
+            var task = taskFactory.Create(settings.DataSettings);
             taskExecutor.Execute(task);
         }
     }
