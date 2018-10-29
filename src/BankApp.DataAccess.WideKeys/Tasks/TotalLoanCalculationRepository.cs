@@ -30,7 +30,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         {
             using (var context = new EfContext(_connectionString))
             {
-                var entry = context.Set<TotalLoanCalculation>().Attach(item);
+                var entry = context.Entry(item);
                 entry.State = EntityState.Modified;
                 context.SaveChanges();
 

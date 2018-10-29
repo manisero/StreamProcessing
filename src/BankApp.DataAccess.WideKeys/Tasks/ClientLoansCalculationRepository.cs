@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using BankApp.Domain.WideKeys.Tasks;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.DataAccess.WideKeys.Tasks
 {
@@ -17,7 +19,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         {
             using (var context = new EfContext(_connectionString))
             {
-                return context.Set<ClientLoansCalculation>().Max(x => (short?)x.DatasetId);
+                return context.Set<ClientLoansCalculation>().Max(x => (short?)x.ClientLoansCalculationId);
             }
         }
 
@@ -30,6 +32,27 @@ namespace BankApp.DataAccess.WideKeys.Tasks
                 context.SaveChanges();
 
                 return item;
+            }
+        }
+
+        public void Delete(
+            short id)
+        {
+            var clientTotalLoanSql = $@"
+DELETE FROM ""{nameof(ClientTotalLoan)}""
+WHERE ""{nameof(ClientTotalLoan.ClientLoansCalculationId)}"" = @ClientLoansCalculationId";
+
+            using (var context = new EfContext(_connectionString))
+            {
+                context.Database.GetDbConnection().Execute(clientTotalLoanSql, new { ClientLoansCalculationId = id });
+
+                var entry = context.Entry(new ClientLoansCalculation
+                {
+                    ClientLoansCalculationId = id
+                });
+
+                entry.State = EntityState.Deleted;
+                context.SaveChanges();
             }
         }
     }
