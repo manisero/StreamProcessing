@@ -10,20 +10,20 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class LoanSnapshotRepository
     {
-        protected readonly string ConnectionString;
-        protected readonly bool ReadUsingDapper;
+        private readonly string _connectionString;
+        private readonly bool _readUsingDapper;
 
         public LoanSnapshotRepository(
             string connectionString,
             bool readUsingDapper = false)
         {
-            ConnectionString = connectionString;
-            ReadUsingDapper = readUsingDapper;
+            _connectionString = connectionString;
+            _readUsingDapper = readUsingDapper;
         }
 
         public ICollection<LoanSnapshot> GetAll()
         {
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return PostgresCopyExecutor.ExecuteRead(
                     connection,
@@ -34,7 +34,7 @@ namespace BankApp.DataAccess.WideKeys.Data
         public int CountInDataset(
             short datasetId)
         {
-            using (var context = new EfContext(ConnectionString))
+            using (var context = new EfContext(_connectionString))
             {
                 return context
                     .Set<LoanSnapshot>()
@@ -45,7 +45,7 @@ namespace BankApp.DataAccess.WideKeys.Data
         public ICollection<LoanSnapshot> GetForDataset(
             short datasetId)
         {
-            return ReadUsingDapper
+            return _readUsingDapper
                 ? GetForDataset_Dapper(datasetId)
                 : GetForDataset_Ef(datasetId);
         }
@@ -59,7 +59,7 @@ FROM ""{nameof(LoanSnapshot)}""
 WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}""";
 
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
                     .Query<LoanSnapshot>(sql, new { DatasetId = datasetId })
@@ -70,7 +70,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
         private ICollection<LoanSnapshot> GetForDataset_Ef(
             short datasetId)
         {
-            using (var context = new EfContext(ConnectionString))
+            using (var context = new EfContext(_connectionString))
             {
                 return context
                     .Set<LoanSnapshot>()
@@ -85,7 +85,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             int skip,
             int take)
         {
-            return ReadUsingDapper
+            return _readUsingDapper
                 ? GetBatchForDataset_Dapper(datasetId, skip, take)
                 : GetBatchForDataset_Ef(datasetId, skip, take);
         }
@@ -102,7 +102,7 @@ WHERE ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId
 ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}"", ""{nameof(LoanSnapshot.LoanId)}""
 OFFSET @Skip ROWS LIMIT @Take";
 
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 return connection
                     .Query<LoanSnapshot>(sql, new { DatasetId = datasetId, Skip = skip, Take = take })
@@ -115,7 +115,7 @@ OFFSET @Skip ROWS LIMIT @Take";
             int skip,
             int take)
         {
-            using (var context = new EfContext(ConnectionString))
+            using (var context = new EfContext(_connectionString))
             {
                 return context
                     .Set<LoanSnapshot>()
@@ -129,7 +129,7 @@ OFFSET @Skip ROWS LIMIT @Take";
         public void CreateMany(
             IEnumerable<LoanSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,

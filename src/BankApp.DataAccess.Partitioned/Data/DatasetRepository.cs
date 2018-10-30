@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
-using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -18,20 +19,17 @@ namespace BankApp.DataAccess.Partitioned.Data
 
         public ICollection<Dataset> GetAll()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var context = new EfContext(_connectionString))
             {
-                return connection
-                    .Query<Dataset>($@"SELECT * FROM ""{nameof(Dataset)}""")
-                    .AsList();
+                return context.Set<Dataset>().ToArray();
             }
         }
 
         public short? GetMaxId()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var context = new EfContext(_connectionString))
             {
-                return connection
-                    .QuerySingle<short?>($@"SELECT MAX(""{nameof(Dataset.DatasetId)}"") FROM ""{nameof(Dataset)}""");
+                return context.Set<Dataset>().Max(x => (short?)x.DatasetId);
             }
         }
 

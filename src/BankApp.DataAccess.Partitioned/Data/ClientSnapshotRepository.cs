@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
-using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.DatabaseAccess.BatchedReading;
 using Npgsql;
@@ -20,31 +21,11 @@ namespace BankApp.DataAccess.Partitioned.Data
         public int CountInDataset(
             short datasetId)
         {
-            var sql = $@"
-SELECT COUNT(*)
-FROM ""{nameof(ClientSnapshot)}""
-WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var context = new EfContext(_connectionString))
             {
-                return connection.QuerySingle<int>(sql, new { DatasetId = datasetId });
-            }
-        }
-
-        public ICollection<ClientSnapshot> GetForDataset(
-            short datasetId)
-        {
-            var sql = $@"
-SELECT *
-FROM ""{nameof(ClientSnapshot)}""
-WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId
-ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}""";
-
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                return connection
-                    .Query<ClientSnapshot>(sql, new { DatasetId = datasetId })
-                    .AsList();
+                return context
+                    .Set<ClientSnapshot>()
+                    .Count(x => x.DatasetId == datasetId);
             }
         }
 

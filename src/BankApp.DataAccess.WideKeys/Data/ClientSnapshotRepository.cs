@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BankApp.Domain.WideKeys.Data;
-using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -8,35 +7,18 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class ClientSnapshotRepository
     {
-        protected readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public ClientSnapshotRepository(
             string connectionString)
         {
-            ConnectionString = connectionString;
-        }
-
-        public ICollection<ClientSnapshot> GetForDataset(
-            short datasetId)
-        {
-            var sql = $@"
-SELECT *
-FROM ""{nameof(ClientSnapshot)}""
-WHERE ""{nameof(ClientSnapshot.DatasetId)}"" = @DatasetId
-ORDER BY ""{nameof(ClientSnapshot.DatasetId)}"", ""{nameof(ClientSnapshot.ClientId)}""";
-
-            using (var connection = new NpgsqlConnection(ConnectionString))
-            {
-                return connection
-                    .Query<ClientSnapshot>(sql, new { DatasetId = datasetId })
-                    .AsList();
-            }
+            _connectionString = connectionString;
         }
 
         public void CreateMany(
             IEnumerable<ClientSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,

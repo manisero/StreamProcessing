@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
-using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -8,35 +9,31 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class DepositSnapshotRepository
     {
-        protected readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public DepositSnapshotRepository(
             string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString;
         }
 
         public ICollection<DepositSnapshot> GetForDataset(
             short datasetId)
         {
-            var sql = $@"
-SELECT *
-FROM ""{nameof(DepositSnapshot)}""
-WHERE ""{nameof(DepositSnapshot.DatasetId)}"" = @DatasetId
-ORDER BY ""{nameof(DepositSnapshot.DatasetId)}"", ""{nameof(DepositSnapshot.ClientId)}"", ""{nameof(DepositSnapshot.DepositId)}""";
-
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var context = new EfContext(_connectionString))
             {
-                return connection
-                    .Query<DepositSnapshot>(sql, new { DatasetId = datasetId })
-                    .AsList();
+                return context
+                    .Set<DepositSnapshot>()
+                    .Where(x => x.DatasetId == datasetId)
+                    .OrderBy(x => x.DatasetId).ThenBy(x => x.ClientId).ThenBy(x => x.DepositId)
+                    .ToArray();
             }
         }
 
         public void CreateMany(
             IEnumerable<DepositSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(ConnectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,
