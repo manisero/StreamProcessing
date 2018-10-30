@@ -11,4 +11,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BankApp.DataAccess.Partitioned\BankApp.DataAccess.Partitioned.csproj" />
+    <ProjectReference Include="..\BankApp.Domain.WideKeys\BankApp.Domain.WideKeys.csproj" />
+    <ProjectReference Include="..\DataProcessing.Utils\DataProcessing.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

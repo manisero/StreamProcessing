@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Migrations\001.sql" />
-    <None Remove="Migrations\002.sql" />
+    <None Remove="Migrations\1_Data.sql" />
+    <None Remove="Migrations\2_Tasks.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\001.sql" />
-    <EmbeddedResource Include="Migrations\002.sql" />
+    <EmbeddedResource Include="Migrations\1_Data.sql" />
+    <EmbeddedResource Include="Migrations\2_Tasks.sql" />
   </ItemGroup>
 
   <ItemGroup>
