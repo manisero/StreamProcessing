@@ -152,6 +152,18 @@ FOR VALUES IN ({forId})";
             }
         }
 
+        public void DropPartition<TTable>(
+            int forId)
+        {
+            var tableName = typeof(TTable).Name;
+            var sql = $@"DROP TABLE ""{tableName}_{forId}""";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
         public void CreatePk<TTable>(
             params string[] columns)
         {
