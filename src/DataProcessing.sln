@@ -78,6 +78,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2. ClientLoansCalculation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoansCalculationDeleter2", "ClientLoansCalculationDeleter2\ClientLoansCalculationDeleter2.csproj", "{D7D6799C-BFF9-424D-998E-F0992414E5D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLoansCalculatorPartitioned", "ClientLoansCalculatorPartitioned\ClientLoansCalculatorPartitioned.csproj", "{042AF215-297C-41DA-9AA9-A762EB8CBF63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +174,10 @@ Global
 		{D7D6799C-BFF9-424D-998E-F0992414E5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7D6799C-BFF9-424D-998E-F0992414E5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7D6799C-BFF9-424D-998E-F0992414E5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042AF215-297C-41DA-9AA9-A762EB8CBF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042AF215-297C-41DA-9AA9-A762EB8CBF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042AF215-297C-41DA-9AA9-A762EB8CBF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042AF215-297C-41DA-9AA9-A762EB8CBF63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,6 +205,7 @@ Global
 		{EC711504-03DE-4D15-A499-A9E04B27B0D6} = {FC4FC498-5589-4E8D-8B58-D10CFCB5F829}
 		{D695B1F5-9720-4B76-B634-39CB117DF0D4} = {D8D92491-AE59-496F-86A6-7EF566D8B62D}
 		{D7D6799C-BFF9-424D-998E-F0992414E5D3} = {1632A425-CA02-49C9-B025-F8D9E0FF3781}
+		{042AF215-297C-41DA-9AA9-A762EB8CBF63} = {1632A425-CA02-49C9-B025-F8D9E0FF3781}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313A6A1A-BBCC-4C48-85F6-D07A8F2465D4}
