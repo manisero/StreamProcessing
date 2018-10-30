@@ -2,6 +2,7 @@
 using System.Linq;
 using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
+using BankApp.Domain.WideKeys.Tasks;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -10,11 +11,14 @@ namespace BankApp.DataAccess.Partitioned.Data
     public class DatasetRepository
     {
         private readonly string _connectionString;
+        private readonly DatabaseManager _databaseManager;
 
         public DatasetRepository(
-            string connectionString)
+            string connectionString,
+            DatabaseManager databaseManager)
         {
             _connectionString = connectionString;
+            _databaseManager = databaseManager;
         }
 
         public ICollection<Dataset> GetAll()
@@ -33,15 +37,41 @@ namespace BankApp.DataAccess.Partitioned.Data
             }
         }
 
+        public Dataset Create(
+            Dataset item)
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                context.Set<Dataset>().Add(item);
+                context.SaveChanges();
+            }
+
+            _databaseManager.CreatePartition<ClientSnapshot>(
+                item.DatasetId,
+                nameof(ClientSnapshot.DatasetId),
+                nameof(ClientSnapshot.ClientId));
+
+            _databaseManager.CreatePartition<DepositSnapshot>(
+                item.DatasetId,
+                nameof(DepositSnapshot.DatasetId),
+                nameof(DepositSnapshot.ClientId),
+                nameof(DepositSnapshot.DepositId));
+
+            _databaseManager.CreatePartition<LoanSnapshot>(
+                item.DatasetId,
+                nameof(LoanSnapshot.DatasetId),
+                nameof(LoanSnapshot.ClientId),
+                nameof(LoanSnapshot.LoanId));
+
+            return item;
+        }
+
         public void CreateMany(
             IEnumerable<Dataset> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            foreach (var item in items)
             {
-                PostgresCopyExecutor.ExecuteWrite(
-                    connection,
-                    items,
-                    Dataset.ColumnMapping);
+                Create(item);
             }
         }
     }

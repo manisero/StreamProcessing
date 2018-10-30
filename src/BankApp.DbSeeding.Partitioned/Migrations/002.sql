@@ -1,13 +1,4 @@
-﻿CREATE TABLE "MaxLossCalculation"
-(
-    "MaxLossCalculationId" smallint generated always as identity,
-	"DatasetId" smallint not null,
-	"MaxLoss" numeric null,
-	CONSTRAINT "PK_MaxLossCalculation" PRIMARY KEY ("MaxLossCalculationId"),
-	CONSTRAINT "FK_MaxLossCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
-);
-
-CREATE TABLE "TotalLoanCalculation"
+﻿CREATE TABLE "TotalLoanCalculation"
 (
     "TotalLoanCalculationId" smallint generated always as identity,
 	"DatasetId" smallint not null,
@@ -30,3 +21,12 @@ CREATE TABLE "ClientTotalLoan"
     "ClientId" int not null,
 	"TotalLoan" numeric not null
 ) PARTITION BY LIST ("ClientLoansCalculationId");
+
+CREATE TABLE "MaxLossCalculation"
+(
+    "MaxLossCalculationId" smallint generated always as identity,
+	"DatasetId" smallint not null,
+	"MaxLoss" numeric null,
+	CONSTRAINT "PK_MaxLossCalculation" PRIMARY KEY ("MaxLossCalculationId"),
+	CONSTRAINT "FK_MaxLossCalculation_Dataset" FOREIGN KEY ("DatasetId") REFERENCES "Dataset" ("DatasetId")
+);

@@ -12,12 +12,13 @@ namespace BankApp8.Main
         static void Main(string[] args)
         {
             var settings = ConfigUtils.GetAppSettings();
+            var databaseManager = new DatabaseManager(settings.ConnectionString);
 
             var clientSnapshotRepository = new ClientSnapshotRepository(settings.ConnectionString);
             var loanSnapshotRepository = new LoanSnapshotRepository(settings.ConnectionString);
             var clientLoansCalculationRepository = new ClientLoansCalculationRepository(
                 settings.ConnectionString,
-                new DatabaseManager(settings.ConnectionString));
+                databaseManager);
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 clientSnapshotRepository,
@@ -25,7 +26,10 @@ namespace BankApp8.Main
                 clientLoansCalculationRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
-            var datasetId = new DatasetRepository(settings.ConnectionString).GetMaxId();
+            var datasetId = new DatasetRepository(
+                    settings.ConnectionString,
+                    databaseManager)
+                .GetMaxId();
 
             var clientLoansCalculationTask = clientLoansCalculationTaskFactory.Create(datasetId.Value);
             taskExecutor.Execute(clientLoansCalculationTask);

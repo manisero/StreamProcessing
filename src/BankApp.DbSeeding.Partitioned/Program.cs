@@ -25,7 +25,9 @@ namespace BankApp.DbSeeding.Partitioned
 
             var taskFactory = new DbSeedingTaskFactory(
                 new DatabaseManager(settings.ConnectionString),
-                new DatasetRepository(settings.ConnectionString),
+                new DatasetRepository(
+                    settings.ConnectionString,
+                    new DatabaseManager(settings.ConnectionString)),
                 new ClientSnapshotRepository(settings.ConnectionString),
                 new DepositSnapshotRepository(settings.ConnectionString),
                 new LoanSnapshotRepository(settings.ConnectionString));
