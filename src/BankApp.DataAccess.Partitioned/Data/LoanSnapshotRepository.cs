@@ -2,19 +2,16 @@
 using BankApp.Domain.WideKeys.Data;
 using Dapper;
 using DataProcessing.Utils;
-using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
 namespace BankApp.DataAccess.Partitioned.Data
 {
-    public class LoanSnapshotRepository
+    public class LoanSnapshotRepository : WideKeys.Data.LoanSnapshotRepository
     {
-        private readonly string _connectionString;
-
         public LoanSnapshotRepository(
             string connectionString)
+            : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
         /// <summary>Returns ClientId -> Loans</summary>
@@ -30,7 +27,7 @@ WHERE
   ""{nameof(LoanSnapshot.DatasetId)}"" = @DatasetId AND
   ""{nameof(LoanSnapshot.ClientId)}"" BETWEEN @FirstClientId AND @LastClientId";
 
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 return connection
                     .Query<LoanSnapshot>(
@@ -45,18 +42,6 @@ WHERE
                     .GroupAndDict(
                         x => x.ClientId,
                         x => x.ToICollection());
-            }
-        }
-
-        public void CreateMany(
-            IEnumerable<LoanSnapshot> items)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                PostgresCopyExecutor.ExecuteWrite(
-                    connection,
-                    items,
-                    LoanSnapshot.ColumnMapping);
             }
         }
     }

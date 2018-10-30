@@ -2,26 +2,23 @@
 using System.Linq;
 using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
-using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.DatabaseAccess.BatchedReading;
 using Npgsql;
 
 namespace BankApp.DataAccess.Partitioned.Data
 {
-    public class ClientSnapshotRepository
+    public class ClientSnapshotRepository : WideKeys.Data.ClientSnapshotRepository
     {
-        private readonly string _connectionString;
-
         public ClientSnapshotRepository(
             string connectionString)
+            : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
         public int CountInDataset(
             short datasetId)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context
                     .Set<ClientSnapshot>()
@@ -34,23 +31,11 @@ namespace BankApp.DataAccess.Partitioned.Data
             int batchSize = ClientSnapshot.DefaultReadingBatchSize)
         {
             return new BatchedDataReader<ClientSnapshot>(
-                () => new NpgsqlConnection(_connectionString),
+                () => new NpgsqlConnection(ConnectionString),
                 nameof(ClientSnapshot),
                 new[] { nameof(ClientSnapshot.DatasetId), nameof(ClientSnapshot.ClientId) },
                 batchSize,
                 new Dictionary<string, int> { [nameof(ClientSnapshot.DatasetId)] = datasetId });
-        }
-
-        public void CreateMany(
-            IEnumerable<ClientSnapshot> items)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                PostgresCopyExecutor.ExecuteWrite(
-                    connection,
-                    items,
-                    ClientSnapshot.ColumnMapping);
-            }
         }
     }
 }

@@ -7,18 +7,18 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class ClientSnapshotRepository
     {
-        protected readonly string _connectionString;
+        protected readonly string ConnectionString;
 
         public ClientSnapshotRepository(
             string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public virtual void CreateMany(
             IEnumerable<ClientSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,

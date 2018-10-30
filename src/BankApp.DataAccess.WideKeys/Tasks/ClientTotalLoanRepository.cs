@@ -8,14 +8,14 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientTotalLoanRepository
     {
-        protected readonly string _connectionString;
+        protected readonly string ConnectionString;
         private readonly bool _createUsingCopy;
 
         public ClientTotalLoanRepository(
             string connectionString,
             bool createUsingCopy = true)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
             _createUsingCopy = createUsingCopy;
         }
 
@@ -35,7 +35,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         private void CreateMany_Copy(
             IEnumerable<ClientTotalLoan> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,
@@ -47,7 +47,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         private void CreateMany_Ef(
             IEnumerable<ClientTotalLoan> items)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 context.Set<ClientTotalLoan>().AddRange(items);
                 context.SaveChanges();

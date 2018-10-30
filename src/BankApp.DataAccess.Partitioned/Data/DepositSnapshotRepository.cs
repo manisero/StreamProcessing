@@ -1,30 +1,11 @@
-﻿using System.Collections.Generic;
-using BankApp.Domain.WideKeys.Data;
-using DataProcessing.Utils.DatabaseAccess;
-using Npgsql;
-
-namespace BankApp.DataAccess.Partitioned.Data
+﻿namespace BankApp.DataAccess.Partitioned.Data
 {
-    public class DepositSnapshotRepository
+    public class DepositSnapshotRepository : WideKeys.Data.DepositSnapshotRepository
     {
-        private readonly string _connectionString;
-
         public DepositSnapshotRepository(
             string connectionString)
+            : base(connectionString)
         {
-            _connectionString = connectionString;
-        }
-
-        public void CreateMany(
-            IEnumerable<DepositSnapshot> items)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                PostgresCopyExecutor.ExecuteWrite(
-                    connection,
-                    items,
-                    DepositSnapshot.ColumnMapping);
-            }
         }
     }
 }

@@ -8,17 +8,17 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientLoansCalculationRepository
     {
-        protected readonly string _connectionString;
+        protected readonly string ConnectionString;
 
         public ClientLoansCalculationRepository(
             string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public virtual short? GetMaxId()
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context.Set<ClientLoansCalculation>().Max(x => (short?)x.ClientLoansCalculationId);
             }
@@ -27,7 +27,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
         public virtual ClientLoansCalculation Create(
             ClientLoansCalculation item)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 context.Set<ClientLoansCalculation>().Add(item);
                 context.SaveChanges();
@@ -43,7 +43,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 DELETE FROM ""{nameof(ClientTotalLoan)}""
 WHERE ""{nameof(ClientTotalLoan.ClientLoansCalculationId)}"" = @ClientLoansCalculationId";
 
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 context.Database.GetDbConnection().Execute(clientTotalLoanSql, new { ClientLoansCalculationId = id });
 

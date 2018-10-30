@@ -9,18 +9,18 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class DepositSnapshotRepository
     {
-        protected readonly string _connectionString;
+        protected readonly string ConnectionString;
 
         public DepositSnapshotRepository(
             string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public virtual ICollection<DepositSnapshot> GetForDataset(
             short datasetId)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context
                     .Set<DepositSnapshot>()
@@ -33,7 +33,7 @@ namespace BankApp.DataAccess.WideKeys.Data
         public virtual void CreateMany(
             IEnumerable<DepositSnapshot> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,

@@ -19,11 +19,13 @@ namespace BankApp8.Main
             var clientLoansCalculationRepository = new ClientLoansCalculationRepository(
                 settings.ConnectionString,
                 databaseManager);
+            var clientTotalLoanRepository = new ClientTotalLoanRepository(settings.ConnectionString);
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 clientSnapshotRepository,
                 loanSnapshotRepository,
-                clientLoansCalculationRepository);
+                clientLoansCalculationRepository,
+                clientTotalLoanRepository);
 
             var taskExecutor = TaskExecutorFactory.Create();
             var datasetId = new DatasetRepository(

@@ -14,15 +14,18 @@ namespace BankApp8.Main.ClientLoansCalculationTask
         private readonly ClientSnapshotRepository _clientSnapshotRepository;
         private readonly LoanSnapshotRepository _loanSnapshotRepository;
         private readonly ClientLoansCalculationRepository _clientLoansCalculationRepository;
+        private readonly ClientTotalLoanRepository _clientTotalLoanRepository;
 
         public ClientLoansCalculationTaskFactory(
             ClientSnapshotRepository clientSnapshotRepository,
             LoanSnapshotRepository loanSnapshotRepository,
-            ClientLoansCalculationRepository clientLoansCalculationRepository)
+            ClientLoansCalculationRepository clientLoansCalculationRepository,
+            ClientTotalLoanRepository clientTotalLoanRepository)
         {
             _clientSnapshotRepository = clientSnapshotRepository;
             _loanSnapshotRepository = loanSnapshotRepository;
             _clientLoansCalculationRepository = clientLoansCalculationRepository;
+            _clientTotalLoanRepository = clientTotalLoanRepository;
         }
 
         public TaskDefinition Create(
@@ -87,7 +90,7 @@ namespace BankApp8.Main.ClientLoansCalculationTask
                                 TotalLoan = c.TotalLoan
                             });
 
-                            _clientLoansCalculationRepository.SaveClientTotalLoans(clientTotalLoans);
+                            _clientTotalLoanRepository.CreateMany(clientTotalLoans);
                         })
                     .Build());
         }
