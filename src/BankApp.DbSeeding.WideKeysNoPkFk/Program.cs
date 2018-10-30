@@ -1,5 +1,4 @@
-﻿using BankApp.DataAccess.WideKeys;
-using BankApp.DataAccess.WideKeys.Data;
+﻿using BankApp.DataAccess.WideKeys.Data;
 using BankApp.DbSeeding.WideKeys;
 using BankApp.Domain.WideKeys;
 using DataProcessing.Utils;

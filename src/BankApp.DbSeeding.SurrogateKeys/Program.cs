@@ -1,5 +1,4 @@
-﻿using BankApp.DataAccess.SurrogateKeys;
-using BankApp.DataAccess.SurrogateKeys.Data;
+﻿using BankApp.DataAccess.SurrogateKeys.Data;
 using BankApp.Domain.SurrogateKeys;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
