@@ -9,34 +9,34 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class DatasetRepository
     {
-        private readonly string _connectionString;
+        protected readonly string ConnectionString;
 
         public DatasetRepository(
             string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
-
-        public ICollection<Dataset> GetAll()
+        
+        public virtual ICollection<Dataset> GetAll()
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context.Set<Dataset>().ToArray();
             }
         }
 
-        public short? GetMaxId()
+        public virtual short? GetMaxId()
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 return context.Set<Dataset>().Max(x => (short?)x.DatasetId);
             }
         }
 
-        public void CreateMany(
+        public virtual void CreateMany(
             IEnumerable<Dataset> items)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 PostgresCopyExecutor.ExecuteWrite(
                     connection,

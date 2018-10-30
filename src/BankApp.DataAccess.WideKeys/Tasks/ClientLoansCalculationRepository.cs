@@ -8,7 +8,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientLoansCalculationRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public ClientLoansCalculationRepository(
             string connectionString)
@@ -16,7 +16,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             _connectionString = connectionString;
         }
 
-        public short? GetMaxId()
+        public virtual short? GetMaxId()
         {
             using (var context = new EfContext(_connectionString))
             {
@@ -24,7 +24,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             }
         }
 
-        public ClientLoansCalculation Create(
+        public virtual ClientLoansCalculation Create(
             ClientLoansCalculation item)
         {
             using (var context = new EfContext(_connectionString))
@@ -36,7 +36,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             }
         }
 
-        public void Delete(
+        public virtual void Delete(
             short id)
         {
             var clientTotalLoanSql = $@"

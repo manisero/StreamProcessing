@@ -6,7 +6,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class MaxLossCalculationRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public MaxLossCalculationRepository(
             string connectionString)
@@ -14,7 +14,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             _connectionString = connectionString;
         }
 
-        public MaxLossCalculation Create(
+        public virtual MaxLossCalculation Create(
             MaxLossCalculation item)
         {
             using (var context = new EfContext(_connectionString))
@@ -26,7 +26,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             }
         }
 
-        public MaxLossCalculation Update(
+        public virtual MaxLossCalculation Update(
             MaxLossCalculation item)
         {
             using (var context = new EfContext(_connectionString))

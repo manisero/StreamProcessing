@@ -6,7 +6,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class TotalLoanCalculationRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public TotalLoanCalculationRepository(
             string connectionString)
@@ -14,7 +14,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             _connectionString = connectionString;
         }
 
-        public TotalLoanCalculation Create(
+        public virtual TotalLoanCalculation Create(
             TotalLoanCalculation item)
         {
             using (var context = new EfContext(_connectionString))
@@ -26,7 +26,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             }
         }
 
-        public TotalLoanCalculation Update(
+        public virtual TotalLoanCalculation Update(
             TotalLoanCalculation item)
         {
             using (var context = new EfContext(_connectionString))

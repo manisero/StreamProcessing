@@ -8,7 +8,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
 {
     public class ClientTotalLoanRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
         private readonly bool _createUsingCopy;
 
         public ClientTotalLoanRepository(
@@ -19,7 +19,7 @@ namespace BankApp.DataAccess.WideKeys.Tasks
             _createUsingCopy = createUsingCopy;
         }
 
-        public void CreateMany(
+        public virtual void CreateMany(
             IEnumerable<ClientTotalLoan> items)
         {
             if (_createUsingCopy)

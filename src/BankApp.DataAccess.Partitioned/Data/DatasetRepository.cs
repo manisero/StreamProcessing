@@ -1,44 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 
 namespace BankApp.DataAccess.Partitioned.Data
 {
-    public class DatasetRepository
+    public class DatasetRepository : WideKeys.Data.DatasetRepository
     {
-        private readonly string _connectionString;
         private readonly DatabaseManager _databaseManager;
 
         public DatasetRepository(
             string connectionString,
             DatabaseManager databaseManager)
+            : base(connectionString)
         {
-            _connectionString = connectionString;
             _databaseManager = databaseManager;
-        }
-
-        public ICollection<Dataset> GetAll()
-        {
-            using (var context = new EfContext(_connectionString))
-            {
-                return context.Set<Dataset>().ToArray();
-            }
-        }
-
-        public short? GetMaxId()
-        {
-            using (var context = new EfContext(_connectionString))
-            {
-                return context.Set<Dataset>().Max(x => (short?)x.DatasetId);
-            }
         }
 
         public Dataset Create(
             Dataset item)
         {
-            using (var context = new EfContext(_connectionString))
+            using (var context = new EfContext(ConnectionString))
             {
                 context.Set<Dataset>().Add(item);
                 context.SaveChanges();
@@ -64,7 +46,7 @@ namespace BankApp.DataAccess.Partitioned.Data
             return item;
         }
 
-        public void CreateMany(
+        public override void CreateMany(
             IEnumerable<Dataset> items)
         {
             foreach (var item in items)

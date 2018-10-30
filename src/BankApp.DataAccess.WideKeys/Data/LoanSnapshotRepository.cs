@@ -10,7 +10,7 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class LoanSnapshotRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
         private readonly bool _readUsingDapper;
 
         public LoanSnapshotRepository(
@@ -21,7 +21,7 @@ namespace BankApp.DataAccess.WideKeys.Data
             _readUsingDapper = readUsingDapper;
         }
 
-        public ICollection<LoanSnapshot> GetAll()
+        public virtual ICollection<LoanSnapshot> GetAll()
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -31,7 +31,7 @@ namespace BankApp.DataAccess.WideKeys.Data
             }
         }
 
-        public int CountInDataset(
+        public virtual int CountInDataset(
             short datasetId)
         {
             using (var context = new EfContext(_connectionString))
@@ -42,7 +42,7 @@ namespace BankApp.DataAccess.WideKeys.Data
             }
         }
 
-        public ICollection<LoanSnapshot> GetForDataset(
+        public virtual ICollection<LoanSnapshot> GetForDataset(
             short datasetId)
         {
             return _readUsingDapper
@@ -80,7 +80,7 @@ ORDER BY ""{nameof(LoanSnapshot.DatasetId)}"", ""{nameof(LoanSnapshot.ClientId)}
             }
         }
 
-        public ICollection<LoanSnapshot> GetBatchForDataset(
+        public virtual ICollection<LoanSnapshot> GetBatchForDataset(
             short datasetId,
             int skip,
             int take)
@@ -126,7 +126,7 @@ OFFSET @Skip ROWS LIMIT @Take";
             }
         }
 
-        public void CreateMany(
+        public virtual void CreateMany(
             IEnumerable<LoanSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))

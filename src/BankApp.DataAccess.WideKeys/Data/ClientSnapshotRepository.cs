@@ -7,7 +7,7 @@ namespace BankApp.DataAccess.WideKeys.Data
 {
     public class ClientSnapshotRepository
     {
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
 
         public ClientSnapshotRepository(
             string connectionString)
@@ -15,7 +15,7 @@ namespace BankApp.DataAccess.WideKeys.Data
             _connectionString = connectionString;
         }
 
-        public void CreateMany(
+        public virtual void CreateMany(
             IEnumerable<ClientSnapshot> items)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
