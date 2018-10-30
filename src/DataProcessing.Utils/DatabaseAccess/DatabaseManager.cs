@@ -133,6 +133,25 @@ namespace DataProcessing.Utils.DatabaseAccess
             }
         }
 
+        public void CreatePartition<TTable>(
+            int forId,
+            params string[] pkColumns)
+        {
+            var tableName = typeof(TTable).Name;
+            var pkColumnsString = pkColumns.ToQuotedCommaSeparatedString();
+
+            var sql = $@"
+CREATE TABLE ""{tableName}_{forId}""
+PARTITION OF ""{tableName}""
+(CONSTRAINT ""PK_{tableName}_{forId}"" PRIMARY KEY ({pkColumnsString}))
+FOR VALUES IN ({forId})";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Execute(sql);
+            }
+        }
+
         public void CreatePk<TTable>(
             params string[] columns)
         {

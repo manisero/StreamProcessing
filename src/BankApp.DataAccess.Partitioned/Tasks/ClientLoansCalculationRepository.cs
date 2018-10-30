@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Tasks;
-using Dapper;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;
 
@@ -9,36 +10,39 @@ namespace BankApp.DataAccess.Partitioned.Tasks
     public class ClientLoansCalculationRepository
     {
         private readonly string _connectionString;
+        private readonly DatabaseManager _databaseManager;
 
         public ClientLoansCalculationRepository(
-            string connectionString)
+            string connectionString,
+            DatabaseManager databaseManager)
         {
             _connectionString = connectionString;
+            _databaseManager = databaseManager;
+        }
+
+        public short? GetMaxId()
+        {
+            using (var context = new EfContext(_connectionString))
+            {
+                return context.Set<ClientLoansCalculation>().Max(x => (short?)x.ClientLoansCalculationId);
+            }
         }
 
         public ClientLoansCalculation Create(
             ClientLoansCalculation item)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var context = new EfContext(_connectionString))
             {
-                var loansProcessSql = $@"
-INSERT INTO ""{nameof(ClientLoansCalculation)}""
-(""{nameof(ClientLoansCalculation.DatasetId)}"") values
-(@DatasetId)
-RETURNING *";
-
-                var calculation = connection.QuerySingle<ClientLoansCalculation>(loansProcessSql, item);
-
-                var partitionSql = $@"
-CREATE TABLE ""{nameof(ClientTotalLoan)}_{calculation.ClientLoansCalculationId}""
-PARTITION OF ""{nameof(ClientTotalLoan)}""
-(CONSTRAINT ""PK_{nameof(ClientTotalLoan)}_{calculation.ClientLoansCalculationId}"" PRIMARY KEY (""{nameof(ClientTotalLoan.ClientLoansCalculationId)}"", ""{nameof(ClientTotalLoan.ClientId)}""))
-FOR VALUES IN ({calculation.ClientLoansCalculationId})";
-
-                connection.Execute(partitionSql);
-                
-                return calculation;
+                context.Set<ClientLoansCalculation>().Add(item);
+                context.SaveChanges();
             }
+
+            _databaseManager.CreatePartition<ClientTotalLoan>(
+                item.ClientLoansCalculationId,
+                nameof(ClientTotalLoan.ClientLoansCalculationId),
+                nameof(ClientTotalLoan.ClientId));
+
+            return item;
         }
 
         public void SaveClientTotalLoans(

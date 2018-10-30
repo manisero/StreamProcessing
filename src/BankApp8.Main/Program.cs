@@ -2,6 +2,7 @@
 using BankApp.DataAccess.Partitioned.Tasks;
 using BankApp8.Main.ClientLoansCalculationTask;
 using DataProcessing.Utils;
+using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Navvy;
 
 namespace BankApp8.Main
@@ -14,7 +15,9 @@ namespace BankApp8.Main
 
             var clientSnapshotRepository = new ClientSnapshotRepository(settings.ConnectionString);
             var loanSnapshotRepository = new LoanSnapshotRepository(settings.ConnectionString);
-            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(settings.ConnectionString);
+            var clientLoansCalculationRepository = new ClientLoansCalculationRepository(
+                settings.ConnectionString,
+                new DatabaseManager(settings.ConnectionString));
 
             var clientLoansCalculationTaskFactory = new ClientLoansCalculationTaskFactory(
                 clientSnapshotRepository,
