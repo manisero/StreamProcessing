@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using BankApp.DataAccess.WideKeys.Tasks;
+using BankApp.Domain.WideKeys.Tasks;
 using DataProcessing.Utils;
 
 namespace ClientLoansCalculationDeleter1
@@ -15,6 +16,7 @@ namespace ClientLoansCalculationDeleter1
 
             var id = clientLoansCalculationRepository.GetMaxId();
 
+            Console.WriteLine($"Deleting {nameof(ClientLoansCalculation)} {id}...");
             var sw = Stopwatch.StartNew();
             clientLoansCalculationRepository.Delete(id.Value);
             sw.Stop();
