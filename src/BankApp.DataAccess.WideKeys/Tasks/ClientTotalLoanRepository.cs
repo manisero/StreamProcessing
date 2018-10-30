@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Tasks;
 using DataProcessing.Utils.DatabaseAccess;
 using Npgsql;

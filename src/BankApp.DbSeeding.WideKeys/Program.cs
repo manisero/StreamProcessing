@@ -1,5 +1,6 @@
 ﻿using BankApp.DataAccess.WideKeys;
 using BankApp.DataAccess.WideKeys.Data;
+using BankApp.Domain.WideKeys;
 using DataProcessing.Utils;
 using DataProcessing.Utils.DatabaseAccess;
 using DataProcessing.Utils.Navvy;

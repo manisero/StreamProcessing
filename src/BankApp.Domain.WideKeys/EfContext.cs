@@ -1,9 +1,9 @@
-﻿using BankApp.Domain.SurrogateKeys.Data;
-using BankApp.Domain.SurrogateKeys.Tasks;
+﻿using BankApp.Domain.WideKeys.Data;
+using BankApp.Domain.WideKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
-namespace BankApp.DataAccess.SurrogateKeys
+namespace BankApp.Domain.WideKeys
 {
     public class EfContext : DbContext
     {
@@ -34,9 +34,13 @@ namespace BankApp.DataAccess.SurrogateKeys
             modelBuilder.ForNpgsqlUseIdentityAlwaysColumns();
 
             modelBuilder.Entity<Dataset>().Property(x => x.Date).HasColumnType(nameof(NpgsqlDbType.Date));
-            modelBuilder.Entity<ClientSnapshot>();
-            modelBuilder.Entity<LoanSnapshot>();
+            modelBuilder.Entity<ClientSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId });
+            modelBuilder.Entity<DepositSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId, x.DepositId });
+            modelBuilder.Entity<LoanSnapshot>().HasKey(x => new { x.DatasetId, x.ClientId, x.LoanId });
             modelBuilder.Entity<TotalLoanCalculation>();
+            modelBuilder.Entity<ClientLoansCalculation>();
+            modelBuilder.Entity<ClientTotalLoan>().HasKey(x => new { x.ClientLoansCalculationId, x.ClientId });
+            modelBuilder.Entity<MaxLossCalculation>();
         }
     }
 }

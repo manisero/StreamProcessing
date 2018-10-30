@@ -1,4 +1,5 @@
-﻿using BankApp.Domain.WideKeys.Tasks;
+﻿using BankApp.Domain.WideKeys;
+using BankApp.Domain.WideKeys.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.DataAccess.WideKeys.Tasks

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BankApp.Domain.WideKeys;
 using BankApp.Domain.WideKeys.Tasks;
 using Dapper;
 using Microsoft.EntityFrameworkCore;

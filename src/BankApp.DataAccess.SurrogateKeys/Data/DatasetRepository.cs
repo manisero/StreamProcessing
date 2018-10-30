@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BankApp.Domain.SurrogateKeys;
 using BankApp.Domain.SurrogateKeys.Data;
 using DataProcessing.Utils.DatabaseAccess;
 using Microsoft.EntityFrameworkCore;
